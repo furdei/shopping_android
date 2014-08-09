@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scale xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromXScale="0%"
+    android:toXScale="80%"
+    android:fromYScale="100%"
+    android:toYScale="100%"
+    android:duration="500"
+    android:interpolator="@android:anim/linear_interpolator">
+
+</scale>

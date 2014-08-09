@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/shareText"
+        android:layout_marginBottom="@dimen/marginBottom"
+        android:layout_marginLeft="@dimen/marginOuterLeft"
+        android:layout_marginRight="@dimen/marginOuterRight"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal" />
+    
+    <LinearLayout
+        android:id="@+id/aboutAppSocialIcons2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/marginBottom">
+        
+        <ImageView 
+            android:id="@+id/aboutAppShareSk"
+            android:layout_width="@dimen/socialButtonHeight"
+            android:layout_height="@dimen/socialButtonHeight"
+            android:src="@drawable/s_logo_solid"
+            android:layout_marginLeft="@dimen/marginLeft"
+            android:layout_marginRight="@dimen/marginRight"
+            android:clickable="true"
+            android:scaleType="fitCenter"/>
+        
+        <ImageView 
+            android:id="@+id/aboutAppShareLI"
+            android:layout_width="@dimen/socialButtonHeight"
+            android:layout_height="@dimen/socialButtonHeight"
+            android:src="@drawable/inbug_60px_r"
+            android:layout_marginLeft="@dimen/marginLeft"
+            android:layout_marginRight="@dimen/marginRight"
+            android:clickable="true"
+            android:scaleType="fitCenter"/>
+        
+        <ImageView 
+            android:id="@+id/aboutAppShareEm"
+            android:layout_width="@dimen/socialButtonHeight"
+            android:layout_height="@dimen/socialButtonHeight"
+            android:src="@drawable/content_email"
+            android:layout_marginLeft="@dimen/marginLeft"
+            android:layout_marginRight="@dimen/marginRight"
+            android:clickable="true"
+            android:scaleType="fitCenter"/>
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/aboutAppSocialIcons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/marginBottom" >
+        
+        <ImageView
+            android:id="@+id/aboutAppShareVK"
+            android:layout_width="@dimen/socialButtonHeight"
+            android:layout_height="@dimen/socialButtonHeight"
+            android:src="@drawable/vk_share_32"
+            android:layout_marginRight="@dimen/marginRight"
+            android:clickable="true"
+            android:scaleType="fitCenter"/>
+        
+        <ImageView 
+            android:id="@+id/aboutAppShareFB"
+            android:layout_width="@dimen/socialButtonHeight"
+            android:layout_height="@dimen/socialButtonHeight"
+            android:src="@drawable/fb_logo_blue_50"
+            android:layout_marginLeft="@dimen/marginLeft"
+            android:layout_marginRight="@dimen/marginRight"
+            android:clickable="true"
+            android:scaleType="fitCenter"/>
+        
+        <ImageView 
+            android:id="@+id/aboutAppShareTw"
+            android:layout_width="@dimen/socialButtonHeight"
+            android:layout_height="@dimen/socialButtonHeight"
+            android:src="@drawable/twitter_logo_blue"
+            android:layout_marginLeft="@dimen/marginLeft"
+            android:layout_marginRight="@dimen/marginRight"
+            android:clickable="true"
+            android:scaleType="fitCenter"/>
+        
+        <ImageView 
+            android:id="@+id/aboutAppShareGP"
+            android:layout_width="@dimen/socialButtonHeight"
+            android:layout_height="@dimen/socialButtonHeight"
+            android:src="@drawable/btn_g_normal"
+            android:layout_marginLeft="@dimen/marginLeft"
+            android:layout_marginRight="@dimen/marginRight"
+            android:clickable="true"
+            android:scaleType="fitCenter"/>
+        
+    </LinearLayout>
+    
+</LinearLayout>

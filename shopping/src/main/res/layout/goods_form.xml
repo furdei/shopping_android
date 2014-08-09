@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/windowBorderLeft"
+    android:layout_marginRight="@dimen/windowBorderRight"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal" >
+    
+    <ScrollView
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1" >
+        
+		<RelativeLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content">
+
+		    <EditText
+		        android:id="@+id/goodsFmNameEdit"
+		        android:layout_width="match_parent"
+		        android:layout_height="@dimen/editHeight"
+		        android:layout_marginTop="@dimen/marginTop"
+		        android:layout_marginBottom="@dimen/marginBottom"
+		        android:layout_marginLeft="@dimen/marginOuterLeft"
+		        android:layout_marginRight="@dimen/marginOuterRight"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentTop="true"
+		        android:inputType="textCapSentences"
+		        android:hint="@string/goodsFmNameCaption" />
+		
+		    <EditText
+		        android:id="@+id/goodsFmCategoryEdit"
+		        android:layout_width="match_parent"
+		        android:layout_height="@dimen/editHeight"
+		        android:layout_marginTop="@dimen/marginTop"
+		        android:layout_marginBottom="@dimen/marginBottom"
+		        android:layout_marginLeft="@dimen/marginOuterLeft"
+		        android:layout_marginRight="@dimen/marginOuterRight"
+		        android:layout_alignParentLeft="true"
+		        android:layout_below="@+id/goodsFmNameEdit"
+		        android:hint="@string/goodsFmCategoryCaption"
+		        style="@style/spinnerLookingEdit" />
+
+		    <TextView
+		        android:id="@+id/goodsFmCountTitle"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="@dimen/marginTop"
+		        android:layout_marginBottom="@dimen/marginBottom"
+		        android:layout_marginLeft="@dimen/marginOuterLeft"
+		        android:layout_marginRight="@dimen/marginRight"
+		        android:layout_alignParentLeft="true"
+		        android:layout_below="@id/goodsFmCategoryEdit"
+		        android:text="@string/goodsFmCountTitle"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+		    
+			<View
+			    android:id="@+id/goodsFmCountSeparator"
+			    android:layout_width="fill_parent"
+			    android:layout_height="@dimen/formControlsSeparartorThickness"
+			    android:background="@color/formControlsSeparatorColor"
+		        android:layout_marginLeft="@dimen/marginOuterLeft"
+		        android:layout_marginRight="@dimen/marginOuterRight"
+		        android:layout_below="@id/goodsFmCountTitle" />
+			
+			<Spinner
+			    android:id="@+id/goodsFmUnitsSpinner"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:layout_below="@id/goodsFmCountSeparator" />
+			
+		</RelativeLayout>
+		    
+    </ScrollView>
+    
+    <include layout="@layout/cancel_save_buttons" />
+
+</LinearLayout>

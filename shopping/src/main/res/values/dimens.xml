@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="marginTop">4dp</dimen>
+    <dimen name="marginBottom">4dp</dimen>
+    <dimen name="marginLeft">4dp</dimen>
+    <dimen name="marginRight">4dp</dimen>
+    <dimen name="marginOuterTop">0dp</dimen>
+    <dimen name="marginOuterBottom">0dp</dimen>
+    <dimen name="marginOuterLeft">0dp</dimen>
+    <dimen name="marginOuterRight">0dp</dimen>
+    <dimen name="windowBorderLeft">16dp</dimen>
+    <dimen name="windowBorderRight">16dp</dimen>
+    
+    <dimen name="buttonHeight">40dp</dimen>
+    <dimen name="socialButtonHeight">40dp</dimen>
+    
+    <dimen name="buttonsBlockHeight">56dp</dimen>
+    
+    <dimen name="editHeight">40dp</dimen>
+    
+    <dimen name="photoSize">56dp</dimen>
+    
+    <dimen name="listItemHeight">48dp</dimen>
+    <dimen name="goodsIconHeight">44dp</dimen>
+    <dimen name="goodsIconBackgroundHeight">47dp</dimen>
+    <dimen name="goodsIconPadding">1dp</dimen>
+    <dimen name="friendsListItemHeight">72dp</dimen>
+
+    <dimen name="goodsIconFormHeight">72dp</dimen>
+    <dimen name="goodsIconGalleryPadding">16dp</dimen>
+    
+    <dimen name="formControlsSeparartorThickness">1dp</dimen>
+    
+    <dimen name="listItemDescrTextHeight">18dp</dimen>
+    <dimen name="listItemHeaderTextHeight">24dp</dimen>
+
+    <dimen name="widgetMargin">4dp</dimen>
+    <dimen name="widgetSubtitleTextSize">14dp</dimen>
+    <dimen name="widgetMarginBottom">16dp</dimen>
+    
+    <dimen name="spinnerLookingEditPadding">12dp</dimen>
+</resources>

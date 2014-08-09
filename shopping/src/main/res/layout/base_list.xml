@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PurchasesActivity"
+    android:background="@color/background_holo_light" >
+
+    <LinearLayout
+	    android:focusable="true" android:focusableInTouchMode="true"
+	    android:layout_width="0px" android:layout_height="0px"/>
+        
+    <ListView
+        android:id="@+id/baseListGrid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
+
+</RelativeLayout>

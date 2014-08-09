@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="appName">Shopping</string>
+    <string name="formButtonCancel">Отмена</string>
+    <string name="formButtonDelete">Удалить</string>
+    <string name="formButtonOk">OK</string>
+    <string name="formButtonSave">Сохранить</string>
+    <string name="menuUnits">Единицы измерения</string>
+    <string name="menuGoodsCategories">Категории товаров</string>
+    <string name="menuGoods">Товары</string>
+    <string name="menuUnitsListNewRecord">Добавить</string>
+    <string name="menuUnitsListEditRecord">Изменить</string>
+    <string name="menuUnitsListDeleteRecord">Удалить</string>
+    <string name="menuUnitsListContextTitle">Действия над \"%s\"</string>
+    <string name="unitsLiTitle">Единицы измерения</string>
+    <string name="unitsLiConfirmDeleteCaption">Удалить единицу измерения?</string>
+    <string name="unitsLiConfirmDeleteDetails">Вы больше не сможете использовать \"%s\" в приложении</string>
+    <string name="unitsLiItemDeleted">Единица измерения удалена</string>
+    <string name="unitsFmTitleAdd">Новая единица</string>
+    <string name="unitsFmTitleEdit">Единица измерения</string>
+    <string name="unitsFmNameCaption">обозначение</string>
+    <string name="unitsFmDescrCaption">Краткое описание</string>
+    <string name="unitsFmDecimalsCaption">Знаков после точки</string>
+    <string name="unitsFmDecimalsDefault">0</string>
+    <string name="unitsFmIsDefault">Использовать по умолчанию</string>
+    <string name="unitsFmResultAdded">Единица измерения добавлена</string>
+    <string name="unitsFmResultEdited">Единица измерения сохранена</string>
+    <string name="unitsFmConfirmDefaultCaption">Изменить единицу измерения по умолчанию?</string>
+    <string name="unitsFmConfirmDefaultDetails">Нажмите OK, чтобы использовать \"%s\" по умолчанию</string>
+    <string name="unitsFmUnitTypeMass">Масса</string>
+    <string name="unitsFmUnitTypeDistance">Длина</string>
+    <string name="unitsFmUnitTypeSquare">Площадь</string>
+    <string name="unitsFmUnitTypeVolume">Объем</string>
+    <string name="unitsFmUnitTypeCount">Количество</string>
+    <string name="unitsFmErrorSpecifyName">Введите обозначение единицы измерения</string>
+    <string name="unitsFmErrorSpecifyDescr">Введите описание единицы измерения</string>
+    <string name="unitsFmErrorSpecifyDecimals">Введите количество знаков после точки</string>
+    <string name="unitsFmErrorDecimalsWrongFormat">Введите целое число</string>
+    <string name="unitsFmErrorDecimalsLowerBorder">Введите значение не менее 0</string>
+    <string name="unitsFmErrorDecimalsHigherBorder">Введите значение не более 3</string>
+    <string name="unitsFmErrorAlreadyExists">Такая единица измерения уже есть в программе</string>
+    <string name="errorUnknown">Произошла неизвестная ошибка, перезапустите приложение</string>
+
+    <string name="goodsCategoriesLiTitle">Категории товаров</string>
+    <string name="goodsCategoriesLiTitleLookup">Выберите категорию</string>
+    <string name="goodsCategoriesLiConfirmDeleteCaption">Удалить категорию товаров?</string>
+    <string name="goodsCategoriesLiConfirmDeleteDetails">Внимание! Все товары из категории \"%s\" также будут удалены!</string>
+    <string name="goodsCategoriesLiItemDeleted">Категория товаров удалена</string>
+    <string name="goodsCategoriesLiNewCategoryDescr">добавить новую категорию</string>
+    
+    <string name="menuGoodsCategoriesListNewRecord">Добавить категорию</string>
+    <string name="menuGoodsCategoriesListEditRecord">Изменить</string>
+    <string name="menuGoodsCategoriesListDeleteRecord">Удалить</string>
+    <string name="menuGoodsCategoriesListContextTitle">Действия над \"%s\"</string>
+    <string name="menuGoodsCategoriesListSearch">Поиск категории</string>
+    <string name="goodsCategoriesFmTitleAdd">Новая категория</string>
+    <string name="goodsCategoriesFmTitleEdit">Категория товара</string>
+    <string name="goodsCategoriesFmNameCaption">Название</string>
+    <string name="goodsCategoriesFmDescrCaption">Краткое описание</string>
+    <string name="goodsCategoriesFmResultAdded">Категория товара добавлена</string>
+    <string name="goodsCategoriesFmResultEdited">Категория товара сохранена</string>
+    <string name="goodsCategoriesFmErrorSpecifyName">Введите название категории</string>
+    <string name="goodsCategoriesFmErrorSpecifyDescr">Введите описание категории</string>
+    <string name="goodsCategoriesFmErrorAlreadyExists">Такая категория уже есть в программе</string>
+    <string name="goodsCategoriesFmIconCaption">Изображение:</string>
+    
+    <string name="menuPurchasesListSortOrder">Сортировка</string>
+    <string name="menuPurchasesListSortOrderCategory">Сортировка по категории</string>
+    <string name="menuPurchasesListSortOrderName">Сортировка по имени</string>
+    <string name="menuPurchasesListSortOrderAddTime">Сортировка по порядку добавления</string>
+    <string name="menuPurchasesListNewRecord">Новая покупка</string>
+    <string name="menuPurchasesListDelayRecord">Отложить до завтра</string>
+    <string name="menuPurchasesListEditRecord">Изменить</string>
+    <string name="menuPurchasesListDeleteRecord">Удалить</string>
+    <string name="menuPurchasesListContextTitle">Действия над \"%s\"</string>
+    <string name="menuPurchasesListAbout">О приложении</string>
+    <string name="menuPurchasesListShare">Поделиться с друзьями</string>
+    <string name="menuPurchasesListShareVK">Поделиться через ВКонтакте</string>
+    <string name="menuPurchasesListShareFB">Поделиться через Facebook</string>
+    <string name="menuPurchasesListShareTw">Поделиться через Twitter</string>
+    <string name="menuPurchasesListShareGP">Поделиться через Google+</string>
+    <string name="menuPurchasesListShareLI">Поделиться через LinkedIn</string>
+    <string name="menuPurchasesListShareSk">Поделиться через Skype</string>
+    <string name="menuPurchasesListShareEm">Поделиться через Email</string>
+    <string name="menuPurchasesListSendList">Отправить список</string>
+    <string name="menuPurchasesListSendListVK">Отправить через ВКонтакте</string>
+    <string name="menuPurchasesListSendListFB">Отправить через Facebook</string>
+    <string name="menuPurchasesListSendListTw">Отправить через Twitter</string>
+    <string name="menuPurchasesListSendListGP">Отправить через Google+</string>
+    <string name="menuPurchasesListSendListLI">Отправить через LinkedIn</string>
+    <string name="menuPurchasesListSendListSk">Отправить через Skype</string>
+    <string name="menuPurchasesListSendListEm">Отправить через Email</string>
+    <string name="purchasesLiConfirmDeleteCaption">Удалить сделанную покупку?</string>
+    <string name="purchasesLiConfirmDeleteDetails">Сделанные покупки будут автоматически удалены из списка на следующий день. Удалять каждую из них вручную не обязательно.</string>
+    <string name="purchasesLiItemDeleted">Покупка удалена</string>
+    <string name="purchasesLiItemDelayed">Отложенная покупка появится в списке завтра</string>
+    <string name="purchasesLiNoPurchasesForSend">Нет покупок для отправки</string>
+    <string name="purchasesLiFailedToSend">Отправка не удалась</string>
+    <string name="purchasesLiSendListItemsDelimeter">,&#160;</string>
+    <string name="purchasesLiSendListCounterDelimeter">&#160;</string>
+    <string name="purchasesLiSendListDescrFormat"> (%s)</string>
+    <string name="purchasesLiSendListHeader">Купить:&#160;</string>
+    
+    <string name="purchasesFmTitleAdd">Новая покупка</string>
+    <string name="purchasesFmTitleEdit">Покупка</string>
+    <string name="purchasesFmNameCaption">Название</string>
+    <string name="purchasesFmCategoryCaption">Категория товара</string>
+    <string name="purchasesFmDescrCaption">дополнительное описание</string>
+    <string name="purchasesFmCountTitle">Количество</string>
+    <string name="purchasesFmCountEdit">1</string>
+    <string name="purchasesFmResultAdded">Список покупок дополнен</string>
+    <string name="purchasesFmResultEdited">Список покупок изменен</string>
+    <string name="purchasesFmErrorSpecifyName">Выберите товар</string>
+    <string name="purchasesFmErrorSpecifyCategory">Выберите категорию товара</string>
+    <string name="purchasesFmErrorSpecifyCount">Укажите количество товара</string>
+    
+    <string name="goodsLiTitleGrid">Товары</string>
+    <string name="goodsLiTitleLookup">Выберите товар</string>
+    <string name="goodsLiFilterCaption">введите название для поиска</string>
+    <string name="goodsLiNewGoodDescr">создать новый товар</string>
+    <string name="goodsLiAlreadyInTheList">товар уже в списке</string>
+    <string name="goodsLiAlreadyInTheListDelayed">товар уже в списке, отложен до завтра</string>
+    <string name="goodsLiConfirmDeleteCaption">Удалить товар?</string>
+    <string name="goodsLiConfirmDeleteDetails">После этого удаление товара \"%s\" не может быть отменено</string>
+    <string name="goodsLiItemDeleted">Товар удален</string>
+    
+    <string name="goodsFmTitleAdd">Новый товар</string>
+    <string name="goodsFmTitleEdit">Товар</string>
+    <string name="goodsFmNameCaption">Название</string>
+    <string name="goodsFmCategoryCaption">Категория товара</string>
+    <string name="goodsFmCountTitle">Единицы измерения</string>
+    <string name="goodsFmResultAdded">Список покупок дополнен</string>
+    <string name="goodsFmResultEdited">Список покупок изменен</string>
+    <string name="goodsFmErrorSpecifyName">Введите название товара</string>
+    <string name="goodsFmErrorSpecifyCategory">Выберите категорию товара</string>
+    <string name="goodsFmErrorAlreadyExists">Такой товар уже есть в программе</string>
+    
+    <string name="menuGoodsListNewRecord">Добавить товар</string>
+    <string name="menuGoodsListEditRecord">Изменить</string>
+    <string name="menuGoodsListDeleteRecord">Удалить</string>
+    <string name="menuGoodsListContextTitle">Действия над \"%s\"</string>
+    <string name="menuGoodsListSearch">Поиск товара</string>
+    
+    <string name="vkLoginLoginFailed">Вход не удался</string>
+    <string name="friendsListStartPopup">Выберите, кому отправить список покупок</string>
+    <string name="friendsListConfirmTitle">Подтвердите отправку списка</string>
+    <string name="menuFriendsListSendMessage">Поделиться</string>
+    
+    <string name="socialMessageTitle">Сообщение друзьям</string>
+    <string name="socialMessageText">Текст сообщения</string>
+    <string name="socialMessagePreview">Предварительный просмотр</string>
+    <string name="socialMessageBase">Рекомендую Android-приложение Shopping: простое и удобное управление списком покупок</string>
+    <string name="socialMessageAddition">https://play.google.com/store/apps/details?id=com.furdey.shopping</string>
+    <string name="socialMessageMsgTitle">Android-приложение Shopping</string>
+    <string name="socialMessageSend">Отправить</string>
+    <string name="socialMessageSent">Сообщение отправлено</string>
+    <string name="socialMessageIconUrl">https://lh5.ggpht.com/ATuPfbHrep9jsYw1RvrJq1vmBZAspoimzFSzDXDc0DGyJKWzyAV6iQS1aZzQlq_X4EA=w300-rw</string>
+    
+    <string name="aboutAppAuthor">Автор: Степан Фурдей</string>
+    <string name="aboutAppVersion">Версия %s</string>
+    <string name="aboutAppShare">Поделиться с друзьями</string>
+    
+    <string name="shareTitle">Спасибо, что пользуетесь Shopping!</string>
+    <string name="shareText">Если Вам нравится Shopping, порекомендуйте его своим друзьям</string>
+    <string name="shareCancel">Отмена</string>
+    <string name="shareLater">Позже</string>
+
+    <string name="likeTitle">Спасибо, что пользуетесь Shopping!</string>
+    <string name="likeText">Вы - наш постоянный клиент, и для нас важно Ваше мнение. Пожалуйста оставьте отзыв о Shopping и расскажите, что бы Вы хотели видеть в приложении.</string>
+    <string name="likeCancel">Отмена</string>
+    <string name="likeLater">Позже</string>
+    <string name="likeOk">OK</string>
+    <string name="likeUrl">market://details?id=com.furdey.shopping</string>
+    
+    <string name="app_id">285472548253698</string>
+    
+    <string name="shoppingListWidgetLabel">Shopping - Список покупок</string>
+    <string name="shoppingListWidgetEmpty">Нет покупок</string>
+    <string name="shoppingListWidgetLoading">Загрузка&#8230;</string>
+    
+</resources>

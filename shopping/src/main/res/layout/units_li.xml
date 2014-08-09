@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/listItemHeight"
+    android:paddingLeft="@dimen/windowBorderLeft"
+    android:paddingRight="@dimen/windowBorderRight"
+    style="@style/GridItem" >
+    
+    <TextView
+        android:id="@+id/unitsLiName"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/listItemHeaderTextHeight"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/marginOuterBottom"
+        android:layout_marginLeft="@dimen/marginOuterLeft"
+        android:layout_marginRight="@dimen/marginOuterRight"
+        android:layout_marginTop="@dimen/marginOuterTop"
+        android:text="кг"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:ellipsize="end"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/unitsLiDescr"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/listItemDescrTextHeight"
+        android:layout_below="@+id/unitsLiName"
+        android:layout_marginBottom="@dimen/marginOuterBottom"
+        android:layout_marginLeft="@dimen/marginOuterLeft"
+        android:layout_marginRight="@dimen/marginOuterRight"
+        android:layout_marginTop="@dimen/marginOuterTop"
+        android:text="Килограммы"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:ellipsize="end"
+        android:singleLine="true" />
+
+ </RelativeLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    style="@style/GridItem">
+    
+    <TextView
+        android:id="@+id/shoppingListGridEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/listItemHeight"
+        android:text="@string/shoppingListWidgetLoading"
+        style="@style/GridItem"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+		android:textColor="#80323232"
+		android:gravity="left|center_vertical"
+		android:layout_marginLeft="@dimen/windowBorderLeft"
+		android:layout_marginRight="@dimen/windowBorderRight" />
+</LinearLayout>

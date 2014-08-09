@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="@style/SearchBar">
+        
+        <LinearLayout
+		    android:focusable="true" android:focusableInTouchMode="true"
+		    android:layout_width="0px" android:layout_height="0px"/>
+        
+	    <EditText
+	        android:id="@+id/filterListFilterEdit"
+	        android:layout_width="0dp"
+	        android:layout_weight="1"
+	        android:layout_height="@dimen/editHeight"
+	        android:layout_marginTop="@dimen/marginTop"
+	        android:layout_marginBottom="@dimen/marginBottom"
+	        android:layout_marginLeft="@dimen/windowBorderLeft"
+	        android:layout_marginRight="@dimen/marginRight"
+	        android:inputType="textCapSentences"
+	        android:nextFocusUp="@id/filterListFilterEdit" android:nextFocusLeft="@id/filterListFilterEdit" >
+	    </EditText>
+	    
+	    <ImageView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/action_search"
+	        android:layout_marginTop="@dimen/marginTop"
+	        android:layout_marginBottom="@dimen/marginBottom"
+	        android:layout_marginLeft="@dimen/marginLeft"
+	        android:layout_marginRight="@dimen/windowBorderRight"
+	        android:layout_gravity="center_vertical" />
+		
+    </LinearLayout>
+    
+    <ListView
+        android:id="@+id/baseListGrid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

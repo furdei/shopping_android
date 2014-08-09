@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/goodsLi"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/listItemHeight"
+    android:gravity="center_vertical"
+    style="@style/GridItem" >
+    
+   	<ImageView 
+   	    android:id="@+id/goodsLiIcon"
+   	    android:layout_width="@dimen/goodsIconHeight"
+   	    android:layout_height="@dimen/goodsIconHeight"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="@dimen/goodsIconPadding"
+        android:paddingRight="@dimen/marginRight"
+   	    android:scaleType="fitCenter"
+   	    android:background="@drawable/goods_icon_background"/>
+	
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+	    android:paddingLeft="@dimen/marginLeft"
+	    android:paddingRight="@dimen/windowBorderRight"
+        android:layout_toRightOf="@id/goodsLiIcon"
+        android:layout_centerVertical="true" >
+        
+	    <TextView
+	        android:id="@+id/goodsLiName"
+	        android:layout_width="match_parent"
+	        android:layout_height="@dimen/listItemHeaderTextHeight"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginBottom="@dimen/marginOuterBottom"
+	        android:layout_marginLeft="@dimen/marginOuterLeft"
+	        android:layout_marginRight="@dimen/marginOuterRight"
+	        android:layout_marginTop="@dimen/marginOuterTop"
+	        android:text="Сгущенка"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+            android:ellipsize="end"
+            android:singleLine="true" />
+	
+	    <TextView
+	        android:id="@+id/goodsLiDescr"
+	        android:layout_width="match_parent"
+	        android:layout_height="@dimen/listItemDescrTextHeight"
+	        android:layout_below="@id/goodsLiName"
+	        android:layout_marginBottom="@dimen/marginOuterBottom"
+	        android:layout_marginLeft="@dimen/marginOuterLeft"
+	        android:layout_marginRight="@dimen/marginOuterRight"
+	        android:layout_marginTop="@dimen/marginOuterTop"
+	        android:text="Молочные продукты"
+	        android:textAppearance="?android:attr/textAppearanceSmall"
+            android:ellipsize="end"
+            android:singleLine="true" />
+	</LinearLayout>
+ </RelativeLayout>

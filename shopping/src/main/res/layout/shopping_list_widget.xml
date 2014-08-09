@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/widgetMargin"
+    android:orientation="vertical"
+    android:background="@drawable/appwidget_dark_bg" >
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/listItemHeight"
+        android:padding="@dimen/marginLeft" >
+        
+        <!-- style="@style/WidgetHeader" -->
+        
+	    <ImageView 
+	        android:id="@+id/shoppingListWidgetLogo"
+	        android:layout_width="@dimen/buttonHeight"
+	        android:layout_height="@dimen/buttonHeight"
+	        android:src="@drawable/ic_launcher"
+	        android:layout_marginLeft="@dimen/marginLeft"
+	        android:layout_alignParentLeft="true"
+	        style="@style/WidgetActionBarItem" />
+    
+	    <ImageView 
+	        android:id="@+id/shoppingListWidgetSort"
+	        android:layout_width="@dimen/buttonHeight"
+	        android:layout_height="@dimen/buttonHeight"
+	        android:src="@drawable/collections_sort_by_size"
+	        android:layout_marginLeft="@dimen/marginLeft"
+	        android:layout_marginRight="@dimen/marginRight"
+	        android:layout_alignParentRight="true"
+	        style="@style/WidgetActionBarItem"
+	        android:visibility="gone" />
+	    
+	    <ImageView 
+	        android:id="@+id/shoppingListWidgetSortSplitter"
+	        android:layout_width="2dp"
+	        android:layout_height="@dimen/buttonHeight"
+	        android:src="@drawable/ab_bottom_solid_inverse_holo"
+	        android:scaleType="fitXY"
+	        android:layout_toLeftOf="@id/shoppingListWidgetSort"
+	        android:visibility="gone" />
+	    
+	    <LinearLayout
+	        android:id="@+id/shoppingListWidgetNewRecord"
+	        android:layout_width="wrap_content"
+	        android:layout_height="@dimen/buttonHeight"
+	        android:layout_marginLeft="@dimen/marginLeft"
+	        android:layout_marginRight="@dimen/marginRight"
+	        android:orientation="horizontal"
+		    android:layout_alignParentRight="true"
+		    style="@style/WidgetActionBarItem" >
+	        
+		    <ImageView
+		        android:layout_width="@dimen/buttonHeight"
+		        android:layout_height="@dimen/buttonHeight"
+		        android:src="@drawable/content_new"/>
+		    
+		    <TextView
+		        android:layout_width="wrap_content"
+		        android:layout_height="@dimen/buttonHeight"
+		        android:gravity="left|center_vertical"
+		        android:text="@string/menuUnitsListNewRecord"
+		        android:layout_marginLeft="@dimen/marginRight" 
+		        style="@style/WidgetHeaderSubtitle"
+		        android:visibility="gone"/>
+		    
+	    </LinearLayout>
+	    
+	    <ImageView 
+	        android:id="@+id/shoppingListWidgetNewRecordSplitter"
+	        android:layout_width="2dp"
+	        android:layout_height="@dimen/buttonHeight"
+	        android:src="@drawable/ab_bottom_solid_inverse_holo"
+	        android:scaleType="fitXY"
+	        android:layout_toLeftOf="@id/shoppingListWidgetNewRecord"
+	        android:visibility="gone" />
+    
+	</RelativeLayout>
+	
+    <ListView
+        android:id="@+id/shoppingListGrid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:layout_marginBottom="@dimen/widgetMarginBottom" />
+    
+    <TextView
+        android:id="@+id/shoppingListGridEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/shoppingListWidgetEmpty"
+        style="@style/GridItem"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+		android:textColor="#80323232"
+		android:gravity="center"
+		android:layout_marginBottom="@dimen/widgetMarginBottom" />
+    
+</LinearLayout>

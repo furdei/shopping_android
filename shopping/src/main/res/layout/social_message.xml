@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/windowBorderLeft"
+    android:layout_marginRight="@dimen/windowBorderRight"
+    android:layout_marginTop="@dimen/marginTop"
+    android:layout_marginBottom="@dimen/marginBottom"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	    android:layout_marginTop="@dimen/marginTop"
+	    android:layout_marginBottom="@dimen/marginBottom"
+        android:text="@string/socialMessageText"
+        style="@style/formSubtitleTextStyle" />
+
+    <EditText
+        android:id="@+id/socialMessageText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+	    android:layout_marginTop="@dimen/marginTop"
+	    android:layout_marginBottom="@dimen/marginBottom"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	    android:layout_marginTop="@dimen/marginTop"
+	    android:layout_marginBottom="@dimen/marginBottom"
+        android:text="@string/socialMessagePreview"
+        style="@style/formSubtitleTextStyle" />
+
+    <TextView
+        android:id="@+id/socialMessagePreview"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+	    android:layout_marginTop="@dimen/marginTop"
+	    android:layout_marginBottom="@dimen/marginBottom"
+        android:text="@string/socialMessagePreview"
+        style="@style/formTextStyle" />
+
+    <include layout="@layout/cancel_save_buttons" />
+    
+</LinearLayout>

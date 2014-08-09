@@ -1,0 +1,186 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:appcompat="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/menuPurchasesListNewRecord"
+        android:orderInCategory="10"
+        appcompat:showAsAction="always|withText"
+        android:title="@string/menuPurchasesListNewRecord"
+        android:icon="@drawable/content_new">
+    </item>
+    
+    <item
+        android:id="@+id/menuPurchasesListSortOrder"
+        android:orderInCategory="20"
+        appcompat:showAsAction="ifRoom"
+        android:title="@string/menuPurchasesListSortOrder"
+        android:icon="@drawable/collections_sort_by_size">
+        
+        <menu>
+            <group android:id="@+id/menuPurchasesListSortOrderGroup"
+                android:checkableBehavior="single">
+                
+			    <item
+			        android:id="@+id/menuPurchasesListSortOrderCategory"
+			        android:orderInCategory="100"
+			        appcompat:showAsAction="never"
+			        android:title="@string/menuPurchasesListSortOrderCategory"/>                
+                
+			    <item
+			        android:id="@+id/menuPurchasesListSortOrderName"
+			        android:orderInCategory="200"
+			        appcompat:showAsAction="never"
+			        android:title="@string/menuPurchasesListSortOrderName"/>                
+                
+			    <item
+			        android:id="@+id/menuPurchasesListSortOrderAddTime"
+			        android:orderInCategory="300"
+			        appcompat:showAsAction="never"
+			        android:title="@string/menuPurchasesListSortOrderAddTime"/>                
+                
+		    </group>
+        </menu>
+        
+    </item>
+    
+    <item
+        android:id="@+id/menuPurchasesListSendList"
+        android:orderInCategory="30"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuPurchasesListSendList"
+        android:icon="@drawable/content_email">
+        
+        <menu>
+            <group android:id="@+id/menuPurchasesListSendListGroup">
+                
+			    <item
+			        android:id="@+id/menuPurchasesListSendListVK"
+			        android:orderInCategory="100"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListSendListVK"/>                
+<!--                 
+			    <item
+			        android:id="@+id/menuPurchasesListSendListFB"
+			        android:orderInCategory="200"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListSendListFB"/>                
+                
+			    <item
+			        android:id="@+id/menuPurchasesListSendListTw"
+			        android:orderInCategory="300"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListSendListTw"/>                
+ -->                
+			    <item
+			        android:id="@+id/menuPurchasesListSendListGP"
+			        android:orderInCategory="400"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListSendListGP"/>                
+<!--                
+			    <item
+			        android:id="@+id/menuPurchasesListSendListLI"
+			        android:orderInCategory="500"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListSendListLI"/>                
+-->                
+			    <item
+			        android:id="@+id/menuPurchasesListSendListSk"
+			        android:orderInCategory="600"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListSendListSk"/>                
+			    
+			    <item
+			        android:id="@+id/menuPurchasesListSendListEm"
+			        android:orderInCategory="700"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListSendListEm"/>                
+			    			    			    			    
+		    </group>
+        </menu>
+        
+    </item>
+    
+    <item
+        android:id="@+id/menuPurchasesListShare"
+        android:orderInCategory="40"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuPurchasesListShare"
+        android:icon="@drawable/social_share">
+        
+        <menu>
+            <group android:id="@+id/menuPurchasesListShareGroup">
+                
+			    <item
+			        android:id="@+id/menuPurchasesListShareVK"
+			        android:orderInCategory="550"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListShareVK"/>
+			    
+			    <item
+			        android:id="@+id/menuPurchasesListShareFB"
+			        android:orderInCategory="600"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListShareFB"/>
+			    
+			    <item
+			        android:id="@+id/menuPurchasesListShareTw"
+			        android:orderInCategory="700"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListShareTw"/>    	    
+			    
+			    <item
+			        android:id="@+id/menuPurchasesListShareGP"
+			        android:orderInCategory="800"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListShareGP"/>    	    
+			    
+			    <item
+			        android:id="@+id/menuPurchasesListShareLI"
+			        android:orderInCategory="900"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListShareLI"/>    	    
+			    
+			    <item
+			        android:id="@+id/menuPurchasesListShareSk"
+			        android:orderInCategory="1000"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListShareSk"/>    	    
+			    
+			    <item
+			        android:id="@+id/menuPurchasesListShareEm"
+			        android:orderInCategory="1100"
+			        android:showAsAction="never"
+			        android:title="@string/menuPurchasesListShareEm"/>    	    
+	    	    			    			    			    			    
+		    </group>
+        </menu>
+        
+    </item>
+    
+    <group android:id="@+id/menu_secondary">
+	    <item
+	        android:id="@+id/menuGoods"
+	        android:orderInCategory="200"
+	        android:showAsAction="never"
+	        android:title="@string/menuGoods"/>
+           	            
+   	    <item
+	        android:id="@+id/menuGoodsCategories"
+	        android:orderInCategory="300"
+	        android:showAsAction="never"
+	        android:title="@string/menuGoodsCategories"/>
+           	            
+	    <item
+	        android:id="@+id/menuUnits"
+	        android:orderInCategory="400"
+	        android:showAsAction="never"
+	        android:title="@string/menuUnits"/>
+
+	    <item
+	        android:id="@+id/menuPurchasesListAbout"
+	        android:orderInCategory="500"
+	        android:showAsAction="never"
+	        android:title="@string/menuPurchasesListAbout"/>
+	        	            
+	</group>
+</menu>

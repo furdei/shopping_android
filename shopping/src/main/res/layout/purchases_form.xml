@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/windowBorderLeft"
+    android:paddingRight="@dimen/windowBorderRight"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal" >
+    
+    <ScrollView
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1" >
+        
+		<RelativeLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content">
+
+		    <EditText
+		        android:id="@+id/purchasesFmNameEdit"
+		        android:layout_width="match_parent"
+		        android:layout_height="@dimen/editHeight"
+		        android:layout_marginTop="@dimen/marginTop"
+		        android:layout_marginBottom="@dimen/marginBottom"
+		        android:layout_marginLeft="@dimen/marginOuterLeft"
+		        android:layout_marginRight="@dimen/marginOuterRight"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentTop="true"
+		        android:inputType="textCapSentences"
+		        android:hint="@string/purchasesFmNameCaption"
+		        style="@style/spinnerLookingEdit" />
+		
+		    <EditText
+		        android:id="@+id/purchasesFmCategoryEdit"
+		        android:layout_width="match_parent"
+		        android:layout_height="@dimen/editHeight"
+		        android:layout_marginTop="@dimen/marginTop"
+		        android:layout_marginBottom="@dimen/marginBottom"
+		        android:layout_marginLeft="@dimen/marginOuterLeft"
+		        android:layout_marginRight="@dimen/marginOuterRight"
+		        android:layout_alignParentLeft="true"
+		        android:layout_below="@+id/purchasesFmNameEdit"
+		        android:inputType="textCapSentences"
+		        android:hint="@string/purchasesFmCategoryCaption"
+		        style="@style/spinnerLookingEdit" />
+		    
+		    <TextView
+		        android:id="@+id/purchasesFmCountTitle"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="@dimen/marginTop"
+		        android:layout_marginBottom="@dimen/marginBottom"
+		        android:layout_marginLeft="@dimen/marginOuterLeft"
+		        android:layout_marginRight="@dimen/marginRight"
+		        android:layout_alignParentLeft="true"
+		        android:layout_below="@id/purchasesFmCategoryEdit"
+		        android:text="@string/purchasesFmCountTitle"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+		    
+			<View
+			    android:id="@+id/purchasesFmCountSeparator"
+			    android:layout_width="fill_parent"
+			    android:layout_height="@dimen/formControlsSeparartorThickness"
+			    android:background="@color/formControlsSeparatorColor"
+		        android:layout_marginLeft="@dimen/marginOuterLeft"
+		        android:layout_marginRight="@dimen/marginOuterRight"
+		        android:layout_below="@id/purchasesFmCountTitle" />
+			
+			<LinearLayout
+			    android:id="@+id/purchasesFmCountLayout"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal"
+			    android:layout_below="@id/purchasesFmCountSeparator">
+			    
+			    <EditText
+			        android:id="@+id/purchasesFmCountEdit"
+			        android:layout_width="wrap_content"
+			        android:layout_height="@dimen/editHeight"
+			        android:layout_marginTop="@dimen/marginTop"
+			        android:layout_marginBottom="@dimen/marginBottom"
+			        android:layout_marginLeft="@dimen/marginOuterLeft"
+			        android:layout_marginRight="@dimen/marginOuterRight"
+			        android:layout_gravity="center_vertical"
+			        android:gravity="right"
+			        android:inputType="numberDecimal"
+			        android:numeric="decimal"
+			        android:ems="8"
+			        android:maxLength="8"
+			        android:hint="@string/purchasesFmCountEdit" />
+	
+				<Spinner
+				    android:id="@+id/purchasesFmUnitsSpinner"
+				    android:layout_width="0dp"
+				    android:layout_weight="1"
+				    android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical" />
+			
+			</LinearLayout>
+
+		    <EditText
+		        android:id="@+id/purchasesFmDescrEdit"
+		        android:layout_width="match_parent"
+		        android:layout_height="@dimen/editHeight"
+		        android:layout_marginTop="@dimen/marginTop"
+		        android:layout_marginBottom="@dimen/marginBottom"
+		        android:layout_marginLeft="@dimen/marginOuterLeft"
+		        android:layout_marginRight="@dimen/marginOuterRight"
+		        android:layout_alignParentLeft="true"
+		        android:layout_below="@id/purchasesFmCountLayout"
+		        android:inputType="text"
+		        android:hint="@string/purchasesFmDescrCaption" />
+
+		</RelativeLayout>
+		    
+    </ScrollView>
+    
+    <include layout="@layout/cancel_save_buttons" />
+
+</LinearLayout>

@@ -1,0 +1,106 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+    
+    <style name="customButton" parent="@android:style/Widget.Button.Small">
+    </style>
+    
+    <style name="customListView" parent="@android:style/Widget.ListView">
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+    </style>
+    
+    <style name="goodsLiDescrNormalStyle" parent="@android:style/TextAppearance.Small">
+    </style>
+    
+    <style name="goodsLiDescrAlreadyInTheListStyle" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/alreadyInTheListColor</item>
+    </style>
+    
+    <style name="goodsLiDescrNewRecordStyle" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/newRecordColor</item>
+    </style>
+    
+    <style name="goodsCategoriesLiDescrNewRecordStyle" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/newRecordColor</item>
+    </style>
+<!--     
+    <style name="purchasesLiCategoryStyle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@color/purchasesLiCategoryBackgroundColor</item>
+    </style>
+ -->    
+    <color name="formControlsSeparatorColor">#dbdbdb</color>
+    <color name="purchasesLiStrikeColor">#000000</color>
+    <color name="newRecordColor">#ff0000</color>
+    <color name="alreadyInTheListColor">#ff0000</color>
+    <color name="purchasesLiCategoryBackgroundColor">#545454</color>
+    <color name="searchBarBackgroundColor">#dcdcdc</color>
+    
+    <style name="LoadingStyle" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+        <item name="android:background">@drawable/loading_screen</item>
+    </style>
+    
+    <style name="GridItem">
+        <item name="android:background">@drawable/grid_background_appearance</item>
+    </style>
+    
+    <style name="WidgetHeader">
+        <item name="android:background">@drawable/ab_solid_dark_holo</item>
+    </style>
+    
+    <style name="WidgetHeaderSubtitle">
+        <item name="android:textColor">@android:color/primary_text_dark</item>
+        <item name="android:textColorHint">#808080</item>
+        <item name="android:textColorHighlight">#9983CC39</item>
+        <item name="android:textColorLink">#0000ee</item>
+        <item name="android:textSize">@dimen/widgetSubtitleTextSize</item>
+    </style>
+
+    <style name="WidgetActionBarItem">
+        <item name="android:background">@drawable/item_background_holo_dark</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+    
+    <style name="SearchBar">
+        <item name="android:background">@color/searchBarBackgroundColor</item>
+    </style>
+    
+    <style name="formSubtitleTextStyle" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    
+    <style name="formTextStyle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    
+    <style name="spinnerLookingEdit" parent="@android:style/Widget.Spinner">
+        <item name="android:focusable">false</item>
+        <item name="android:paddingLeft">@dimen/spinnerLookingEditPadding</item>
+        <item name="android:paddingRight">@dimen/spinnerLookingEditPadding</item>
+    </style>
+    
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="@style/AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:buttonStyle">@style/customButton</item>
+        <item name="android:listViewStyle">@style/customListView</item>
+    </style>
+    
+    <style name="AboutAppStyle" parent="@style/AppTheme">
+        <item name="android:windowBackground">@drawable/loading_screen</item>
+    </style>
+    
+    <color name="background_holo_light">#ffffffff</color>
+</resources>

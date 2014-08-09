@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/windowBorderLeft"
+    android:paddingRight="@dimen/windowBorderRight"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/background_holo_light" >
+    
+    <ScrollView
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1" >
+        
+		<RelativeLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content">
+
+		    <EditText
+		        android:id="@+id/unitsFmNameEdit"
+		        android:layout_width="match_parent"
+		        android:layout_height="@dimen/editHeight"
+		        android:layout_marginTop="@dimen/marginTop"
+		        android:layout_marginBottom="@dimen/marginBottom"
+		        android:layout_marginLeft="@dimen/marginOuterLeft"
+		        android:layout_marginRight="@dimen/marginOuterRight"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentTop="true"
+		        android:inputType="text"
+		        android:hint="@string/unitsFmNameCaption" >
+		
+		       	<requestFocus android:layout_width="match_parent" />
+		
+		    </EditText>
+		
+		    <EditText
+		        android:id="@+id/unitsFmDescrEdit"
+		        android:layout_width="match_parent"
+		        android:layout_height="@dimen/editHeight"
+		        android:layout_marginTop="@dimen/marginTop"
+		        android:layout_marginBottom="@dimen/marginBottom"
+		        android:layout_marginLeft="@dimen/marginOuterLeft"
+		        android:layout_marginRight="@dimen/marginOuterRight"
+		        android:layout_alignParentLeft="true"
+		        android:layout_below="@+id/unitsFmNameEdit"
+		        android:inputType="textCapSentences"
+		        android:hint="@string/unitsFmDescrCaption" />
+		    
+			<TextView
+			    android:id="@+id/unitsFmDecimalsCaption"
+		        android:layout_width="wrap_content"
+		        android:layout_height="@dimen/editHeight"
+		        android:layout_marginTop="@dimen/marginTop"
+		        android:layout_marginBottom="@dimen/marginBottom"
+		        android:layout_marginLeft="@dimen/marginLeft"
+		        android:layout_marginRight="@dimen/marginRight"
+			    android:layout_alignParentLeft="true"
+			    android:paddingTop="8dp"
+			    android:layout_below="@+id/unitsFmDescrEdit"
+			    android:text="@string/unitsFmDecimalsCaption"
+			    android:textAppearance="?android:attr/textAppearanceMedium" />
+		
+			<EditText
+			    android:id="@+id/unitsFmDecimalsEdit"
+			    android:layout_width="wrap_content"
+			    android:layout_height="@dimen/editHeight"
+		        android:layout_marginTop="@dimen/marginTop"
+		        android:layout_marginBottom="@dimen/marginBottom"
+		        android:layout_marginLeft="@dimen/marginLeft"
+		        android:layout_marginRight="@dimen/marginOuterRight"
+			    android:layout_below="@+id/unitsFmDescrEdit"
+			    android:layout_toRightOf="@+id/unitsFmDecimalsCaption"
+			    android:layout_alignParentRight="true"
+			    android:maxLength="1"
+			    android:inputType="number"
+			    android:hint="@string/unitsFmDecimalsDefault" />
+		
+			<Spinner
+			    android:id="@+id/unitsFmUnitType"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_below="@+id/unitsFmDecimalsCaption" />
+		
+			<CheckBox
+			    android:id="@+id/unitsFmIsDefault"
+		        android:layout_width="match_parent"
+		        android:layout_height="@dimen/editHeight"
+		        android:layout_marginTop="@dimen/marginTop"
+		        android:layout_marginBottom="@dimen/marginBottom"
+		        android:layout_marginLeft="@dimen/marginOuterLeft"
+		        android:layout_marginRight="@dimen/marginOuterRight"
+			    android:layout_alignParentLeft="true"
+			    android:layout_alignParentRight="true"
+			    android:layout_below="@+id/unitsFmUnitType"
+			    android:text="@string/unitsFmIsDefault" />
+		
+		</RelativeLayout>
+		    
+    </ScrollView>
+    
+    <include layout="@layout/cancel_save_buttons" />
+
+</LinearLayout>

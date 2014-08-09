@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item
+        android:id="@+id/menuUnitsListNewRecord"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/menuUnitsListNewRecord"
+        android:icon="@drawable/content_new">
+    </item>
+
+</menu>

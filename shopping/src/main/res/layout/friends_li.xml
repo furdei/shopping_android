@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/friendsListItemHeight"
+    android:paddingLeft="@dimen/windowBorderLeft"
+    android:paddingRight="@dimen/windowBorderRight"
+    style="@style/GridItem" >
+    
+    <ImageView
+        android:id="@+id/friendsLiPhoto"
+        android:layout_width="@dimen/photoSize"
+        android:layout_height="@dimen/photoSize"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/marginRight" />
+    
+    <TextView
+        android:id="@+id/friendsLiName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/friendsLiPhoto"
+        android:layout_marginLeft="@dimen/marginLeft"
+        android:layout_centerVertical="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Василий Петрович" />
+
+</RelativeLayout>

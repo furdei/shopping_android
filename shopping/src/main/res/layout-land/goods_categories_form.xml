@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/windowBorderLeft"
+    android:paddingRight="@dimen/windowBorderRight"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/background_holo_light" >
+
+	<RelativeLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+	
+	    <LinearLayout 
+	        android:id="@+id/goodsCategoriesFmIconRow"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_alignBottom="@id/goodsCategoriesFmDescrEdit"
+	        android:orientation="horizontal"
+	        android:layout_marginTop="@dimen/marginTop"
+	        android:layout_marginBottom="@dimen/marginBottom"
+	        android:layout_marginLeft="@dimen/marginLeft"
+	        android:layout_marginRight="@dimen/marginRight"
+	        android:gravity="center_vertical" >
+	        
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/goodsCategoriesFmIconCaption"
+	            android:layout_marginRight="@dimen/marginRight"/>
+	        
+	        <ImageView
+	            android:id="@+id/goodsCategoriesFmIcon"
+	            android:layout_width="@dimen/goodsIconFormHeight"
+	            android:layout_height="@dimen/goodsIconFormHeight"
+	            android:background="@drawable/goods_icon_background"/>
+	        
+	    </LinearLayout>
+	    
+	    <EditText
+	        android:id="@+id/goodsCategoriesFmNameEdit"
+	        android:layout_width="match_parent"
+	        android:layout_height="@dimen/editHeight"
+	        android:layout_marginTop="@dimen/marginTop"
+	        android:layout_marginBottom="@dimen/marginBottom"
+	        android:layout_marginLeft="@dimen/marginOuterLeft"
+	        android:layout_marginRight="@dimen/marginOuterRight"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_toLeftOf="@id/goodsCategoriesFmIconRow"
+	        android:inputType="textCapSentences"
+	        android:hint="@string/goodsCategoriesFmNameCaption" >
+	
+	       	<requestFocus android:layout_width="match_parent" />
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/goodsCategoriesFmDescrEdit"
+	        android:layout_width="match_parent"
+	        android:layout_height="@dimen/editHeight"
+	        android:layout_marginTop="@dimen/marginTop"
+	        android:layout_marginBottom="@dimen/marginBottom"
+	        android:layout_marginLeft="@dimen/marginOuterLeft"
+	        android:layout_marginRight="@dimen/marginOuterRight"
+	        android:layout_alignParentLeft="true"
+	        android:layout_below="@+id/goodsCategoriesFmNameEdit"
+	        android:layout_toLeftOf="@id/goodsCategoriesFmIconRow"
+	        android:inputType="textCapSentences"
+	        android:hint="@string/goodsCategoriesFmDescrCaption" />
+	    
+	    <GridView 
+	        android:id="@+id/goodsCategoriesFmIconsGallery"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/goodsCategoriesFmDescrEdit"
+	        android:layout_above="@id/formButtonsSeparatorHorisontal"
+	        android:stretchMode="spacingWidth"
+	        android:numColumns="auto_fit"
+	        android:columnWidth="@dimen/goodsIconFormHeight"
+	        android:horizontalSpacing="@dimen/marginLeft"
+	        android:verticalSpacing="@dimen/marginTop"
+	        android:layout_marginBottom="@dimen/buttonsBlockHeight"
+	        android:clickable="true" />
+	
+	</RelativeLayout>
+		    
+    <include layout="@layout/cancel_save_buttons" />
+
+</LinearLayout>

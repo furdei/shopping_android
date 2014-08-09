@@ -1,0 +1,32 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+     
+    <!--
+        Base application theme for API 14+. This theme completely replaces
+        AppBaseTheme from BOTH res/values/styles.xml and
+        res/values-v11/styles.xml on API 14+ devices.
+    -->
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <!-- API 14 theme customizations can go here. -->
+    </style>
+    
+    <style name="customButton" parent="@android:style/Widget.Holo.Light.Button.Borderless.Small">
+    </style>
+    
+    <style name="goodsLiDescrAlreadyInTheListStyle" parent="@android:style/TextAppearance.Holo.Small">
+        <item name="android:textColor">@color/alreadyInTheListColor</item>
+    </style>
+    
+    <style name="goodsLiDescrNewRecordStyle" parent="@android:style/TextAppearance.Holo.Small">
+        <item name="android:textColor">@color/newRecordColor</item>
+    </style>
+    
+    <style name="goodsCategoriesLiDescrNewRecordStyle" parent="@android:style/TextAppearance.Holo.Small">
+        <item name="android:textColor">@color/newRecordColor</item>
+    </style>
+<!--     
+    <style name="purchasesLiCategoryStyle" parent="@android:style/TextAppearance.Holo.Medium">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@color/purchasesLiCategoryBackgroundColor</item>
+    </style>
+ -->    
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:drawable="@drawable/background_appearance" />
+    <item>
+        <bitmap android:src="@drawable/grid_border_horisontal"
+            android:gravity="top|fill_horizontal"/>
+    </item>
+    <item>
+        <bitmap android:src="@drawable/grid_border_horisontal"
+            android:gravity="bottom|fill_horizontal"/>
+    </item>
+</layer-list>

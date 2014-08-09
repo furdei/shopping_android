@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.furdey.shopping"
+    android:versionCode="8"
+    android:versionName="1.0.7" >
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:name="com.furdey.shopping.utils.ShoppingApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/appName"
+        android:theme="@style/AppTheme" >
+        
+        <activity
+            android:name="com.furdey.shopping.activities.LoadingActivity"
+            android:label="@string/appName"
+            android:launchMode="singleTask"
+            android:theme="@style/LoadingStyle"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.furdey.shopping.activities.PurchasesActivity"
+            android:label="@string/appName"
+            android:launchMode="singleTask" >
+        </activity>
+        
+        <activity 
+            android:name="com.furdey.shopping.activities.PurchasesFormActivity"
+            android:launchMode="singleTask" >
+        </activity>
+        
+        <activity
+            android:name="com.furdey.shopping.activities.UnitsActivity"
+            android:label="@string/unitsLiTitle" >
+        </activity>
+        
+        <activity
+            android:name="com.furdey.shopping.activities.GoodsCategoriesActivity"
+            android:label="@string/goodsCategoriesLiTitle" >
+        </activity>
+        
+        <activity android:name="com.furdey.shopping.activities.GoodsActivity"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="com.furdey.shopping.intent.action.GOODS_LIST" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name="com.furdey.shopping.activities.GoodsFormActivity" >
+        </activity>
+        
+        <activity android:name="com.furdey.shopping.activities.VkLoginActivity" >
+        </activity>
+        
+        <activity android:name="com.furdey.shopping.activities.FriendsListActivity" >
+        </activity>
+        
+        <activity android:name="com.furdey.shopping.activities.SocialMessageActivity"
+            android:label="@string/socialMessageTitle" >
+        </activity>
+
+        <activity android:name="com.furdey.shopping.activities.AboutAppActivity"
+            android:theme="@style/AboutAppStyle"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <activity android:name="com.facebook.LoginActivity"/>
+        
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
+
+		<receiver android:name="com.furdey.shopping.widgets.ShoppingListWidgetProvider"
+		    android:label="@string/shoppingListWidgetLabel" >
+		    <intent-filter>
+		        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+		    </intent-filter>
+		    <meta-data android:name="android.appwidget.provider"
+		               android:resource="@xml/widget_info_shoppinglist" />
+		</receiver>
+		
+        <provider
+	    	android:authorities="com.furdey.shopping.contentproviders.PurchasesContentProvider"
+	    	android:name="com.furdey.shopping.contentproviders.PurchasesContentProvider"
+	    	android:exported="false" >
+		</provider> 
+
+        <provider
+	    	android:authorities="com.furdey.shopping.contentproviders.UnitsContentProvider"
+	    	android:name="com.furdey.shopping.contentproviders.UnitsContentProvider"
+	    	android:exported="false" >
+		</provider> 
+
+        <provider
+	    	android:authorities="com.furdey.shopping.contentproviders.GoodsCategoriesContentProvider"
+	    	android:name="com.furdey.shopping.contentproviders.GoodsCategoriesContentProvider"
+	    	android:exported="false" >
+		</provider> 
+
+        <provider
+	    	android:authorities="com.furdey.shopping.contentproviders.GoodsContentProvider"
+	    	android:name="com.furdey.shopping.contentproviders.GoodsContentProvider"
+	    	android:exported="false" >
+		</provider> 
+
+        <provider
+	    	android:authorities="com.furdey.shopping.contentproviders.GoodsStatisticsContentProvider"
+	    	android:name="com.furdey.shopping.contentproviders.GoodsStatisticsContentProvider"
+	    	android:exported="false" >
+		</provider> 
+
+        <provider
+	    	android:authorities="com.furdey.shopping.contentproviders.CategoriesStatisticsContentProvider"
+	    	android:name="com.furdey.shopping.contentproviders.CategoriesStatisticsContentProvider"
+	    	android:exported="false" >
+		</provider> 
+
+        <service
+		     android:name="com.furdey.shopping.widgets.ShoppingListRemoteViewsService"
+		     android:exported="false"
+		     android:permission="android.permission.BIND_REMOTEVIEWS" >
+		</service>
+		        
+    </application>
+
+</manifest>

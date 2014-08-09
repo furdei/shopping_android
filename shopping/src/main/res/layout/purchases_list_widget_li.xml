@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    style="@style/GridItem">
+    
+	<RelativeLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="@dimen/listItemHeight"
+		android:layout_marginLeft="@dimen/windowBorderLeft"
+		android:layout_marginRight="@dimen/windowBorderRight" >
+	    <!-- 
+	        <CheckBox
+	            android:id="@+id/purchasesListWidgetLiCheck"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerVertical="true"
+	            android:layout_alignParentLeft="true"
+	            android:clickable="false"
+	            android:focusable="false"
+	            android:text="" />
+	         -->
+	        <ImageView 
+	            android:id="@+id/purchasesListWidgetLiCheck"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:layout_centerVertical="true"
+	            android:src="@drawable/btn_check_off_holo"/> 
+	         
+	        <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical"
+	            android:layout_toRightOf="@id/purchasesListWidgetLiCheck"
+	            android:layout_centerVertical="true"
+	            android:layout_marginLeft="@dimen/marginLeft"
+	            android:layout_marginRight="@dimen/marginRight" >
+	            
+	            <RelativeLayout 
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content">
+	                
+			        <TextView
+			            android:id="@+id/purchasesListWidgetLiName"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:text="Водка &quot;Эталон&quot; гешефт"
+			            android:textAppearance="@android:style/TextAppearance.Medium"
+			            android:textColor="#ff000000"
+			            android:ellipsize="end"
+			            android:singleLine="true" />
+		
+			        <ImageView android:id="@+id/purchasesListWidgetLiStrike" 
+			            android:layout_width="wrap_content"
+			            android:layout_height="1dp"
+			            android:layout_centerVertical="true"
+			            android:background="@color/purchasesLiStrikeColor"
+			        	android:layout_alignLeft="@id/purchasesListWidgetLiName"
+			        	android:layout_alignRight="@id/purchasesListWidgetLiName"
+			        	android:visibility="gone" />
+		        	
+	            </RelativeLayout>
+	            
+		        <TextView
+		            android:id="@+id/purchasesListWidgetLiDescr"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="из слез девственниц"
+		            android:textAppearance="@android:style/TextAppearance.Small"
+		            android:textColor="#ff000000"
+		            android:visibility="gone"
+		            android:ellipsize="end"
+		            android:singleLine="true" />
+
+		    </LinearLayout>
+
+	</RelativeLayout>
+
+</LinearLayout>

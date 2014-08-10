@@ -1,4 +1,4 @@
-package com.furdey.engine.android.utils;
+package com.furdey.shopping.utils;
 
 import android.content.Context;
 

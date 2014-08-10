@@ -11,7 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.furdey.engine.android.utils.LogicException;
+import com.furdey.shopping.utils.LogicException;
 import com.furdey.shopping.R;
 import com.furdey.shopping.contentproviders.DatabaseHelper;
 import com.furdey.shopping.utils.PreferencesManager;

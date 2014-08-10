@@ -1,6 +1,7 @@
 package com.furdey.shopping.activities;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -31,7 +32,12 @@ public class SocialMessageActivity extends BaseActivity {
 		messagePreview.setText(controller.constructMessage(getString(R.string.socialMessageBase)));
 		saveButton.setText(R.string.socialMessageSend);
 		saveButton.setOnClickListener(controller.getSendButtonOnClickListener());
-		cancelButton.setOnClickListener(controller.getCancelButtonOnClickListener());
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 	}
 
 	public String getMessage() {

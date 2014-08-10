@@ -11,6 +11,7 @@ import android.net.Uri;
 import com.furdey.shopping.content.ContentUtils;
 import com.furdey.shopping.content.model.Goods;
 import com.furdey.shopping.content.model.GoodsCategory;
+import com.furdey.shopping.content.model.Purchase;
 
 public class PurchasesContentProvider extends
 		BaseContentProvider<com.furdey.shopping.contentproviders.PurchasesContentProvider.Columns> {
@@ -124,6 +125,7 @@ public class PurchasesContentProvider extends
 		values.put(Columns.FINDATE.name(), ContentUtils.DATE_INFINITY);
 		values.put(Columns.STANDARD.name(), ContentUtils.NONSTANDARD);
 		values.put(Columns.CHANGED.name(), ContentUtils.getCurrentDateAndTime());
+        values.put(Columns.STATE.name(), Purchase.PurchaseState.ENTERED.toString());
 
 		SQLiteDatabase db = getDbHelper().getDb();
 		long id = db.insert(PURCHSES_PATH, null, values);

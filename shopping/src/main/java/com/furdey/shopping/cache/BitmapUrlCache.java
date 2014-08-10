@@ -1,4 +1,4 @@
-package com.furdey.engine.android.cache;
+package com.furdey.shopping.cache;
 
 import java.io.File;
 import java.io.FileInputStream;

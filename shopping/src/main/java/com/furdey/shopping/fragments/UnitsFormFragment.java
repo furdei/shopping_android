@@ -22,7 +22,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.furdey.engine.common.utils.KeyValuePair;
+import com.furdey.shopping.utils.KeyValuePair;
 import com.furdey.shopping.R;
 import com.furdey.shopping.content.UnitsUtils;
 import com.furdey.shopping.content.model.Unit;

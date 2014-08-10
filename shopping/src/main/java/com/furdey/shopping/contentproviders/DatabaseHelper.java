@@ -9,7 +9,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.furdey.engine.common.utils.FileHelper;
+import com.furdey.shopping.utils.FileHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 

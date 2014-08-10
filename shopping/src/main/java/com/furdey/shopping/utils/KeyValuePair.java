@@ -1,4 +1,4 @@
-package com.furdey.engine.common.utils;
+package com.furdey.shopping.utils;
 
 public class KeyValuePair<K, V> {
 	private K key;

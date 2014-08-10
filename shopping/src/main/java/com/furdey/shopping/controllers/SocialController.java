@@ -1,5 +1,6 @@
 package com.furdey.shopping.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -9,15 +10,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-import com.furdey.engine.android.activities.DataLinkActivity;
-import com.furdey.engine.android.controllers.BaseController;
-import com.furdey.engine.android.utils.LogicException;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.widget.FacebookDialog;
 import com.furdey.shopping.R;
+import com.furdey.shopping.activities.AboutAppActivity;
+import com.furdey.shopping.activities.BaseActivity;
 import com.furdey.shopping.activities.SocialMessageActivity;
-import com.furdey.shopping.dao.db.DatabaseHelper;
 import com.furdey.shopping.listeners.OnFriendsLoadedListener;
 import com.furdey.social.SocialConnection;
 import com.furdey.social.SocialConnectionsPool;
+import com.furdey.social.android.SocialClient;
+import com.furdey.social.android.SocialClientsManager;
 import com.furdey.social.model.Person;
 import com.furdey.social.vk.api.GetFriendsRequest;
 import com.furdey.social.vk.api.GetFriendsResponse;
@@ -25,7 +29,7 @@ import com.furdey.social.vk.api.MessagesSendRequest;
 import com.furdey.social.vk.api.MessagesSendResponse;
 import com.furdey.social.vk.connector.VkConnection;
 
-public class SocialController extends BaseController<Void, DatabaseHelper> {
+public class SocialController {
 
 	private static final int MESSAGE_SEND_SLEEP_TIME_MILLIS = 400;
 
@@ -35,9 +39,10 @@ public class SocialController extends BaseController<Void, DatabaseHelper> {
 			.concat(".socialNetwork");
 	public static final String SOCIAL_NETWORK_VK = "VK";
 	public static final String PARAM_UIDS = SocialController.class.getCanonicalName().concat(".uids");
+    private Activity activity;
 
-	public SocialController(DataLinkActivity<DatabaseHelper> activity) {
-		super(activity);
+    public SocialController(Activity activity) {
+		this.activity = activity;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -142,7 +147,7 @@ public class SocialController extends BaseController<Void, DatabaseHelper> {
 					@Override
 					protected void onPostExecute(Void result) {
 						if (error != null)
-							throw new LogicException(getActivity(), R.string.errorUnknown, error);
+							throw new IllegalStateException(getActivity().getString(R.string.errorUnknown), error);
 
 						Toast.makeText(getActivity().getApplicationContext(), R.string.socialMessageSent,
 								Toast.LENGTH_LONG).show();
@@ -154,4 +159,133 @@ public class SocialController extends BaseController<Void, DatabaseHelper> {
 			}
 		};
 	}
+
+    public void createAboutActivity() {
+        Intent intent = new Intent(getActivity(), AboutAppActivity.class);
+        getActivity().startActivity(intent);
+    }
+
+    public void createShareVkActivity() {
+        SocialClient.sendMessage(
+                getActivity(),
+                SocialClientsManager.SocialNetwork.VK,
+                null,
+                getActivity().getString(R.string.socialMessageBase).concat(" ")
+                        .concat(getActivity().getString(R.string.socialMessageAddition))
+        );
+		/*
+		 * Intent intent = new Intent(getActivity(), VkLoginActivity.class);
+		 * getActivity().startActivity(intent);
+		 */
+    }
+
+    public void createShareFbActivity() {
+		/*
+		 * SocialClient.sendMessage( getActivity(), SocialNetwork.FACEBOOK, null,
+		 * getActivity().getString(R.string.socialMessageBase).concat(" ")
+		 * .concat(getActivity().getString(R.string.socialMessageAddition)));
+		 */
+
+        // start Facebook Login
+        Session session = Session.getActiveSession();
+        if (session != null && session.isOpened()) {
+            sendFbShareMessage(session);
+        } else {
+            List<String> permissions = new ArrayList<String>();
+            permissions.add("public_profile");
+            permissions.add("user_friends");
+            // permissions.add("publish_actions");
+            Session.openActiveSession(getActivity(), true, permissions, new Session.StatusCallback() {
+                // callback when session changes state
+                @Override
+                public void call(Session session, SessionState state, Exception exception) {
+                    sendFbShareMessage(session);
+                }
+            });
+        }
+    }
+
+    private void sendFbShare(Session session, String message, String link, String name, String iconUrl) {
+        if (session.isOpened()) {
+            FacebookDialog.ShareDialogBuilder builder = new FacebookDialog.ShareDialogBuilder(getActivity());
+            builder = builder.setApplicationName(getActivity().getString(R.string.appName));
+
+            if (message != null)
+                builder = builder.setDescription(getActivity().getString(R.string.socialMessageBase));
+            // .setCaption("Test message caption")
+
+            if (link != null)
+                builder = builder.setLink(getActivity().getString(R.string.socialMessageAddition));
+
+            if (name != null)
+                builder = builder.setName(getActivity().getString(R.string.socialMessageMsgTitle));
+            // .setRef("Test ref")
+
+            if (iconUrl != null)
+                builder = builder.setPicture(getActivity().getString(R.string.socialMessageIconUrl));
+
+            try {
+                ((BaseActivity) getActivity()).getUiLifecycleHelper().trackPendingDialogCall(
+                        builder.build().present());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void sendFbShareMessage(Session session) {
+        sendFbShare(session, getActivity().getString(R.string.socialMessageBase), getActivity()
+                        .getString(R.string.socialMessageAddition),
+                getActivity().getString(R.string.socialMessageMsgTitle),
+                getActivity().getString(R.string.socialMessageIconUrl));
+    }
+
+    public void createShareTwActivity() {
+        SocialClient.sendMessage(
+                getActivity(),
+                SocialClientsManager.SocialNetwork.TWITTER,
+                null,
+                getActivity().getString(R.string.socialMessageBase).concat(" ")
+                        .concat(getActivity().getString(R.string.socialMessageAddition)));
+    }
+
+    public void createShareGPActivity() {
+        SocialClient.sendMessage(
+                getActivity(),
+                SocialClientsManager.SocialNetwork.GOOGLE_PLUS,
+                null,
+                getActivity().getString(R.string.socialMessageBase).concat(" ")
+                        .concat(getActivity().getString(R.string.socialMessageAddition)));
+    }
+
+    public void createShareLIActivity() {
+        SocialClient.sendMessage(
+                getActivity(),
+                SocialClientsManager.SocialNetwork.LINKEDIN,
+                null,
+                getActivity().getString(R.string.socialMessageBase).concat(" ")
+                        .concat(getActivity().getString(R.string.socialMessageAddition)));
+    }
+
+    public void createShareSkActivity() {
+        SocialClient.sendMessage(
+                getActivity(),
+                SocialClientsManager.SocialNetwork.SKYPE,
+                null,
+                getActivity().getString(R.string.socialMessageBase).concat(" ")
+                        .concat(getActivity().getString(R.string.socialMessageAddition)));
+    }
+
+    public void createShareEmActivity() {
+        SocialClient.sendMessage(
+                getActivity(),
+                SocialClientsManager.SocialNetwork.EMAIL,
+                getActivity().getString(R.string.socialMessageMsgTitle),
+                getActivity().getString(R.string.socialMessageBase).concat(" ")
+                        .concat(getActivity().getString(R.string.socialMessageAddition)));
+    }
+
+    private Activity getActivity() {
+        return activity;
+    }
 }

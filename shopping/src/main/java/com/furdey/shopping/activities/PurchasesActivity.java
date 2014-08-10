@@ -1,10 +1,5 @@
 package com.furdey.shopping.activities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
@@ -39,7 +34,6 @@ import com.furdey.shopping.content.model.Goods;
 import com.furdey.shopping.content.model.GoodsCategory;
 import com.furdey.shopping.content.model.Purchase;
 import com.furdey.shopping.content.model.Purchase.PurchaseState;
-import com.furdey.shopping.controllers.PurchasesController;
 import com.furdey.shopping.fragments.GoodsCategoriesListFragment;
 import com.furdey.shopping.fragments.GoodsCategoriesListFragment.GoodsCategoriesListListener;
 import com.furdey.shopping.fragments.GoodsListFragment;
@@ -58,6 +52,11 @@ import com.furdey.shopping.utils.PreferencesManager.PurchasesSortOrder;
 import com.furdey.social.android.SocialClient;
 import com.furdey.social.android.SocialClientsManager.SocialNetwork;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class PurchasesActivity extends ActionBarActivity implements PurchasesListListener,
 		PurchasesFormListener, GoodsListListener, GoodsCategoriesListListener, LoaderCallbacks<Cursor>,
 		StatusCallback {
@@ -69,6 +68,7 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 	// public static final int PURCHASES_LIST_LOADER = 0;
 	private static final String TAG = PurchasesActivity.class.getSimpleName();
 	// private static final String GRID_STATE = "gridState";
+    public static final String RESULT_MESSAGE_PARAM_NAME = "com.furdey.shopping.activities.PurchasesController.messageId";
 
 	// private Purchase contextModel;
 	// private PurchasesController controller;
@@ -101,7 +101,8 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 	private static final String GOODS_LIST_LOADER_FILTER = "goodsFilter";
 	private static final String CATEGORIES_LIST_LOADER_FILTER = "categoriesFilter";
 
-	@Override
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// setUpButtonEnabled(false); // This is for the top-level activity only
 		super.onCreate(savedInstanceState);
@@ -245,12 +246,12 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 		Intent data = getIntent();
 
 		if (data != null) {
-			Integer messageId = data.getIntExtra(PurchasesController.RESULT_MESSAGE_PARAM_NAME,
+			Integer messageId = data.getIntExtra(RESULT_MESSAGE_PARAM_NAME,
 					RESULT_EMPTY);
 
 			if (messageId != RESULT_EMPTY) {
 				Toast.makeText(this, messageId, Toast.LENGTH_LONG).show();
-				data.putExtra(PurchasesController.RESULT_MESSAGE_PARAM_NAME, RESULT_EMPTY);
+				data.putExtra(RESULT_MESSAGE_PARAM_NAME, RESULT_EMPTY);
 			}
 		}
 

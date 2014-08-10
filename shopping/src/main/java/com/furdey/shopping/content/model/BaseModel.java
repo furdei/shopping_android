@@ -1,11 +1,11 @@
 package com.furdey.shopping.content.model;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import com.furdey.shopping.dao.BaseDao;
+import com.furdey.shopping.utils.DateUtils;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * A <code>BaseModel</code> class takes care of filling <code>changed</code>
@@ -26,16 +26,16 @@ public class BaseModel implements Serializable {
 	@DatabaseField(generatedId = true, columnName = ID_FIELD_NAME)
 	private Long id;
 
-	@DatabaseField(canBeNull = false, dataType = DataType.DATE, format = BaseDao.DATETIME_FORMAT)
+	@DatabaseField(canBeNull = false, dataType = DataType.DATE, format = DateUtils.DATETIME_FORMAT)
 	private Date changed;
 
-	@DatabaseField(canBeNull = true, dataType = DataType.DATE, format = BaseDao.DATETIME_FORMAT)
+	@DatabaseField(canBeNull = true, dataType = DataType.DATE, format = DateUtils.DATETIME_FORMAT)
 	private Date deleted;
 
 	@DatabaseField(canBeNull = false, dataType = DataType.BOOLEAN_OBJ)
 	private Boolean standard;
 
-	@DatabaseField(canBeNull = true, dataType = DataType.DATE, format = BaseDao.DATETIME_FORMAT)
+	@DatabaseField(canBeNull = true, dataType = DataType.DATE, format = DateUtils.DATETIME_FORMAT)
 	private Date synchronizedtm;
 
 	public BaseModel() {

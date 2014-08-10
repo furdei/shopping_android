@@ -1,7 +1,5 @@
 package com.furdey.shopping.widgets;
 
-import java.util.Arrays;
-
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -13,11 +11,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.widget.RemoteViews;
 
-import com.furdey.engine.android.controllers.BaseController;
 import com.furdey.shopping.R;
 import com.furdey.shopping.activities.GoodsActivity;
 import com.furdey.shopping.activities.PurchasesActivity;
-import com.furdey.shopping.controllers.BaseFilterController;
+
+import java.util.Arrays;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ShoppingListWidgetProvider extends AppWidgetProvider {
@@ -82,7 +80,7 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
 
 			// По клику на плюс открывать окно добавления покупки
 			Intent newRecordIntent = new Intent(context, GoodsActivity.class);
-			newRecordIntent.putExtra(BaseController.STATE_PARAM_NAME, BaseFilterController.STATE_LOOKUP);
+			//newRecordIntent.putExtra(BaseController.STATE_PARAM_NAME, BaseFilterController.STATE_LOOKUP);
 			PendingIntent newRecordPendingIntent = PendingIntent.getActivity(context, 0, newRecordIntent,
 					PendingIntent.FLAG_UPDATE_CURRENT);
 			rv.setOnClickPendingIntent(R.id.shoppingListWidgetNewRecord, newRecordPendingIntent);

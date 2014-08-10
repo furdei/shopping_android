@@ -5,16 +5,15 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
 import com.bugsense.trace.BugSenseHandler;
 import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.furdey.engine.android.activities.DataLinkActivity;
-import com.furdey.shopping.dao.db.DatabaseHelper;
 
-public class BaseActivity extends DataLinkActivity<DatabaseHelper> implements StatusCallback {
+public class BaseActivity extends ActionBarActivity implements StatusCallback {
 
 	private static final String APIKEY = "YOURAPIKEY";
 	private UiLifecycleHelper uiLifecycleHelper;

@@ -2,9 +2,6 @@ package com.furdey.shopping.utils;
 
 import android.app.Application;
 
-import com.furdey.engine.android.utils.Settings;
-import com.furdey.shopping.R;
-
 public class ShoppingApplication extends Application {
 
 	@Override
@@ -20,7 +17,7 @@ public class ShoppingApplication extends Application {
 		// Menu bindings:
 		// MenuConfiguration.configureOptionsMenu();
 
-		Settings.getInstance().setUnknownError(R.string.errorUnknown);
+		//Settings.getInstance().setUnknownError(R.string.errorUnknown);
 	}
 
 	@Override

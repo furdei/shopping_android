@@ -1,14 +1,14 @@
 package com.furdey.shopping.content;
 
+import android.annotation.SuppressLint;
+import android.database.Cursor;
+
+import com.furdey.shopping.utils.DateUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import android.annotation.SuppressLint;
-import android.database.Cursor;
-
-import com.furdey.shopping.dao.BaseDao;
 
 public class ContentUtils {
 
@@ -22,8 +22,8 @@ public class ContentUtils {
 
 	private static final String ERROR_PARSING_DATE = "Error parsing date %s";
 
-	private static final SimpleDateFormat sdf = new SimpleDateFormat(BaseDao.DATE_FORMAT, Locale.US);
-	private static final SimpleDateFormat sdtf = new SimpleDateFormat(BaseDao.DATETIME_FORMAT,
+	private static final SimpleDateFormat sdf = new SimpleDateFormat(DateUtils.DATE_FORMAT, Locale.US);
+	private static final SimpleDateFormat sdtf = new SimpleDateFormat(DateUtils.DATETIME_FORMAT,
 			Locale.US);
 
 	public static final SimpleDateFormat getDateFormat() {

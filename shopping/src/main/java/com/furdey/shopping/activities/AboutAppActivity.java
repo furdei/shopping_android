@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.furdey.shopping.R;
-import com.furdey.shopping.controllers.PurchasesController;
+import com.furdey.shopping.controllers.SocialController;
 import com.furdey.social.android.SocialClientsManager;
 import com.furdey.social.android.SocialClientsManager.SocialNetwork;
 
@@ -26,7 +26,7 @@ public class AboutAppActivity extends BaseActivity {
 	private View shareGr1;
 	private View shareGr2;
 
-	private PurchasesController controller;
+	private SocialController controller;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class AboutAppActivity extends BaseActivity {
 			e.printStackTrace();
 			throw new RuntimeException("Failed to retreive app version", e);
 		}
-		controller = new PurchasesController(this);
+		controller = new SocialController(this);
 
 		if (isNetworkAvailable()) {
 			if (SocialClientsManager.isClientInstalled(this, SocialNetwork.VK))

@@ -9,7 +9,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.furdey.engine.android.utils.LogicException;
+import com.furdey.shopping.utils.LogicException;
 import com.furdey.shopping.R;
 import com.furdey.social.SocialConnectionsPool;
 import com.furdey.social.vk.connector.VkConnection;

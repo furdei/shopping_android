@@ -6,7 +6,7 @@ import android.support.v4.app.DialogFragment;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.furdey.engine.android.cache.BitmapUrlCache;
+import com.furdey.shopping.cache.BitmapUrlCache;
 import com.furdey.shopping.R;
 import com.furdey.social.model.Person;
 

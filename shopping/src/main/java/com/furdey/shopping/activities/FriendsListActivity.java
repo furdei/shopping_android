@@ -1,7 +1,5 @@
 package com.furdey.shopping.activities;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -22,12 +20,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.furdey.engine.android.cache.BitmapUrlCache;
 import com.furdey.shopping.R;
+import com.furdey.shopping.cache.BitmapUrlCache;
 import com.furdey.shopping.controllers.SocialController;
 import com.furdey.shopping.listeners.OnFriendsLoadedListener;
 import com.furdey.social.model.Person;
 import com.furdey.social.vk.connector.VkConnection;
+
+import java.util.List;
 
 /**
  * Список друзей.

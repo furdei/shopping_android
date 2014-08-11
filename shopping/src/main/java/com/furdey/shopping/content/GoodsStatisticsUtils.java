@@ -112,9 +112,12 @@ public class GoodsStatisticsUtils {
 					getContentValues(goodsStatistics, false));
 		} else {
 			// update an existing one
-			goodsStatistics.setBuyCount(goodsStatistics.getBuyCount() + 1);
+			goodsStatistics.setBuyCount(goodsStatistics.getBuyCount() + count);
 
-			context.getContentResolver().update(
+            if (goodsStatistics.getBuyCount() < 0)
+                goodsStatistics.setBuyCount(0);
+
+            context.getContentResolver().update(
 					ContentUris.withAppendedId(GoodsStatisticsContentProvider.GOODS_STATISTICS_URI,
 							goodsStatistics.getId()), getContentValues(goodsStatistics, false), null, null);
 		}

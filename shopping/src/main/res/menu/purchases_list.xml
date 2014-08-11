@@ -58,31 +58,13 @@
 			        android:orderInCategory="100"
 			        android:showAsAction="never"
 			        android:title="@string/menuPurchasesListSendListVK"/>                
-<!--                 
-			    <item
-			        android:id="@+id/menuPurchasesListSendListFB"
-			        android:orderInCategory="200"
-			        android:showAsAction="never"
-			        android:title="@string/menuPurchasesListSendListFB"/>                
-                
-			    <item
-			        android:id="@+id/menuPurchasesListSendListTw"
-			        android:orderInCategory="300"
-			        android:showAsAction="never"
-			        android:title="@string/menuPurchasesListSendListTw"/>                
- -->                
+
 			    <item
 			        android:id="@+id/menuPurchasesListSendListGP"
 			        android:orderInCategory="400"
 			        android:showAsAction="never"
 			        android:title="@string/menuPurchasesListSendListGP"/>                
-<!--                
-			    <item
-			        android:id="@+id/menuPurchasesListSendListLI"
-			        android:orderInCategory="500"
-			        android:showAsAction="never"
-			        android:title="@string/menuPurchasesListSendListLI"/>                
--->                
+
 			    <item
 			        android:id="@+id/menuPurchasesListSendListSk"
 			        android:orderInCategory="600"

@@ -51,16 +51,6 @@ public class ContentUtils {
 		return getDateTimeFormat().format(new Date());
 	}
 
-	public static Date getDateTimeFromCursor(Cursor cursor, int field) {
-		try {
-			String date = cursor.getString(field);
-			return (date == null) ? null : getDateTimeFormat().parse(date);
-		} catch (ParseException e) {
-			throw new IllegalStateException("Date ".concat(cursor.getString(field))
-					.concat(" doesn't meet the format ").concat(DATETIME_FORMAT));
-		}
-	}
-
 	@SuppressLint("SimpleDateFormat")
 	public static Date getDateFromCursor(Cursor cursor, int field) {
 		try {

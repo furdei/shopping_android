@@ -101,9 +101,7 @@ public class GoodsCategoriesUtils {
 		return contentValues;
 	}
 
-	public static Uri saveGoodsCategory(Context context, GoodsCategory goodsCategory)
-			throws ContentException {
-
+	public static Uri saveGoodsCategory(Context context, GoodsCategory goodsCategory) {
 		if (goodsCategory.getId() == null) {
 			return context.getContentResolver().insert(
 					GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI,

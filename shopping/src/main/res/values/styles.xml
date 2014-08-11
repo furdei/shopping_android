@@ -34,12 +34,7 @@
     <style name="goodsCategoriesLiDescrNewRecordStyle" parent="@android:style/TextAppearance.Small">
         <item name="android:textColor">@color/newRecordColor</item>
     </style>
-<!--     
-    <style name="purchasesLiCategoryStyle" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@color/purchasesLiCategoryBackgroundColor</item>
-    </style>
- -->    
+
     <color name="formControlsSeparatorColor">#dbdbdb</color>
     <color name="purchasesLiStrikeColor">#000000</color>
     <color name="newRecordColor">#ff0000</color>

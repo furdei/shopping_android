@@ -1,8 +1,5 @@
 package com.furdey.shopping.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -22,12 +19,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.furdey.shopping.utils.KeyValuePair;
 import com.furdey.shopping.R;
 import com.furdey.shopping.content.UnitsUtils;
 import com.furdey.shopping.content.model.Unit;
 import com.furdey.shopping.content.model.Unit.UnitType;
+import com.furdey.shopping.utils.KeyValuePair;
 import com.furdey.shopping.utils.TemplateRunnable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UnitsFormFragment extends Fragment {
 
@@ -288,7 +288,7 @@ public class UnitsFormFragment extends Fragment {
 				if (result == null || (unit.getId() != null && result.getId().equals(unit.getId()))) {
 					// there are no same units found - success
 					// or maybe the found one is the same unit that we're going to save
-					listener.onSaveUnit(unit);
+                    callback.run(unit);
 				} else {
 					if (result.getName() != null && unit.getName() != null
 							&& result.getName().equals(unit.getName())) {

@@ -7,12 +7,7 @@
     android:orientation="vertical"
     android:layout_gravity="center_horizontal"
     android:background="@color/background_holo_light" >
-<!--     
-    <ScrollView
-	    android:layout_width="match_parent"
-	    android:layout_height="0dp"
-	    android:layout_weight="1" >
- -->        
+
 		<RelativeLayout
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content">
@@ -87,24 +82,9 @@
 		        android:verticalSpacing="@dimen/marginTop"
 		        android:layout_marginBottom="@dimen/buttonsBlockHeight"
 		        android:clickable="true" />
-<!-- 		    
-		        android:horizontalSpacing="@dimen/marginLeft"
-		        android:verticalSpacing="@dimen/marginTop"
 
-		    <Gallery 
-		        android:id="@+id/goodsCategoriesFmIconsGallery"
-		        android:layout_width="match_parent"
-		        android:layout_height="@dimen/goodsIconFormHeight"
-		        android:layout_below="@id/goodsCategoriesFmIconRow"
-		        android:layout_marginTop="@dimen/marginTop"
-		        android:layout_marginBottom="@dimen/marginBottom"
-		        android:layout_marginLeft="@dimen/marginOuterLeft"
-		        android:layout_marginRight="@dimen/marginOuterRight"/>
- -->		    
 		</RelativeLayout>
-		    
-    <!-- </ScrollView> -->
-    
+
     <include layout="@layout/cancel_save_buttons" />
 
 </LinearLayout>

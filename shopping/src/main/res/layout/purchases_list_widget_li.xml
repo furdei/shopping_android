@@ -10,17 +10,7 @@
 	    android:layout_height="@dimen/listItemHeight"
 		android:layout_marginLeft="@dimen/windowBorderLeft"
 		android:layout_marginRight="@dimen/windowBorderRight" >
-	    <!-- 
-	        <CheckBox
-	            android:id="@+id/purchasesListWidgetLiCheck"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_centerVertical="true"
-	            android:layout_alignParentLeft="true"
-	            android:clickable="false"
-	            android:focusable="false"
-	            android:text="" />
-	         -->
+
 	        <ImageView 
 	            android:id="@+id/purchasesListWidgetLiCheck"
 	            android:layout_width="wrap_content"

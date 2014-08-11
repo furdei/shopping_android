@@ -1,10 +1,5 @@
 package com.furdey.shopping.content;
 
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -22,6 +17,11 @@ import com.furdey.shopping.contentproviders.PurchasesContentProvider;
 import com.furdey.shopping.contentproviders.PurchasesContentProvider.Columns;
 import com.furdey.shopping.utils.PreferencesManager;
 import com.furdey.shopping.utils.PreferencesManager.PurchasesSortOrder;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class PurchasesUtils {
 
@@ -166,7 +166,7 @@ public class PurchasesUtils {
 		return contentValues;
 	}
 
-	public static Uri savePurchase(Context context, Purchase purchase) throws ContentException {
+	public static Uri savePurchase(Context context, Purchase purchase) {
 		// create a new goods if it does not exist
 		Goods goods = purchase.getGoods();
 

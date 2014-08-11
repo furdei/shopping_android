@@ -1,10 +1,10 @@
 package com.furdey.shopping.utils;
 
-import com.furdey.shopping.contentproviders.PurchasesContentProvider;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+
+import com.furdey.shopping.contentproviders.PurchasesContentProvider;
 
 public class PreferencesManager {
 	private static final String APP_PREFERENCES = "com.furdey.shopping";
@@ -17,11 +17,6 @@ public class PreferencesManager {
 	private static final String PREF_LIKE_CHECK_DATE = "likeCheckDate";
 	private static final String PREF_LIKE_CHECK_PERIOD = "likeCheckPeriod";
 	private static final String PREF_RUN_COUNT = "runCount";
-
-	// public static final long SHARE_DELAY = 1000 * 60;
-	// public static final long SHARE_LATER_DELAY = 1000 * 60;
-	// public static final long LIKE_DELAY = 1000 * 60;
-	// public static final long LIKE_LATER_DELAY = 1000 * 60;
 
 	public static final long SHARE_RUN_THRESHOLD = 5;
 	public static final long SHARE_DELAY = 1000 * 3600 * 24 * 7;

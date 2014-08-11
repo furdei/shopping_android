@@ -15,8 +15,6 @@ import com.furdey.shopping.R;
 import com.furdey.shopping.activities.GoodsActivity;
 import com.furdey.shopping.activities.PurchasesActivity;
 
-import java.util.Arrays;
-
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ShoppingListWidgetProvider extends AppWidgetProvider {
 
@@ -24,10 +22,8 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
 			.concat(".widgetIDs");
 
 	public static void updateWidgets(Context context) {
-		System.out.println("ShoppingListWidgetProvider.updateWidgets()");
 		AppWidgetManager man = AppWidgetManager.getInstance(context);
 		int[] ids = man.getAppWidgetIds(new ComponentName(context, ShoppingListWidgetProvider.class));
-		System.out.println("ShoppingListWidgetProvider.updateWidgets() ids: " + Arrays.toString(ids));
 		Intent updateIntent = new Intent();
 		updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
 		updateIntent.putExtra(WIDGET_IDS_KEY, ids);
@@ -36,10 +32,8 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		System.out.println("ShoppingListWidgetProvider.onReceive()");
 		if (intent.hasExtra(WIDGET_IDS_KEY)) {
 			int[] ids = intent.getExtras().getIntArray(WIDGET_IDS_KEY);
-			System.out.println("ShoppingListWidgetProvider.onReceive() ids=" + Arrays.toString(ids));
 			AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(ids,
 					R.id.shoppingListGrid);
 		} else
@@ -49,7 +43,6 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		System.out.println("ShoppingListWidgetProvider.onUpdate()");
 		// update each of the app widgets with the remote adapter
 		for (int i = 0; i < appWidgetIds.length; ++i) {
 			System.out.println("ShoppingListWidgetProvider.onUpdate() i=" + i + " id=" + appWidgetIds[i]);
@@ -69,18 +62,16 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
 			else
 				rv.setRemoteAdapter(appWidgetIds[i], R.id.shoppingListGrid, intent);
 
-			// rv.setRemoteAdapter(R.id.shoppingListGrid, intent);
 			rv.setEmptyView(R.id.shoppingListGrid, R.id.shoppingListGridEmpty);
 
-			// По клику на лого открывать главное окно приложения
+			// Start the main activity when user clicks an icon
 			Intent showPurchasesListIntent = new Intent(context, PurchasesActivity.class);
 			PendingIntent showPurchasesListPendingIntent = PendingIntent.getActivity(context, 0,
 					showPurchasesListIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 			rv.setOnClickPendingIntent(R.id.shoppingListWidgetLogo, showPurchasesListPendingIntent);
 
-			// По клику на плюс открывать окно добавления покупки
+			// Start 'Add a purchase' activity when user click an 'add' icon
 			Intent newRecordIntent = new Intent(context, GoodsActivity.class);
-			//newRecordIntent.putExtra(BaseController.STATE_PARAM_NAME, BaseFilterController.STATE_LOOKUP);
 			PendingIntent newRecordPendingIntent = PendingIntent.getActivity(context, 0, newRecordIntent,
 					PendingIntent.FLAG_UPDATE_CURRENT);
 			rv.setOnClickPendingIntent(R.id.shoppingListWidgetNewRecord, newRecordPendingIntent);

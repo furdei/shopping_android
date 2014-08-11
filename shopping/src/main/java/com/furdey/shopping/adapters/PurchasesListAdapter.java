@@ -18,11 +18,8 @@ import com.furdey.shopping.tasks.LoadIconTask;
 public class PurchasesListAdapter extends CursorAdapter {
 	private ViewHolder viewHolder;
 
-	// private Context context;
-
 	public PurchasesListAdapter(Context context) {
 		super(context, null, 0);
-		// this.context = context;
 	}
 
 	@Override
@@ -42,28 +39,6 @@ public class PurchasesListAdapter extends CursorAdapter {
 			viewHolder.categoryIconInd = cursor
 					.getColumnIndex(PurchasesContentProvider.Columns.GOODSCATEGORY_ICON.toString());
 		}
-
-		// boolean isCategoryVisible = false;
-		// int pos = cursor.getPosition();
-		// String category = cursor.getString(viewHolder.categoryNameInd);
-		//
-		// if (pos == 0)
-		// isCategoryVisible = true;
-		// else {
-		// cursor.moveToPrevious();
-		// String prvCategory = cursor.getString(viewHolder.categoryNameInd);
-		// cursor.moveToNext();
-		//
-		// isCategoryVisible = category.compareTo(prvCategory) != 0;
-		// }
-		//
-		// TextView categoryText = (TextView)
-		// view.findViewById(R.id.purchasesLiCategory);
-		// if (isCategoryVisible) {
-		// categoryText.setText(category);
-		// categoryText.setVisibility(View.VISIBLE);
-		// } else
-		// categoryText.setVisibility(View.GONE);
 
 		String iconName = cursor.getString(viewHolder.categoryIconInd);
 		ImageView icon = (ImageView) view.findViewById(R.id.purchasesLiIcon);

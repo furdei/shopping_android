@@ -23,7 +23,6 @@ public class ShoppingListRemoteViewsFactory implements RemoteViewsFactory {
 	private Cursor mCursor;
 
 	public ShoppingListRemoteViewsFactory(Context context, Intent intent) {
-		System.out.println("ShoppingListRemoteViewsFactory.ShoppingListRemoteViewsFactory()");
 		mContext = context;
 
 	}
@@ -41,7 +40,6 @@ public class ShoppingListRemoteViewsFactory implements RemoteViewsFactory {
 	}
 
 	public int getCount() {
-		System.out.println("ShoppingListRemoteViewsFactory.getCount(): " + mCursor.getCount());
 		return mCursor.getCount();
 	}
 
@@ -80,13 +78,6 @@ public class ShoppingListRemoteViewsFactory implements RemoteViewsFactory {
 			rv.setImageViewResource(R.id.purchasesListWidgetLiCheck, R.drawable.btn_check_off_holo);
 			rv.setViewVisibility(R.id.purchasesListWidgetLiStrike, View.GONE);
 		}
-
-		// // Set the click intent so that we can handle it and show a toast message
-		// final Intent fillInIntent = new Intent();
-		// final Bundle extras = new Bundle();
-		// extras.putString(WeatherWidgetProvider.EXTRA_CITY_ID, city);
-		// fillInIntent.putExtras(extras);
-		// rv.setOnClickFillInIntent(R.id.widget_item, fillInIntent);
 
 		return rv;
 	}

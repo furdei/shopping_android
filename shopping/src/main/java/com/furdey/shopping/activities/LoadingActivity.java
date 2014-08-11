@@ -1,20 +1,20 @@
 package com.furdey.shopping.activities;
 
-import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.furdey.shopping.utils.LogicException;
 import com.furdey.shopping.R;
 import com.furdey.shopping.contentproviders.DatabaseHelper;
+import com.furdey.shopping.utils.LogicException;
 import com.furdey.shopping.utils.PreferencesManager;
+
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class LoadingActivity extends Activity {
 
@@ -24,8 +24,6 @@ public class LoadingActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// TODO: Remove this when possible
-		// deleteDatabase(DatabaseHelper.DATABASE_NAME);
 
 		final long start = System.currentTimeMillis();
 		final Activity activity = this;

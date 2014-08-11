@@ -10,7 +10,6 @@ public class ShoppingListRemoteViewsService extends RemoteViewsService {
 
 	@Override
 	public RemoteViewsFactory onGetViewFactory(Intent intent) {
-		System.out.println("ShoppingListRemoteViewsService.onGetViewFactory()");
 		return new ShoppingListRemoteViewsFactory(this.getApplicationContext(), intent);
 	}
 

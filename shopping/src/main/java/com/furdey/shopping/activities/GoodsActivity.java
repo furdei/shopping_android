@@ -29,15 +29,7 @@ import com.furdey.shopping.tasks.ToastThrowableAsyncTask;
 public class GoodsActivity extends ActionBarActivity implements GoodsListListener,
 		GoodsFormListener, GoodsCategoriesListListener, LoaderCallbacks<Cursor> {
 
-	// public static Intent getLaunchIntent(Context context, Mode mode) {
-	// Intent intent = new Intent(context, GoodsActivity.class);
-	// intent.putExtra(MODE_PARAM, mode.toString());
-	// return intent;
-	// }
-
 	private static final String TAG = GoodsActivity.class.getCanonicalName();
-
-	// private static final String MODE_PARAM = "mode";
 
 	private static final String GOODS_LIST_TAG = "goodsListTag";
 	private static final String GOODS_FORM_TAG = "goodsFormTag";

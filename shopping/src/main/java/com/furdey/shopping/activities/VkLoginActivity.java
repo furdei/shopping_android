@@ -37,11 +37,6 @@ public class VkLoginActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.vk_login);
 		webView = (WebView) findViewById(R.id.vkLoginWeb);
-
-		// webView.setWebChromeClient(new WebChromeClient());
-		// webView.getSettings().setPluginState(PluginState.ON);
-		// webView.getSettings().setJavaScriptEnabled(true);
-		// webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 		webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 		webView.setWebViewClient(new WebViewClient() {
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -62,21 +57,6 @@ public class VkLoginActivity extends BaseActivity {
 					intent.putExtra(FriendsListActivity.MESSAGE_PARAM,
 							getIntent().getStringExtra(FriendsListActivity.MESSAGE_PARAM));
 					startActivityForResult(intent, REQUEST_FRIENDS);
-
-					// controller = new SocialController(VkLoginActivity.this);
-					// controller.getFriendsList(VkConnection.class, new
-					// OnFriendsLoadedListener() {
-					// @Override
-					// public void onFriendsLoaded(List<Person> friends) {
-					// String[] uids = new String[friends.size()];
-					// for (int i = 0; i < friends.size(); i++) {
-					// uids[i] = friends.get(i).getId();
-					// }
-					// controller.editSocialMessage(uids,
-					// SocialController.SOCIAL_NETWORK_VK);
-					// finish();
-					// }
-					// });
 				} else
 					view.loadUrl(url);
 
@@ -98,30 +78,7 @@ public class VkLoginActivity extends BaseActivity {
 
 		String url = String.format(AUTHORISE_URL, CLIENT_ID, SCOPE, REDIRECT_URI, DISPLAY,
 				RESPONSE_TYPE);
-		/*
-		 * ConnectionFactoryRegistry connectionFactoryRegistry = new
-		 * ConnectionFactoryRegistry();
-		 * 
-		 * FacebookConnectionFactory facebookConnectionFactory; String appId =
-		 * "285472548253698"; String appSecret = "0acb8e6326b7d272e7bb244218162245";
-		 * facebookConnectionFactory = new FacebookConnectionFactory(appId,
-		 * appSecret);
-		 * connectionFactoryRegistry.addConnectionFactory(facebookConnectionFactory
-		 * );
-		 * 
-		 * FacebookConnectionFactory connectionFactory; connectionFactory =
-		 * (FacebookConnectionFactory) connectionFactoryRegistry
-		 * .getConnectionFactory(Facebook.class); String redirectUri =
-		 * "https://www.facebook.com/connect/login_success.html"; String scope =
-		 * "publish_stream,offline_access,read_stream,user_about_me";
-		 * 
-		 * OAuth2Parameters parameters = new OAuth2Parameters();
-		 * parameters.setRedirectUri(redirectUri); parameters.setScope(scope);
-		 * parameters.add("display", "touch");
-		 * 
-		 * OAuth2Operations oauth = connectionFactory.getOAuthOperations(); String
-		 * url = oauth.buildAuthorizeUrl(GrantType.IMPLICIT_GRANT, parameters);
-		 */
+
 		webView.loadUrl(url);
 	}
 

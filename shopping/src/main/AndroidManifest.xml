@@ -13,7 +13,6 @@
         android:targetSdkVersion="19" />
 
     <application
-        android:name="com.furdey.shopping.utils.ShoppingApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/appName"

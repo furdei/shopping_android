@@ -65,7 +65,6 @@ public class FriendsListActivity extends BaseActivity {
 	}
 
 	private SocialController controller;
-	// private boolean isSendMessageVisible = false;
 
 	private ListView grid;
 
@@ -86,8 +85,6 @@ public class FriendsListActivity extends BaseActivity {
 				grid.setAdapter(adapter);
 			}
 		});
-		// grid.setItemsCanFocus(false);
-		// grid.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		grid.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
@@ -117,24 +114,6 @@ public class FriendsListActivity extends BaseActivity {
 						});
 
 				builder.create().show();
-				// boolean newState = grid.isItemChecked(arg2);
-				//
-				// if (!newState) {
-				// boolean selected = false;
-				// for (int i = 0; i < grid.getCount() && !selected; i++)
-				// if (grid.isItemChecked(i))
-				// selected = true;
-				//
-				// if (isSendMessageVisible && !selected) {
-				// isSendMessageVisible = false;
-				// ActivityCompat.invalidateOptionsMenu(activity);
-				// }
-				// }
-				//
-				// if (!isSendMessageVisible && newState) {
-				// isSendMessageVisible = true;
-				// ActivityCompat.invalidateOptionsMenu(activity);
-				// }
 			}
 		});
 
@@ -153,43 +132,5 @@ public class FriendsListActivity extends BaseActivity {
 		startActivity(new Intent(this, PurchasesActivity.class));
 		super.onBackPressed();
 	}
-
-	// @Override
-	// public boolean onPrepareOptionsMenu(Menu menu) {
-	// menu.findItem(R.id.menuFriendsListSendMessage).setVisible(isSendMessageVisible);
-	// return super.onPrepareOptionsMenu(menu);
-	// }
-	//
-	// @Override
-	// public boolean onOptionsItemSelected(MenuItem item) {
-	// switch (item.getItemId()) {
-	// case R.id.menuFriendsListSendMessage:
-	// ArrayList<String> seletedFriends = new ArrayList<String>();
-	//
-	// for (int i = 0; i < grid.getCount(); i++)
-	// if (grid.isItemChecked(i)) {
-	// seletedFriends.add(((ModelListAdapter)
-	// grid.getAdapter()).getItem(i).getId());
-	// }
-	//
-	// controller.editSocialMessage(seletedFriends.toArray(new
-	// String[seletedFriends.size()]),
-	// SocialController.SOCIAL_NETWORK_VK);
-	// return true;
-	// }
-	//
-	// return super.onOptionsItemSelected(item);
-	// }
-
-	// @Override
-	// protected void onActivityResult(int requestCode, int resultCode, Intent
-	// data) {
-	// if (requestCode == SocialController.REQUEST_MESSAGE && resultCode ==
-	// RESULT_OK) {
-	// finish();
-	// return;
-	// }
-	// super.onActivityResult(requestCode, resultCode, data);
-	// }
 
 }

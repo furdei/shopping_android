@@ -172,7 +172,7 @@ public class GoodsCategoriesFormFragment extends Fragment {
 				if (result == null || (category.getId() != null && result.getId().equals(category.getId()))) {
 					// there are no same units found - success
 					// or maybe the found one is the same unit that we're going to save
-					listener.onSaveCategory(category);
+                    callback.run(result);
 				} else {
 					nameEdit.setError(getString(R.string.goodsCategoriesFmErrorAlreadyExists));
 				}

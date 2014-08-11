@@ -102,24 +102,7 @@ public class UnitsUtils {
 		return contentValues;
 	}
 
-	public static Uri saveUnit(Context context, Unit unit) throws ContentException {
-		// Cursor unitsByNameOrDescr = getUnitsByNameOrDescr(context,
-		// unit.getName(), unit.getDescr());
-		//
-		// while (unitsByNameOrDescr.moveToNext()) {
-		// if (unit.getId() == null) {
-		// // we're trying to add a new row but there are some already in the DB
-		// throw new ContentException(context, R.string.unitsFmErrorAlreadyExists);
-		// } else {
-		// Unit unitByNameOrDescr = fromCursor(unitsByNameOrDescr);
-		//
-		// if (unitByNameOrDescr.getId().compareTo(unit.getId()) != 0) {
-		// // a found unit is NOT the same as we're trying to save
-		// throw new ContentException(context, R.string.unitsFmErrorAlreadyExists);
-		// }
-		// }
-		// }
-
+	public static Uri saveUnit(Context context, Unit unit) {
 		if (unit.getId() == null) {
 			return context.getContentResolver().insert(UnitsContentProvider.UNITS_URI,
 					getContentValues(unit, false));

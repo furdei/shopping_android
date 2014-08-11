@@ -77,13 +77,4 @@ public class BaseActivity extends ActionBarActivity implements StatusCallback {
 		return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
 	}
 
-	/*
-	 * @Override public boolean onOptionsItemSelected(MenuItem item) { switch
-	 * (item.getItemId()) { case R.id.menu_units: Log.d("TAG",
-	 * "R.id.menu_units selected"); Intent intent = new Intent(this,
-	 * UnitsListActivity.class); startActivity(intent); return true;
-	 * 
-	 * default: return super.onOptionsItemSelected(item); } }
-	 */
-
 }

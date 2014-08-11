@@ -1,4 +1,4 @@
-package com.furdey.shopping.loadercallbacks;
+package com.furdey.shopping.listeners;
 
 import android.content.Context;
 import android.database.Cursor;

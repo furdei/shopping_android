@@ -145,7 +145,7 @@ public class GoodsUtils {
 				new String[] { name }, sortOrder);
 	}
 
-	public static Uri saveGoods(Context context, Goods goods) throws ContentException {
+	public static Uri saveGoods(Context context, Goods goods) {
 		// create a new category if it does not exist
 		GoodsCategory category = goods.getCategory();
 

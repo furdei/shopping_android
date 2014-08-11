@@ -45,9 +45,6 @@ public class GoodsListAdapter extends CursorAdapter {
 		int fieldPurchase = cursor.getColumnIndex(GoodsContentProvider.Columns.PURCHASE_ID.toString());
 
 		if (cursor.isNull(fieldPurchase) || mode == Mode.GRID) {
-			// int fieldDescr =
-			// cursor.getColumnIndex(GoodsDao.CATEGORY_OF_GOODS_FIELD_NAME);
-			// descr.setText(cursor.getString(fieldDescr));
 			descr.setText(model.getCategory().getName());
 			descr.setTextAppearance(context, R.style.goodsLiDescrNormalStyle);
 		} else {
@@ -62,8 +59,6 @@ public class GoodsListAdapter extends CursorAdapter {
 			descr.setTextAppearance(context, R.style.goodsLiDescrAlreadyInTheListStyle);
 		}
 
-		// int fieldIcon = cursor.getColumnIndex(GoodsDao.CATEGORY_ICON_FIELD_NAME);
-		// String iconName = cursor.getString(fieldIcon);
 		String iconName = model.getCategory().getIcon();
 		ImageView icon = (ImageView) view.findViewById(R.id.goodsLiIcon);
 		if (iconName != null) {

@@ -10,9 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/listItemHeight"
         android:padding="@dimen/marginLeft" >
-        
-        <!-- style="@style/WidgetHeader" -->
-        
+
 	    <ImageView 
 	        android:id="@+id/shoppingListWidgetLogo"
 	        android:layout_width="@dimen/buttonHeight"

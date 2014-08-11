@@ -9,8 +9,6 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
 import com.furdey.shopping.content.ContentUtils;
-import com.furdey.shopping.content.model.Goods;
-import com.furdey.shopping.content.model.GoodsCategory;
 import com.furdey.shopping.content.model.Purchase;
 
 public class PurchasesContentProvider extends
@@ -21,17 +19,17 @@ public class PurchasesContentProvider extends
 	private static final String ERROR_FAILED_TO_ADD_A_ROW = "Failed to add a row to %s (id = %d)";
 
 	private static final String AUTHORITY = PurchasesContentProvider.class.getCanonicalName();
-	public static final String PURCHSES_PATH = "purchases";
+	public static final String PURCHASES_PATH = "purchases";
 
-	public static final Uri PURCHASES_URI = Uri.parse("content://" + AUTHORITY + "/" + PURCHSES_PATH);
+	public static final Uri PURCHASES_URI = Uri.parse("content://" + AUTHORITY + "/" + PURCHASES_PATH);
 
 	private static final int ALL_RECORDS = 10;
 	private static final int PARTICULAR_RECORD = 20;
 
 	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
-		sURIMatcher.addURI(AUTHORITY, PURCHSES_PATH, ALL_RECORDS);
-		sURIMatcher.addURI(AUTHORITY, PURCHSES_PATH + "/#", PARTICULAR_RECORD);
+		sURIMatcher.addURI(AUTHORITY, PURCHASES_PATH, ALL_RECORDS);
+		sURIMatcher.addURI(AUTHORITY, PURCHASES_PATH + "/#", PARTICULAR_RECORD);
 	}
 
 	public static enum Columns implements BaseContentProvider.Columns {
@@ -81,16 +79,16 @@ public class PurchasesContentProvider extends
 		checkColumns(projection);
 
 		// Set the table
-		queryBuilder.setTables(PURCHSES_PATH.concat(" JOIN ").concat(Goods.TABLE_NAME).concat(" ON ")
-				.concat(Columns.GOOD_ID.getDbName()).concat(" = ").concat(Columns.GOODS__ID.getDbName())
-				.concat(" AND '").concat(ContentUtils.getCurrentDateMidnight()).concat("' BETWEEN ")
-				.concat(Columns.STRDATE.getDbName()).concat(" AND ").concat(Columns.FINDATE.getDbName())
-				.concat(" AND ").concat(Columns.DELETED.getDbName()).concat(" IS NULL JOIN ")
-				.concat(UnitsContentProvider.UNITS_PATH).concat(" ON ")
-				.concat(Columns.UNITS_ID.getDbName()).concat(" = ").concat(Columns.UNIT__ID.getDbName())
-				.concat(" JOIN ").concat(GoodsCategory.TABLE_NAME).concat(" ON ")
-				.concat(Columns.GOODS_CATEGORY.getDbName()).concat(" = ")
-				.concat(Columns.GOODSCATEGORY_ID.getDbName()));
+		queryBuilder.setTables(PURCHASES_PATH.concat(" JOIN ").concat(GoodsContentProvider.GOODS_PATH).concat(" ON ")
+                .concat(Columns.GOOD_ID.getDbName()).concat(" = ").concat(Columns.GOODS__ID.getDbName())
+                .concat(" AND '").concat(ContentUtils.getCurrentDateMidnight()).concat("' BETWEEN ")
+                .concat(Columns.STRDATE.getDbName()).concat(" AND ").concat(Columns.FINDATE.getDbName())
+                .concat(" AND ").concat(Columns.DELETED.getDbName()).concat(" IS NULL JOIN ")
+                .concat(UnitsContentProvider.UNITS_PATH).concat(" ON ")
+                .concat(Columns.UNITS_ID.getDbName()).concat(" = ").concat(Columns.UNIT__ID.getDbName())
+                .concat(" JOIN ").concat(GoodsCategoriesContentProvider.GOODS_CATEGORIES_PATH).concat(" ON ")
+                .concat(Columns.GOODS_CATEGORY.getDbName()).concat(" = ")
+                .concat(Columns.GOODSCATEGORY_ID.getDbName()));
 
 		int uriType = sURIMatcher.match(uri);
 		switch (uriType) {
@@ -128,10 +126,10 @@ public class PurchasesContentProvider extends
         values.put(Columns.STATE.name(), Purchase.PurchaseState.ENTERED.toString());
 
 		SQLiteDatabase db = getDbHelper().getDb();
-		long id = db.insert(PURCHSES_PATH, null, values);
+		long id = db.insert(PURCHASES_PATH, null, values);
 
 		if (id < 0)
-			throw new IllegalStateException(String.format(ERROR_FAILED_TO_ADD_A_ROW, PURCHSES_PATH, id));
+			throw new IllegalStateException(String.format(ERROR_FAILED_TO_ADD_A_ROW, PURCHASES_PATH, id));
 
 		Uri inserted = ContentUris.withAppendedId(PURCHASES_URI, id);
 		getContext().getContentResolver().notifyChange(inserted, null);
@@ -141,7 +139,7 @@ public class PurchasesContentProvider extends
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		SQLiteDatabase db = getDbHelper().getDb();
-		int rowsAffected = db.delete(PURCHSES_PATH, selection, selectionArgs);
+		int rowsAffected = db.delete(PURCHASES_PATH, selection, selectionArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 		return rowsAffected;
 	}
@@ -157,12 +155,10 @@ public class PurchasesContentProvider extends
 			throw new IllegalArgumentException(ERROR_SELECTION_SELECTION_ARGS_ARE_NOT_SUPPORTED);
 		}
 
-		// values.put(Columns.STRDATE.name(), ContentUtils.getCurrentDate());
-		// values.put(Columns.FINDATE.name(), ContentUtils.DATE_INFINITY);
 		values.put(Columns.CHANGED.name(), ContentUtils.getCurrentDateAndTime());
 
 		SQLiteDatabase db = getDbHelper().getDb();
-		int rowsAffected = db.update(PURCHSES_PATH, values, Columns._id.getDbName() + "=?",
+		int rowsAffected = db.update(PURCHASES_PATH, values, Columns._id.getDbName() + "=?",
 				new String[] { getId(uri) });
 		getContext().getContentResolver().notifyChange(uri, null);
 		return rowsAffected;

@@ -68,7 +68,7 @@ public class GoodsContentProvider extends BaseContentProvider<Columns> {
 				.concat(GoodsCategoriesContentProvider.GOODS_CATEGORIES_PATH).concat(" ON ")
 				.concat(Columns.CATEGORY_ID.getDbName()).concat(" = ")
 				.concat(GoodsCategoriesContentProvider.Columns._id.getDbName()).concat(" LEFT OUTER JOIN ")
-				.concat(PurchasesContentProvider.PURCHSES_PATH).concat(" ON ")
+				.concat(PurchasesContentProvider.PURCHASES_PATH).concat(" ON ")
 				.concat(Columns._id.getDbName()).concat(" = ")
 				.concat(PurchasesContentProvider.Columns.GOOD_ID.getDbName()).concat(" AND ")
 				.concat(PurchasesContentProvider.Columns.STATE.getDbName()).concat(" = '")

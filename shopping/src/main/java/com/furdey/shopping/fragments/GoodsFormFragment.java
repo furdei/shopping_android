@@ -206,7 +206,7 @@ public class GoodsFormFragment extends Fragment {
 				if (result == null || (goods.getId() != null && result.getId().equals(goods.getId()))) {
 					// there are no same units found - success
 					// or maybe the found one is the same unit that we're going to save
-					listener.onSaveGoods(goods);
+                    callback.run(result);
 				} else {
 					nameEdit.setError(getString(R.string.goodsFmErrorAlreadyExists));
 				}

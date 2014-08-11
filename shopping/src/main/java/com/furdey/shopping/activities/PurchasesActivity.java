@@ -13,18 +13,12 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.facebook.widget.FacebookDialog;
-import com.facebook.widget.FacebookDialog.ShareDialogBuilder;
 import com.furdey.shopping.R;
 import com.furdey.shopping.adapters.GoodsListAdapter.Mode;
 import com.furdey.shopping.content.GoodsCategoriesUtils;
@@ -34,6 +28,7 @@ import com.furdey.shopping.content.model.Goods;
 import com.furdey.shopping.content.model.GoodsCategory;
 import com.furdey.shopping.content.model.Purchase;
 import com.furdey.shopping.content.model.Purchase.PurchaseState;
+import com.furdey.shopping.controllers.SocialController;
 import com.furdey.shopping.fragments.GoodsCategoriesListFragment;
 import com.furdey.shopping.fragments.GoodsCategoriesListFragment.GoodsCategoriesListListener;
 import com.furdey.shopping.fragments.GoodsListFragment;
@@ -52,8 +47,6 @@ import com.furdey.shopping.utils.PreferencesManager.PurchasesSortOrder;
 import com.furdey.social.android.SocialClient;
 import com.furdey.social.android.SocialClientsManager.SocialNetwork;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -61,34 +54,16 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 		PurchasesFormListener, GoodsListListener, GoodsCategoriesListListener, LoaderCallbacks<Cursor>,
 		StatusCallback {
 
-	public static final int REQUEST_EDIT = 1;
-	public static final int REQUEST_SELECT_FRIEND = 2;
+	public static final int REQUEST_SELECT_FRIEND = 1;
 
 	private static final int RESULT_EMPTY = -1;
-	// public static final int PURCHASES_LIST_LOADER = 0;
 	private static final String TAG = PurchasesActivity.class.getSimpleName();
-	// private static final String GRID_STATE = "gridState";
     public static final String RESULT_MESSAGE_PARAM_NAME = "com.furdey.shopping.activities.PurchasesController.messageId";
 
-	// private Purchase contextModel;
-	// private PurchasesController controller;
-	// private Parcelable gridState;
 	private InternetConnectionBroadcastReceiver internetConnectionBroadcastReceiver = null;
 	private boolean internetConnectionBroadcastReceiverRegistered = false;
 	private PurchasesListFragment purchasesListFragment;
 	private UiLifecycleHelper uiLifecycleHelper;
-
-	// private PurchasesListAdapter adapter;
-
-	// private ListView grid;
-
-	// public Cursor getCursor() {
-	// if (grid != null)
-	// if (grid.getAdapter() != null)
-	// return ((CursorAdapter) grid.getAdapter()).getCursor();
-	//
-	// return null;
-	// }
 
 	private static final String PURCHASES_LIST_TAG = "purchasesList";
 	private static final String PURCHASES_FORM_TAG = "purchasesForm";
@@ -104,29 +79,12 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// setUpButtonEnabled(false); // This is for the top-level activity only
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.one_fragment_activity);
 		purchasesListFragment = new PurchasesListFragment();
 		FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
 		tr.add(R.id.dynamic_fragment_container, purchasesListFragment, PURCHASES_LIST_TAG);
 		tr.commit();
-
-		// (PurchasesListFragment) getSupportFragmentManager().findFragmentById(
-		// R.id.purchases_list_fragment);
-		// purchasesListFragment.setPurchasesListFragmentListener(this);
-
-		// grid = (ListView) findViewById(R.id.baseListGrid);
-		// adapter = new PurchasesListAdapter(this);
-		// grid.setAdapter(adapter);
-
-		// controller = new PurchasesController(this);
-		// getSupportLoaderManager().initLoader(PURCHASES_LIST_LOADER, null,
-		// new PurchasesLoaderCallbacks(this, adapter));
-
-		// registerForContextMenu(grid);
-		// grid.setOnItemClickListener(new
-		// PurchasesLiOnItemClickListener(controller));
 
 		internetConnectionBroadcastReceiver = new InternetConnectionBroadcastReceiver();
 
@@ -142,83 +100,8 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 									new SocialShareListener() {
 										@Override
 										public void onSocialShare(SocialNetwork socialNetwork) {
-											switch (socialNetwork) {
-											case EMAIL:
-												SocialClient.sendMessage(
-														PurchasesActivity.this,
-														SocialNetwork.EMAIL,
-														getString(R.string.socialMessageMsgTitle),
-														getString(R.string.socialMessageBase).concat(" ").concat(
-																getString(R.string.socialMessageAddition)));
-												break;
-
-											case FACEBOOK:
-												// start Facebook Login
-												Session session = Session.getActiveSession();
-												if (session != null && session.isOpened()) {
-													sendFbShareMessage(session);
-												} else {
-													List<String> permissions = new ArrayList<String>();
-													permissions.add("public_profile");
-													permissions.add("user_friends");
-													// permissions.add("publish_actions");
-													Session.openActiveSession(PurchasesActivity.this, true, permissions,
-															new Session.StatusCallback() {
-																// callback when session changes state
-																@Override
-																public void call(Session session, SessionState state,
-																		Exception exception) {
-																	sendFbShareMessage(session);
-																}
-															});
-												}
-												break;
-
-											case GOOGLE_PLUS:
-												SocialClient.sendMessage(
-														PurchasesActivity.this,
-														SocialNetwork.GOOGLE_PLUS,
-														null,
-														getString(R.string.socialMessageBase).concat(" ").concat(
-																getString(R.string.socialMessageAddition)));
-												break;
-
-											case LINKEDIN:
-												SocialClient.sendMessage(
-														PurchasesActivity.this,
-														SocialNetwork.LINKEDIN,
-														null,
-														getString(R.string.socialMessageBase).concat(" ").concat(
-																getString(R.string.socialMessageAddition)));
-												break;
-
-											case SKYPE:
-												SocialClient.sendMessage(
-														PurchasesActivity.this,
-														SocialNetwork.SKYPE,
-														null,
-														getString(R.string.socialMessageBase).concat(" ").concat(
-																getString(R.string.socialMessageAddition)));
-												break;
-
-											case TWITTER:
-												SocialClient.sendMessage(
-														PurchasesActivity.this,
-														SocialNetwork.TWITTER,
-														null,
-														getString(R.string.socialMessageBase).concat(" ").concat(
-																getString(R.string.socialMessageAddition)));
-												break;
-
-											case VK:
-												SocialClient.sendMessage(
-														PurchasesActivity.this,
-														SocialNetwork.VK,
-														null,
-														getString(R.string.socialMessageBase).concat(" ").concat(
-																getString(R.string.socialMessageAddition)));
-												break;
-											}
+                                            SocialController socialController = new SocialController(PurchasesActivity.this);
+                                            socialController.createShareActivity(socialNetwork);
 										}
 									});
 						}
@@ -229,15 +112,6 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 
 		uiLifecycleHelper = new UiLifecycleHelper(this, this);
 		uiLifecycleHelper.onCreate(savedInstanceState);
-	}
-
-	/**
-	 * It's called when the user adds or edits a purchase
-	 */
-	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-		setIntent(intent);
 	}
 
 	@Override
@@ -275,290 +149,6 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 
 		super.onPause();
 	}
-
-	// @Override
-	// public boolean onCreateOptionsMenu(Menu menu) {
-	// // Inflate the menu; this adds items to the action bar if it is present.
-	// getMenuInflater().inflate(R.menu.purchases_list, menu);
-	// PurchasesSortOrder sortOrder =
-	// PreferencesManager.getPurchasesSortOrder(this);
-	// int sortMenuId;
-	//
-	// switch (sortOrder) {
-	// case ORDER_BY_NAME:
-	// sortMenuId = R.id.menuPurchasesListSortOrderName;
-	// break;
-	// case ORDER_BY_ADD_TIME:
-	// sortMenuId = R.id.menuPurchasesListSortOrderAddTime;
-	// break;
-	// default:
-	// sortMenuId = R.id.menuPurchasesListSortOrderCategory;
-	// }
-	//
-	// MenuItem sortMenu = menu.findItem(sortMenuId);
-	// if (sortMenu != null)
-	// sortMenu.setChecked(true);
-	//
-	// if (isNetworkAvailable()) {
-	// if (!SocialClientsManager.isClientInstalled(this, SocialNetwork.VK)) {
-	// MenuItem social = menu.findItem(R.id.menuPurchasesListShareVK);
-	// social.setVisible(false);
-	// social = menu.findItem(R.id.menuPurchasesListSendListVK);
-	// social.setVisible(false);
-	// }
-	//
-	// if (!SocialClientsManager.isClientInstalled(this, SocialNetwork.FACEBOOK))
-	// {
-	// MenuItem social = menu.findItem(R.id.menuPurchasesListShareFB);
-	// social.setVisible(false);
-	// // social = menu.findItem(R.id.menuPurchasesListSendListFB);
-	// // social.setVisible(false);
-	// }
-	//
-	// if (!SocialClientsManager.isClientInstalled(this, SocialNetwork.TWITTER)) {
-	// MenuItem social = menu.findItem(R.id.menuPurchasesListShareTw);
-	// social.setVisible(false);
-	// // social = menu.findItem(R.id.menuPurchasesListSendListTw);
-	// // social.setVisible(false);
-	// }
-	//
-	// if (!SocialClientsManager.isClientInstalled(this,
-	// SocialNetwork.GOOGLE_PLUS)) {
-	// MenuItem social = menu.findItem(R.id.menuPurchasesListShareGP);
-	// social.setVisible(false);
-	// social = menu.findItem(R.id.menuPurchasesListSendListGP);
-	// social.setVisible(false);
-	// }
-	//
-	// if (!SocialClientsManager.isClientInstalled(this, SocialNetwork.LINKEDIN))
-	// {
-	// MenuItem social = menu.findItem(R.id.menuPurchasesListShareLI);
-	// social.setVisible(false);
-	// // social = menu.findItem(R.id.menuPurchasesListSendListLI);
-	// // social.setVisible(false);
-	// }
-	//
-	// if (!SocialClientsManager.isClientInstalled(this, SocialNetwork.SKYPE)) {
-	// MenuItem social = menu.findItem(R.id.menuPurchasesListShareSk);
-	// social.setVisible(false);
-	// social = menu.findItem(R.id.menuPurchasesListSendListSk);
-	// social.setVisible(false);
-	// }
-	//
-	// if (!SocialClientsManager.isClientInstalled(this, SocialNetwork.EMAIL)) {
-	// MenuItem social = menu.findItem(R.id.menuPurchasesListShareEm);
-	// social.setVisible(false);
-	// social = menu.findItem(R.id.menuPurchasesListSendListEm);
-	// social.setVisible(false);
-	// }
-	// } else {
-	// MenuItem social = menu.findItem(R.id.menuPurchasesListSendList);
-	// social.setVisible(false);
-	// social.getSubMenu().setGroupVisible(R.id.menuPurchasesListSendListGroup,
-	// false);
-	// social = menu.findItem(R.id.menuPurchasesListShare);
-	// social.setVisible(false);
-	// social.getSubMenu().setGroupVisible(R.id.menuPurchasesListShareGroup,
-	// false);
-	// }
-	//
-	// return true;
-	// }
-	//
-	// @Override
-	// public boolean onOptionsItemSelected(MenuItem item) {
-	// switch (item.getItemId()) {
-	// case R.id.menuGoods:
-	// startActivity(new Intent(this, GoodsActivity.class));
-	// return true;
-	// case R.id.menuGoodsCategories:
-	// controller.createGoodsCategoriesListActivity();
-	// return true;
-	// case R.id.menuUnits:
-	// controller.createUnitsListActivity();
-	// return true;
-	// case R.id.menuPurchasesListNewRecord:
-	// goToGoodsList(true);
-	// return true;
-	// case R.id.menuPurchasesListAbout:
-	// controller.createAboutActivity();
-	// return true;
-	// case R.id.menuPurchasesListShareVK:
-	// controller.createShareVkActivity();
-	// return true;
-	// case R.id.menuPurchasesListShareFB:
-	// controller.createShareFbActivity();
-	// return true;
-	// case R.id.menuPurchasesListShareTw:
-	// controller.createShareTwActivity();
-	// return true;
-	// case R.id.menuPurchasesListShareGP:
-	// controller.createShareGPActivity();
-	// return true;
-	// case R.id.menuPurchasesListShareLI:
-	// controller.createShareLIActivity();
-	// return true;
-	// case R.id.menuPurchasesListShareSk:
-	// controller.createShareSkActivity();
-	// return true;
-	// case R.id.menuPurchasesListShareEm:
-	// controller.createShareEmActivity();
-	// return true;
-	// case R.id.menuPurchasesListSortOrderName:
-	// if (!item.isChecked()) {
-	// item.setChecked(true);
-	// PreferencesManager.setPurchasesSortOrder(this,
-	// PurchasesSortOrder.ORDER_BY_NAME);
-	// controller.refreshCursor();
-	// }
-	// return true;
-	// case R.id.menuPurchasesListSortOrderAddTime:
-	// if (!item.isChecked()) {
-	// item.setChecked(true);
-	// PreferencesManager.setPurchasesSortOrder(this,
-	// PurchasesSortOrder.ORDER_BY_ADD_TIME);
-	// controller.refreshCursor();
-	// }
-	// return true;
-	// case R.id.menuPurchasesListSortOrderCategory:
-	// if (!item.isChecked()) {
-	// item.setChecked(true);
-	// PreferencesManager.setPurchasesSortOrder(this,
-	// PurchasesSortOrder.ORDER_BY_CATEGORY);
-	// controller.refreshCursor();
-	// }
-	// return true;
-	// // case R.id.menuPurchasesListSendListFB:
-	// // controller.sendList(SocialNetwork.FACEBOOK);
-	// // return true;
-	// case R.id.menuPurchasesListSendListGP:
-	// controller.sendList(SocialNetwork.GOOGLE_PLUS);
-	// return true;
-	// // case R.id.menuPurchasesListSendListLI:
-	// // controller.sendList(SocialNetwork.LINKEDIN);
-	// // return true;
-	// case R.id.menuPurchasesListSendListSk:
-	// controller.sendList(SocialNetwork.SKYPE);
-	// return true;
-	// // case R.id.menuPurchasesListSendListTw:
-	// // controller.sendList(SocialNetwork.TWITTER);
-	// // return true;
-	// case R.id.menuPurchasesListSendListVK:
-	// controller.sendList(SocialNetwork.VK);
-	// return true;
-	// case R.id.menuPurchasesListSendListEm:
-	// controller.sendList(SocialNetwork.EMAIL);
-	// return true;
-	// }
-	//
-	// return super.onOptionsItemSelected(item);
-	// }
-
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		// if (v.getId() == R.id.baseListGrid) {
-		// getMenuInflater().inflate(R.menu.purchases_list_context, menu);
-		//
-		// AdapterView.AdapterContextMenuInfo info =
-		// (AdapterView.AdapterContextMenuInfo) menuInfo;
-		// Cursor cursor = (Cursor) ((PurchasesListAdapter)
-		// grid.getAdapter()).getItem(info.position);
-		// contextModel = PurchasesDao.fromCursor(cursor);
-		//
-		// CheckBox check = (CheckBox)
-		// info.targetView.findViewById(R.id.purchasesLiCheck);
-		//
-		// if (check.isChecked()) {
-		// MenuItem item = menu.findItem(R.id.menuPurchasesListDelayRecord);
-		//
-		// if (item != null)
-		// item.setEnabled(false);
-		//
-		// item = menu.findItem(R.id.menuPurchasesListEditRecord);
-		//
-		// if (item != null)
-		// item.setEnabled(false);
-		// }
-		//
-		// int goodsNameInd =
-		// cursor.getColumnIndex(PurchasesDao.GOODS_NAME_FIELD_NAME);
-		// menu.setHeaderTitle(String.format(getString(R.string.menuPurchasesListContextTitle),
-		// cursor.getString(goodsNameInd)));
-		//
-		// CheckBox checked = (CheckBox)
-		// info.targetView.findViewById(R.id.purchasesLiCheck);
-		// if (checked != null) {
-		// contextModel.setState(checked.isChecked() ? PurchaseState.ACCEPTED :
-		// PurchaseState.ENTERED);
-		// } else
-		// Log.d(TAG, "onCreateContextMenu: checked is null");
-		// }
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		// final Context context = this;
-		//
-		// switch (item.getItemId()) {
-		// case R.id.menuPurchasesListEditRecord:
-		// controller.createEditForm(contextModel);
-		// return true;
-		//
-		// case R.id.menuPurchasesListDeleteRecord:
-		// if (contextModel.getState() == PurchaseState.ACCEPTED) {
-		// AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		// builder.setTitle(R.string.purchasesLiConfirmDeleteCaption);
-		// builder.setMessage(R.string.purchasesLiConfirmDeleteDetails)
-		// .setNegativeButton(R.string.formButtonCancel, new
-		// DialogInterface.OnClickListener() {
-		// public void onClick(DialogInterface dialog, int id) {
-		// // User cancelled the dialog
-		// }
-		// }).setPositiveButton(R.string.formButtonDelete, new
-		// DialogInterface.OnClickListener() {
-		// public void onClick(DialogInterface dialog, int id) {
-		// controller.delete(contextModel.getId());
-		// Toast.makeText(context, R.string.purchasesLiItemDeleted,
-		// Toast.LENGTH_LONG).show();
-		// }
-		// });
-		// // Create the AlertDialog object and return it
-		// builder.create().show();
-		// } else {
-		// controller.delete(contextModel.getId());
-		// Toast.makeText(context, R.string.purchasesLiItemDeleted,
-		// Toast.LENGTH_LONG).show();
-		// }
-		// return true;
-		//
-		// case R.id.menuPurchasesListDelayRecord:
-		// controller.delayPurchase(contextModel.getId(), new
-		// OnModelLoadListener<Purchase>() {
-		// @Override
-		// public void onLoadComplete(Purchase model) {
-		// controller.refreshCursor();
-		// Toast.makeText(context, R.string.purchasesLiItemDelayed,
-		// Toast.LENGTH_LONG).show();
-		// }
-		// });
-		// return true;
-		// }
-		//
-		return super.onContextItemSelected(item);
-	}
-
-	// @Override
-	// protected void onRestoreInstanceState(Bundle state) {
-	// super.onRestoreInstanceState(state);
-	// gridState = state.getParcelable(GRID_STATE);
-	// }
-
-	// @Override
-	// protected void onSaveInstanceState(Bundle state) {
-	// super.onSaveInstanceState(state);
-	// gridState = grid.onSaveInstanceState();
-	// state.putParcelable(GRID_STATE, gridState);
-	// }
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -654,22 +244,8 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 
 	@Override
 	public void onShareFbMenuSelected() {
-		// start Facebook Login
-		Session session = Session.getActiveSession();
-		if (session != null && session.isOpened()) {
-			sendFbShareMessage(session);
-		} else {
-			List<String> permissions = new ArrayList<String>();
-			permissions.add("public_profile");
-			permissions.add("user_friends");
-			Session.openActiveSession(this, true, permissions, new Session.StatusCallback() {
-				// callback when session changes state
-				@Override
-				public void call(Session session, SessionState state, Exception exception) {
-					sendFbShareMessage(session);
-				}
-			});
-		}
+        SocialController socialController = new SocialController(this);
+        socialController.createShareFbActivity();
 	}
 
 	@Override
@@ -981,9 +557,7 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 	}
 
 	private void goToGoodsList(String filter, boolean addToBackStack) {
-		GoodsListFragment goodsListFragment = getGoodsListFragment();
-
-		goodsListFragment = GoodsListFragment.newInstance(Mode.LOOKUP, filter);
+        GoodsListFragment goodsListFragment = GoodsListFragment.newInstance(Mode.LOOKUP, filter);
 		FragmentTransaction tr = getSupportFragmentManager().beginTransaction().replace(
 				R.id.dynamic_fragment_container, goodsListFragment, GOODS_LIST_TAG);
 
@@ -1001,14 +575,7 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 	}
 
 	private void goToPurchaseForm(boolean addToBackStack, Purchase purchase) {
-		PurchasesFormFragment purchasesFormFragment = getPurchasesFormFragment();
-
-		// if (purchasesFormFragment != null) {
-		// Log.d(TAG, "already at the purchases form");
-		// return;
-		// }
-
-		purchasesFormFragment = PurchasesFormFragment.newInstance(purchase);
+        PurchasesFormFragment purchasesFormFragment = PurchasesFormFragment.newInstance(purchase);
 		FragmentTransaction tr = getSupportFragmentManager().beginTransaction().replace(
 				R.id.dynamic_fragment_container, purchasesFormFragment, PURCHASES_FORM_TAG);
 
@@ -1062,39 +629,6 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 				}
 			}
 		});
-	}
-
-	private void sendFbShare(Session session, String message, String link, String name, String iconUrl) {
-		if (session.isOpened()) {
-			FacebookDialog.ShareDialogBuilder builder = new ShareDialogBuilder(this);
-			builder = builder.setApplicationName(getString(R.string.appName));
-
-			if (message != null)
-				builder = builder.setDescription(getString(R.string.socialMessageBase));
-			// .setCaption("Test message caption")
-
-			if (link != null)
-				builder = builder.setLink(getString(R.string.socialMessageAddition));
-
-			if (name != null)
-				builder = builder.setName(getString(R.string.socialMessageMsgTitle));
-			// .setRef("Test ref")
-
-			if (iconUrl != null)
-				builder = builder.setPicture(getString(R.string.socialMessageIconUrl));
-
-			try {
-				uiLifecycleHelper.trackPendingDialogCall(builder.build().present());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private void sendFbShareMessage(Session session) {
-		sendFbShare(session, getString(R.string.socialMessageBase),
-				getString(R.string.socialMessageAddition), getString(R.string.socialMessageMsgTitle),
-				getString(R.string.socialMessageIconUrl));
 	}
 
 	private void sendShareMessage(SocialNetwork network) {

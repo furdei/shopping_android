@@ -1,7 +1,5 @@
 package com.furdey.shopping.fragments;
 
-import java.math.BigDecimal;
-
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -27,34 +25,16 @@ import com.furdey.shopping.content.model.Purchase;
 import com.furdey.shopping.content.model.Unit;
 import com.furdey.shopping.contentproviders.UnitsContentProvider;
 import com.furdey.shopping.listeners.GoodsCountTextChangedListener;
-import com.furdey.shopping.loadercallbacks.UnitsLoaderCallbacks;
+import com.furdey.shopping.listeners.UnitsLoaderCallbacks;
 import com.furdey.shopping.utils.DecimalUtils;
+
+import java.math.BigDecimal;
 
 public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<Cursor> {
 
 	public static PurchasesFormFragment newInstance(Purchase purchase) {
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(PARAM_PURCHASE, purchase);
-		// bundle.putInt(PARAM_PURCHASE_ID, purchase.getId());
-		// bundle.putString(PARAM_DESCR, purchase.getDescr());
-		// bundle.putString(PARAM_COUNT, purchase.getCount().toPlainString());
-		//
-		// if (purchase.getUnits() != null) {
-		// bundle.putInt(PARAM_UNIT_ID, purchase.getUnits().getId());
-		// }
-		//
-		// if (purchase.getGoods() != null) {
-		// bundle.putString(PARAM_GOODS_NAME, purchase.getGoods().getName());
-		// bundle.putInt(PARAM_GOODS_ID, purchase.getGoods().getId());
-		//
-		// if (purchase.getGoods().getCategory() != null) {
-		// bundle.putString(PARAM_GOODS_CATEGORY_NAME,
-		// purchase.getGoods().getCategory().getName());
-		// bundle.putInt(PARAM_GOODS_CATEGORY_ID,
-		// purchase.getGoods().getCategory().getId());
-		// }
-		// }
-
 		PurchasesFormFragment fragment = new PurchasesFormFragment();
 		fragment.setArguments(bundle);
 		return fragment;
@@ -70,15 +50,6 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 		void onSelectGoodsCategory(String filter);
 	}
 
-	// private static final String PARAM_UNIT_ID = "unitId";
-	// private static final String PARAM_PURCHASE_ID = "purchaseId";
-	// private static final String PARAM_GOODS_NAME = "goodsName";
-	// private static final String PARAM_GOODS_ID = "goodsId";
-	// private static final String PARAM_GOODS_CATEGORY_NAME =
-	// "goodsCategoryName";
-	// private static final String PARAM_GOODS_CATEGORY_ID = "goodsCategoryId";
-	// private static final String PARAM_DESCR = "descr";
-	// private static final String PARAM_COUNT = "count";
 	private static final String PARAM_PURCHASE = "purchase";
 
 	private PurchasesFormListener mListener;
@@ -272,8 +243,6 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 		purchase.setUnits(new Unit());
 		Long selectedUnitId = unitsSpinner.getSelectedItemId();
 		purchase.getUnits().setId(selectedUnitId);
-		// unitsSpinnerAdapter.getUnitsPositions().keyAt(
-		// unitsSpinnerAdapter.getUnitsPositions().indexOfValue(unitsSpinnerPos)));
 
 		if (nameEdit.getText() == null || nameEdit.getText().toString() == null
 				|| nameEdit.getText().toString().trim().length() < 1) {

@@ -13,7 +13,6 @@ import com.furdey.shopping.contentproviders.UnitsContentProvider;
 
 public class UnitsSpinnerAdapter extends CursorAdapter {
 
-	// private ViewHolder viewHolder;
 	private boolean dropDown = false;
 	private LongSparseArray<Integer> unitsPositions;
 
@@ -39,7 +38,6 @@ public class UnitsSpinnerAdapter extends CursorAdapter {
 			view.setTag(viewHolder);
 		}
 
-		// Unit model = UnitsDao.fromCursor(cursor);
 		String name = cursor.getString(viewHolder.nameInd);
 		String descr = cursor.getString(viewHolder.descrInd);
 

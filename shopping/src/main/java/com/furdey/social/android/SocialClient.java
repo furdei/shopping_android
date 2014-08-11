@@ -40,7 +40,6 @@ public final class SocialClient {
 			shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
 		}
 
-		// shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 		shareIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
 		try {

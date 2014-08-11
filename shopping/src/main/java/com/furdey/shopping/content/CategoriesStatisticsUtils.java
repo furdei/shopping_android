@@ -88,7 +88,7 @@ public class CategoriesStatisticsUtils {
 		}
 
 		return context.getContentResolver().query(
-				CategoriesStatisticsContentProvider.CATEGOIES_STATISTICS_URI, projection, selection,
+				CategoriesStatisticsContentProvider.CATEGORIES_STATISTICS_URI, projection, selection,
 				selectionArgs, null);
 	}
 
@@ -114,14 +114,17 @@ public class CategoriesStatisticsUtils {
 			categoriesStatistics.setBuyCount(1);
 
 			context.getContentResolver().insert(
-					CategoriesStatisticsContentProvider.CATEGOIES_STATISTICS_URI,
+					CategoriesStatisticsContentProvider.CATEGORIES_STATISTICS_URI,
 					getContentValues(categoriesStatistics, false));
 		} else {
 			// update an existing one
-			categoriesStatistics.setBuyCount(categoriesStatistics.getBuyCount() + 1);
+			categoriesStatistics.setBuyCount(categoriesStatistics.getBuyCount() + count);
+
+            if (categoriesStatistics.getBuyCount() < 0)
+                categoriesStatistics.setBuyCount(0);
 
 			context.getContentResolver().update(
-					ContentUris.withAppendedId(CategoriesStatisticsContentProvider.CATEGOIES_STATISTICS_URI,
+					ContentUris.withAppendedId(CategoriesStatisticsContentProvider.CATEGORIES_STATISTICS_URI,
 							categoriesStatistics.getId()), getContentValues(categoriesStatistics, false), null,
 					null);
 		}

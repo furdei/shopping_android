@@ -6,17 +6,6 @@
     android:keepScreenOn="true"
     style="@style/GridItem">
     
-<!-- <TextView
-        android:id="@+id/purchasesLiCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/windowBorderLeft"
-	    android:paddingRight="@dimen/windowBorderRight"
-        android:text="Ликеро-водочные изделия"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:visibility="gone"
-        style="@style/purchasesLiCategoryStyle" />  -->    
-	
 	<RelativeLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="@dimen/listItemHeight">

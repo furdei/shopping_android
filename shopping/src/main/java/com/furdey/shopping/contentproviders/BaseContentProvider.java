@@ -1,19 +1,17 @@
 package com.furdey.shopping.contentproviders;
 
+import android.content.ContentProvider;
+import android.content.ContentUris;
+import android.net.Uri;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import android.content.ContentProvider;
-import android.content.ContentUris;
-import android.net.Uri;
-
 public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.contentproviders.BaseContentProvider.Columns>
 		extends ContentProvider {
-
-	private static final String ERROR_ID_FORMAT_IS_WRONG = "Id format is wrong at the URI %s";
 
 	public static interface Columns {
 		String name();
@@ -100,14 +98,6 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 	 */
 	final protected String getId(Uri uri) {
 		return Long.toString(ContentUris.parseId(uri));
-		// try {
-		// String strId = uri.getLastPathSegment();
-		// Integer.valueOf(strId);
-		// return strId;
-		// } catch (NumberFormatException e) {
-		// throw new
-		// IllegalArgumentException(String.format(ERROR_ID_FORMAT_IS_WRONG, uri));
-		// }
 	}
 
 }

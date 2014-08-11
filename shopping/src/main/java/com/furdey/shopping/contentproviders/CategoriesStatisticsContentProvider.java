@@ -21,7 +21,7 @@ public class CategoriesStatisticsContentProvider extends
 			.getCanonicalName();
 	protected static final String CATEGORIES_STATISTICS_PATH = "categories_statistics";
 
-	public static final Uri CATEGOIES_STATISTICS_URI = Uri.parse("content://" + AUTHORITY + "/"
+	public static final Uri CATEGORIES_STATISTICS_URI = Uri.parse("content://" + AUTHORITY + "/"
 			+ CATEGORIES_STATISTICS_PATH);
 
 	private static final int ALL_RECORDS = 10;
@@ -103,7 +103,7 @@ public class CategoriesStatisticsContentProvider extends
 			throw new IllegalStateException(String.format(ERROR_FAILED_TO_ADD_A_ROW,
 					CATEGORIES_STATISTICS_PATH, id));
 
-		Uri inserted = ContentUris.withAppendedId(CATEGOIES_STATISTICS_URI, id);
+		Uri inserted = ContentUris.withAppendedId(CATEGORIES_STATISTICS_URI, id);
 		getContext().getContentResolver().notifyChange(inserted, null);
 		return inserted;
 	}

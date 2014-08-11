@@ -1,10 +1,6 @@
 package com.furdey.shopping.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,7 +10,6 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.widget.FacebookDialog;
 import com.furdey.shopping.R;
-import com.furdey.shopping.activities.AboutAppActivity;
 import com.furdey.shopping.activities.BaseActivity;
 import com.furdey.shopping.activities.SocialMessageActivity;
 import com.furdey.shopping.listeners.OnFriendsLoadedListener;
@@ -29,11 +24,12 @@ import com.furdey.social.vk.api.MessagesSendRequest;
 import com.furdey.social.vk.api.MessagesSendResponse;
 import com.furdey.social.vk.connector.VkConnection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SocialController {
 
 	private static final int MESSAGE_SEND_SLEEP_TIME_MILLIS = 400;
-
-	public static final int REQUEST_MESSAGE = 0;
 
 	public static final String PARAM_SOCIAL_NETWORK = SocialController.class.getCanonicalName()
 			.concat(".socialNetwork");
@@ -74,13 +70,6 @@ public class SocialController {
 		GetFriendsResponse response = (GetFriendsResponse) conn.callVk(request);
 
 		return response.toSocial();
-	}
-
-	public void editSocialMessage(String[] uids, String socialNetwork) {
-		Intent intent = new Intent(getActivity(), SocialMessageActivity.class);
-		intent.putExtra(PARAM_UIDS, uids);
-		intent.putExtra(PARAM_SOCIAL_NETWORK, socialNetwork);
-		getActivity().startActivityForResult(intent, REQUEST_MESSAGE);
 	}
 
 	public String constructMessage(String srcMessage) {
@@ -160,9 +149,36 @@ public class SocialController {
 		};
 	}
 
-    public void createAboutActivity() {
-        Intent intent = new Intent(getActivity(), AboutAppActivity.class);
-        getActivity().startActivity(intent);
+    public void createShareActivity(SocialClientsManager.SocialNetwork socialNetwork) {
+        switch (socialNetwork) {
+            case EMAIL:
+                createShareEmActivity();
+                break;
+
+            case FACEBOOK:
+                createShareFbActivity();
+                break;
+
+            case GOOGLE_PLUS:
+                createShareGPActivity();
+                break;
+
+            case LINKEDIN:
+                createShareLIActivity();
+                break;
+
+            case SKYPE:
+                createShareSkActivity();
+                break;
+
+            case TWITTER:
+                createShareTwActivity();
+                break;
+
+            case VK:
+                createShareVkActivity();
+                break;
+        }
     }
 
     public void createShareVkActivity() {
@@ -173,19 +189,9 @@ public class SocialController {
                 getActivity().getString(R.string.socialMessageBase).concat(" ")
                         .concat(getActivity().getString(R.string.socialMessageAddition))
         );
-		/*
-		 * Intent intent = new Intent(getActivity(), VkLoginActivity.class);
-		 * getActivity().startActivity(intent);
-		 */
     }
 
     public void createShareFbActivity() {
-		/*
-		 * SocialClient.sendMessage( getActivity(), SocialNetwork.FACEBOOK, null,
-		 * getActivity().getString(R.string.socialMessageBase).concat(" ")
-		 * .concat(getActivity().getString(R.string.socialMessageAddition)));
-		 */
-
         // start Facebook Login
         Session session = Session.getActiveSession();
         if (session != null && session.isOpened()) {
@@ -194,7 +200,6 @@ public class SocialController {
             List<String> permissions = new ArrayList<String>();
             permissions.add("public_profile");
             permissions.add("user_friends");
-            // permissions.add("publish_actions");
             Session.openActiveSession(getActivity(), true, permissions, new Session.StatusCallback() {
                 // callback when session changes state
                 @Override
@@ -212,14 +217,12 @@ public class SocialController {
 
             if (message != null)
                 builder = builder.setDescription(getActivity().getString(R.string.socialMessageBase));
-            // .setCaption("Test message caption")
 
             if (link != null)
                 builder = builder.setLink(getActivity().getString(R.string.socialMessageAddition));
 
             if (name != null)
                 builder = builder.setName(getActivity().getString(R.string.socialMessageMsgTitle));
-            // .setRef("Test ref")
 
             if (iconUrl != null)
                 builder = builder.setPicture(getActivity().getString(R.string.socialMessageIconUrl));

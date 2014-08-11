@@ -1,15 +1,15 @@
 package com.furdey.shopping.contentproviders;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.furdey.shopping.utils.FileHelper;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -29,7 +29,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	// e.g. if you increase the database version
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVer, int newVer) {
-		System.out.println("DatabaseHelper.onUpgrade() oldVer: " + oldVer + " newVer: " + newVer);
 		switch (oldVer) {
 		case 1:
 		case 2:
@@ -54,7 +53,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		case 4:
 			db.execSQL("ALTER TABLE `goods_categories` ADD COLUMN `icon` VARCHAR;");
 		}
-		System.out.println("DatabaseHelper.onUpgrade() done");
 	}
 
 	/**

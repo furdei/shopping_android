@@ -136,7 +136,6 @@ public class PurchasesListFragment extends Fragment {
 			PurchaseState purchaseState = PurchaseState.valueOf(cursor.getString(cursor
 					.getColumnIndex(PurchasesContentProvider.Columns.STATE.toString())));
 			if (purchaseState == PurchaseState.ACCEPTED) {
-				System.out.println("PurchasesListFragment.onContextItemSelected() ACCEPTED");
 				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 				builder.setTitle(R.string.purchasesLiConfirmDeleteCaption);
 				builder.setMessage(R.string.purchasesLiConfirmDeleteDetails)
@@ -154,7 +153,6 @@ public class PurchasesListFragment extends Fragment {
 				// Create the AlertDialog object and return it
 				builder.create().show();
 			} else {
-				System.out.println("PurchasesListFragment.onContextItemSelected() ENTERED");
 				listener.onDeletePurchase(PurchasesUtils.fromCursor(cursor));
 				Toast.makeText(getActivity().getApplicationContext(), R.string.purchasesLiItemDeleted,
 						Toast.LENGTH_LONG).show();
@@ -203,7 +201,6 @@ public class PurchasesListFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		System.out.println("PurchasesListFragment.onCreateOptionsMenu()");
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.purchases_list, menu);
 

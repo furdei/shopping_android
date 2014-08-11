@@ -1,16 +1,7 @@
 package com.furdey.social.vk.connector;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.URI;
-import java.net.URL;
-import java.security.KeyStore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-import java.util.logging.StreamHandler;
+import com.furdey.social.vk.api.Response;
+import com.google.gson.Gson;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -30,8 +21,17 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
-import com.furdey.social.vk.api.Response;
-import com.google.gson.Gson;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.URI;
+import java.net.URL;
+import java.security.KeyStore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 /**
  * Класс для выполнения запросов к vk.com. Хранит переменные сессии и открытое
@@ -111,7 +111,6 @@ public final class JsonHttpConnector implements VkConnector {
 			if (gson == null)
 				gson = new Gson();
 
-			System.out.println(TAG + ". Request: " + request);
 			HttpPost httpRequest = new HttpPost();
 			URL url = new URL(request);
 			String nullFragment = null;
@@ -127,11 +126,8 @@ public final class JsonHttpConnector implements VkConnector {
 			String line = "";
 			String NL = System.getProperty("line.separator");
 
-			System.out.println(TAG + ". Web page retrived. Sending content to a console...");
-
 			while ((line = in.readLine()) != null) {
 				sb.append(line + NL);
-				System.out.println(TAG + ". " + line);
 			}
 
 			in.close();
@@ -139,14 +135,14 @@ public final class JsonHttpConnector implements VkConnector {
 			apiResponse = (Response) gson.fromJson(page, responseType);
 
 		} catch (Exception e) {
-			System.out.println(TAG + ". Error while retriving URL: " + e.getMessage());
 			throw new RuntimeException("Error while retriving URL", e);
 		} finally {
 			if (in != null) {
 				try {
 					in.close();
 				} catch (IOException e) {
-					System.out.println(TAG + ". Error while closing input stream: " + e.getMessage());
+					// do nothing here, we just tried to shut it down.
+                    // error means it has already been shut down
 				}
 			}
 		}

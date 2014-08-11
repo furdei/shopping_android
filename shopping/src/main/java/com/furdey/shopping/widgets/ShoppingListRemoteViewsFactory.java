@@ -101,7 +101,6 @@ public class ShoppingListRemoteViewsFactory implements RemoteViewsFactory {
 	}
 
 	public void onDataSetChanged() {
-		System.out.println("ShoppingListRemoteViewsFactory.onDataSetChanged()");
 		// Refresh the cursor
 		if (mCursor != null) {
 			mCursor.close();

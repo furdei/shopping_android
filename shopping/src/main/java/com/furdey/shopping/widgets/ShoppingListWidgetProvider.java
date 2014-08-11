@@ -12,7 +12,6 @@ import android.os.Build;
 import android.widget.RemoteViews;
 
 import com.furdey.shopping.R;
-import com.furdey.shopping.activities.GoodsActivity;
 import com.furdey.shopping.activities.PurchasesActivity;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -20,6 +19,9 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
 
 	public static final String WIDGET_IDS_KEY = ShoppingListWidgetProvider.class.getCanonicalName()
 			.concat(".widgetIDs");
+
+    private static final int REQUEST_PURCHASES_LIST   = 0;
+    private static final int REQUEST_ADD_NEW_PURCHASE = 1;
 
 	public static void updateWidgets(Context context) {
 		AppWidgetManager man = AppWidgetManager.getInstance(context);
@@ -45,8 +47,6 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		// update each of the app widgets with the remote adapter
 		for (int i = 0; i < appWidgetIds.length; ++i) {
-			System.out.println("ShoppingListWidgetProvider.onUpdate() i=" + i + " id=" + appWidgetIds[i]);
-
 			// Sets up the intent that points to the StackViewService that will
 			// provide the views for this collection.
 			Intent intent = new Intent(context, ShoppingListRemoteViewsService.class);
@@ -66,14 +66,19 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
 
 			// Start the main activity when user clicks an icon
 			Intent showPurchasesListIntent = new Intent(context, PurchasesActivity.class);
-			PendingIntent showPurchasesListPendingIntent = PendingIntent.getActivity(context, 0,
-					showPurchasesListIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            showPurchasesListIntent.putExtra(PurchasesActivity.MODE_PARAMETER,
+                    PurchasesActivity.Mode.PURCHASES_LIST.toString());
+			PendingIntent showPurchasesListPendingIntent = PendingIntent.getActivity(context,
+                    REQUEST_PURCHASES_LIST, showPurchasesListIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
 			rv.setOnClickPendingIntent(R.id.shoppingListWidgetLogo, showPurchasesListPendingIntent);
 
-			// Start 'Add a purchase' activity when user click an 'add' icon
-			Intent newRecordIntent = new Intent(context, GoodsActivity.class);
-			PendingIntent newRecordPendingIntent = PendingIntent.getActivity(context, 0, newRecordIntent,
-					PendingIntent.FLAG_UPDATE_CURRENT);
+			// Start 'Add a purchase' activity when user clicks an 'add' icon
+			Intent newRecordIntent = new Intent(context, PurchasesActivity.class);
+            newRecordIntent.putExtra(PurchasesActivity.MODE_PARAMETER,
+                    PurchasesActivity.Mode.ADD_NEW_PURCHASE.toString());
+			PendingIntent newRecordPendingIntent = PendingIntent.getActivity(context,
+                    REQUEST_ADD_NEW_PURCHASE, newRecordIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 			rv.setOnClickPendingIntent(R.id.shoppingListWidgetNewRecord, newRecordPendingIntent);
 
 			appWidgetManager.updateAppWidget(appWidgetIds[i], rv);

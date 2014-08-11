@@ -20,7 +20,7 @@ import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.furdey.shopping.R;
-import com.furdey.shopping.adapters.GoodsListAdapter.Mode;
+import com.furdey.shopping.adapters.GoodsListAdapter;
 import com.furdey.shopping.content.GoodsCategoriesUtils;
 import com.furdey.shopping.content.GoodsUtils;
 import com.furdey.shopping.content.PurchasesUtils;
@@ -44,6 +44,7 @@ import com.furdey.shopping.utils.FeedbackDialogUtil.SocialShareListener;
 import com.furdey.shopping.utils.NetworkUtils;
 import com.furdey.shopping.utils.PreferencesManager;
 import com.furdey.shopping.utils.PreferencesManager.PurchasesSortOrder;
+import com.furdey.shopping.widgets.ShoppingListWidgetProvider;
 import com.furdey.social.android.SocialClient;
 import com.furdey.social.android.SocialClientsManager.SocialNetwork;
 
@@ -56,9 +57,19 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 
 	public static final int REQUEST_SELECT_FRIEND = 1;
 
+    public static final String RESULT_MESSAGE_PARAM_NAME = PurchasesActivity.class.getCanonicalName() + ".messageId";
+
+    /**
+     * Modes are used to let user go to the 'Add a purchase' window
+     */
+    public enum Mode {
+        PURCHASES_LIST, ADD_NEW_PURCHASE
+    }
+
+    public static final String MODE_PARAMETER = PurchasesActivity.class.getCanonicalName() + ".mode";
+
 	private static final int RESULT_EMPTY = -1;
 	private static final String TAG = PurchasesActivity.class.getSimpleName();
-    public static final String RESULT_MESSAGE_PARAM_NAME = "com.furdey.shopping.activities.PurchasesController.messageId";
 
 	private InternetConnectionBroadcastReceiver internetConnectionBroadcastReceiver = null;
 	private boolean internetConnectionBroadcastReceiverRegistered = false;
@@ -76,7 +87,6 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 	private static final String GOODS_LIST_LOADER_FILTER = "goodsFilter";
 	private static final String CATEGORIES_LIST_LOADER_FILTER = "categoriesFilter";
 
-
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,6 +95,11 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 		FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
 		tr.add(R.id.dynamic_fragment_container, purchasesListFragment, PURCHASES_LIST_TAG);
 		tr.commit();
+
+        if (getMode() == Mode.ADD_NEW_PURCHASE) {
+            System.out.println("PurchasesActivity.onCreate getMode() == Mode.ADD_NEW_PURCHASE");
+            onNewPurchaseMenuSelected();
+        }
 
 		internetConnectionBroadcastReceiver = new InternetConnectionBroadcastReceiver();
 
@@ -482,6 +497,7 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 			break;
 
 		case PURCHASES_LIST_LOADER:
+            ShoppingListWidgetProvider.updateWidgets(getApplicationContext());
 			PurchasesListFragment purchasesListFragment = getPurchasesListFragment();
 
 			if (purchasesListFragment != null)
@@ -557,7 +573,7 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 	}
 
 	private void goToGoodsList(String filter, boolean addToBackStack) {
-        GoodsListFragment goodsListFragment = GoodsListFragment.newInstance(Mode.LOOKUP, filter);
+        GoodsListFragment goodsListFragment = GoodsListFragment.newInstance(GoodsListAdapter.Mode.LOOKUP, filter);
 		FragmentTransaction tr = getSupportFragmentManager().beginTransaction().replace(
 				R.id.dynamic_fragment_container, goodsListFragment, GOODS_LIST_TAG);
 
@@ -569,7 +585,6 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 	}
 
 	private void returnToPurchasesList() {
-		System.out.println("PurchasesListActivity.returnToPurchasesList()");
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 		setTitle(R.string.appName);
 	}
@@ -647,5 +662,18 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 		return getString(R.string.socialMessageBase).concat(" ").concat(
 				getString(R.string.socialMessageAddition));
 	}
+
+    private Mode getMode() {
+        String modeStr = (getIntent() != null && getIntent().getExtras() != null) ?
+                getIntent().getExtras().getString(MODE_PARAMETER) : null;
+
+        if (modeStr == null) {
+            System.out.println("PurchasesActivity.getMode return Mode.PURCHASES_LIST");
+            return Mode.PURCHASES_LIST;
+        }
+
+        System.out.println("PurchasesActivity.getMode Mode.valueOf(modeStr): " + modeStr + " : " + Mode.valueOf(modeStr).toString());
+        return Mode.valueOf(modeStr);
+    }
 
 }

@@ -6,7 +6,7 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="@string/menuUnitsListNewRecord"
-        android:icon="@drawable/content_new">
+        android:icon="@drawable/ic_action_new">
     </item>
 
 </menu>

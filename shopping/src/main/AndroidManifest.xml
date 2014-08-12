@@ -36,11 +36,6 @@
             android:launchMode="singleTask" >
         </activity>
         
-        <activity 
-            android:name="com.furdey.shopping.activities.PurchasesFormActivity"
-            android:launchMode="singleTask" >
-        </activity>
-        
         <activity
             android:name="com.furdey.shopping.activities.UnitsActivity"
             android:label="@string/unitsLiTitle" >
@@ -57,9 +52,6 @@
                 <action android:name="com.furdey.shopping.intent.action.GOODS_LIST" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        
-        <activity android:name="com.furdey.shopping.activities.GoodsFormActivity" >
         </activity>
         
         <activity android:name="com.furdey.shopping.activities.VkLoginActivity" >
@@ -131,7 +123,18 @@
 		     android:exported="false"
 		     android:permission="android.permission.BIND_REMOTEVIEWS" >
 		</service>
-		        
+
+        <service
+            android:name="com.furdey.shopping.widgets.ShoppingListRemoteViewsService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" >
+        </service>
+
+        <service
+            android:name="com.furdey.shopping.widgets.ShoppingListWidgetActionsService"
+            android:exported="false">
+        </service>
+
     </application>
 
 </manifest>

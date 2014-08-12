@@ -220,14 +220,14 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 	}
 
 	private Purchase constructModelFromUi() {
-		Purchase purchase = new Purchase();
-		Purchase paramModel = (Purchase) getArguments().getSerializable(PARAM_PURCHASE);
-
-		purchase.setId(paramModel.getId());
+		Purchase purchase = (Purchase) getArguments().getSerializable(PARAM_PURCHASE);
 
 		if (descrEdit.getText() != null && descrEdit.getText().toString() != null
-				&& descrEdit.getText().toString().trim().length() > 0)
-			purchase.setDescr(descrEdit.getText().toString().trim());
+				&& descrEdit.getText().toString().trim().length() > 0) {
+            purchase.setDescr(descrEdit.getText().toString().trim());
+        } else {
+            purchase.setDescr(null);
+        }
 
 		if (countEdit.getText() != null && countEdit.getText().toString() != null
 				&& countEdit.getText().toString().trim().length() > 0)

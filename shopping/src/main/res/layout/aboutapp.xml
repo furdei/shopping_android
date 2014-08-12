@@ -53,7 +53,7 @@
             android:id="@+id/aboutAppShareEm"
             android:layout_width="@dimen/socialButtonHeight"
             android:layout_height="@dimen/socialButtonHeight"
-            android:src="@drawable/content_email"
+            android:src="@drawable/ic_action_email"
             android:layout_marginLeft="@dimen/marginLeft"
             android:layout_marginRight="@dimen/marginRight"
             android:clickable="true"

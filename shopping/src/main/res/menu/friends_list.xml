@@ -6,7 +6,7 @@
         android:orderInCategory="100"
         android:showAsAction="always|withText"
         android:title="@string/menuFriendsListSendMessage"
-        android:icon="@drawable/content_email"
+        android:icon="@drawable/ic_action_email"
         android:visible="false" >
     </item>
     

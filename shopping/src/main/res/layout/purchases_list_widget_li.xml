@@ -6,6 +6,7 @@
     style="@style/GridItem">
     
 	<RelativeLayout
+        android:id="@+id/purchasesListWidgetLi"
 	    android:layout_width="match_parent"
 	    android:layout_height="@dimen/listItemHeight"
 		android:layout_marginLeft="@dimen/windowBorderLeft"

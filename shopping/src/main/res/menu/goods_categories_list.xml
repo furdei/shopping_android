@@ -14,7 +14,7 @@
 	    <item
 	        android:id="@+id/menuGoodsCategoriesListNewRecord"
 	        android:title="@string/menuGoodsCategoriesListNewRecord"
-	        android:icon="@drawable/content_new"
+	        android:icon="@drawable/ic_action_new"
 	        appcompat:showAsAction="always" >
 	    </item>
 

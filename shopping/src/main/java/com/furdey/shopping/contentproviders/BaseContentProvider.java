@@ -2,7 +2,14 @@ package com.furdey.shopping.contentproviders;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.UriMatcher;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+
+import com.furdey.shopping.content.ContentUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,7 +26,19 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 		String getDbName();
 	}
 
-	private DatabaseHelper dbHelper;
+    protected static final int ALL_RECORDS = 10;
+    protected static final int PARTICULAR_RECORD = 20;
+
+    protected static final String ERROR_UNKNOWN_URI = "Unknown URI: %s";
+    protected static final String ERROR_SELECTION_SELECTION_ARGS_ARE_NOT_SUPPORTED = "Neither selection nor selectionArgs are supported, should be null";
+    protected static final String ERROR_FAILED_TO_ADD_A_ROW = "Failed to add a row to %s (id = %d)";
+
+    private static final String ID_COLUMN = "_id";
+    private static final String DELETED_COLUMN = "deleted";
+    private static final String CHANGED_COLUMN = "changed";
+    private static final String STANDARD_COLUMN = "standard";
+
+    private DatabaseHelper dbHelper;
 
 	final protected DatabaseHelper getDbHelper() {
 		return dbHelper;
@@ -99,5 +118,100 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 	final protected String getId(Uri uri) {
 		return Long.toString(ContentUris.parseId(uri));
 	}
+
+    protected Cursor queryAll(UriMatcher uriMatcher, Uri uri, String tables, String[] projection,
+                              String selection, String[] selectionArgs, String sortOrder) {
+        return queryAll(uriMatcher, uri, tables, tables, projection, selection, selectionArgs,
+                sortOrder);
+    }
+
+    protected Cursor queryAll(UriMatcher uriMatcher, Uri uri, String tables, String mainTable,
+                              String[] projection, String selection, String[] selectionArgs,
+                              String sortOrder) {
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+
+        // check if the caller has requested a column which does not exists
+        checkColumns(projection);
+
+        // Set the table
+        queryBuilder.setTables(tables);
+
+        int uriType = uriMatcher.match(uri);
+        switch (uriType) {
+            case ALL_RECORDS:
+                queryBuilder.appendWhere(mainTable + "." + DELETED_COLUMN + " IS NULL");
+                break;
+            case PARTICULAR_RECORD:
+                // adding the ID to the original query
+                queryBuilder.appendWhere(mainTable + "." + ID_COLUMN + "=" + getId(uri));
+                break;
+            default:
+                throw new IllegalArgumentException(String.format(ERROR_UNKNOWN_URI, uri));
+        }
+
+        queryBuilder.setProjectionMap(getColumnsMap());
+
+        Cursor cursor = queryBuilder.query(getDbHelper().getDb(), projection, selection, selectionArgs,
+                null, null, sortOrder);
+        // make sure that potential listeners are getting notified
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+        return cursor;
+    }
+
+    protected Uri insert(String tableName, Uri uri, ContentValues values) {
+        values.put(CHANGED_COLUMN, ContentUtils.getCurrentDateAndTime());
+        values.put(STANDARD_COLUMN, ContentUtils.NONSTANDARD);
+
+        SQLiteDatabase db = getDbHelper().getDb();
+        long id = db.insert(tableName, null, values);
+
+        if (id < 0)
+            throw new IllegalStateException(String.format(ERROR_FAILED_TO_ADD_A_ROW, tableName, id));
+
+        Uri inserted = ContentUris.withAppendedId(uri, id);
+        getContext().getContentResolver().notifyChange(inserted, null);
+        return inserted;
+    }
+
+    protected int update(UriMatcher uriMatcher, Uri uri, String tableName, ContentValues values, String selection, String[] selectionArgs) {
+        int uriType = uriMatcher.match(uri);
+        if (uriType != PARTICULAR_RECORD) {
+            throw new IllegalArgumentException(String.format(ERROR_UNKNOWN_URI, uri));
+        }
+
+        if (selection != null || selectionArgs != null) {
+            throw new IllegalArgumentException(ERROR_SELECTION_SELECTION_ARGS_ARE_NOT_SUPPORTED);
+        }
+
+        values.put(CHANGED_COLUMN, ContentUtils.getCurrentDateAndTime());
+
+        SQLiteDatabase db = getDbHelper().getDb();
+        int rowsAffected = db.update(tableName, values, ID_COLUMN + "=?",
+                new String[] { getId(uri) });
+        getContext().getContentResolver().notifyChange(uri, null);
+        return rowsAffected;
+    }
+
+    protected int delete(UriMatcher uriMatcher, Uri uri, String tableName, String selection, String[] selectionArgs) {
+        int uriType = uriMatcher.match(uri);
+        if (uriType != PARTICULAR_RECORD) {
+            throw new IllegalArgumentException(String.format(ERROR_UNKNOWN_URI, uri));
+        }
+
+        if (selection != null || selectionArgs != null) {
+            throw new IllegalArgumentException(ERROR_SELECTION_SELECTION_ARGS_ARE_NOT_SUPPORTED);
+        }
+
+        ContentValues values = new ContentValues();
+        values.put(DELETED_COLUMN, 1);
+        values.put(CHANGED_COLUMN, ContentUtils.getCurrentDateAndTime());
+
+        SQLiteDatabase db = getDbHelper().getDb();
+        int rowsAffected = db.update(tableName, values, ID_COLUMN + "=?",
+                new String[] { getId(uri) });
+        getContext().getContentResolver().notifyChange(uri, null);
+        return rowsAffected;
+    }
 
 }

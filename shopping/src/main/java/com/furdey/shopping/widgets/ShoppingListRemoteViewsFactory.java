@@ -1,6 +1,7 @@
 package com.furdey.shopping.widgets;
 
 import android.annotation.TargetApi;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,13 +12,15 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
 
 import com.furdey.shopping.R;
+import com.furdey.shopping.content.PurchasesUtils;
 import com.furdey.shopping.content.model.Purchase.PurchaseState;
-import com.furdey.shopping.contentproviders.PurchasesContentProvider;
 import com.furdey.shopping.contentproviders.PurchasesContentProvider.Columns;
 
 // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android-apps/4.0.1_r1/com/example/android/weatherlistwidget/WeatherWidgetService.java
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ShoppingListRemoteViewsFactory implements RemoteViewsFactory {
+
+    private static final int REQUEST_PURCHASE_CLICKED = 0;
 
 	private Context mContext;
 	private Cursor mCursor;
@@ -79,6 +82,13 @@ public class ShoppingListRemoteViewsFactory implements RemoteViewsFactory {
 			rv.setViewVisibility(R.id.purchasesListWidgetLiStrike, View.GONE);
 		}
 
+        // On click launch an intent
+        Intent purchaseClickedIntent = ShoppingListWidgetActionsService.
+                getOnPurchaseClickedIntent(mContext, mCursor.getLong(getColumnsIndices().idIndex));
+        PendingIntent newRecordPendingIntent = PendingIntent.getService(mContext,
+                REQUEST_PURCHASE_CLICKED, purchaseClickedIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        rv.setOnClickPendingIntent(R.id.purchasesListWidgetLi, newRecordPendingIntent);
+
 		return rv;
 	}
 
@@ -111,9 +121,8 @@ public class ShoppingListRemoteViewsFactory implements RemoteViewsFactory {
 
 		final long token = Binder.clearCallingIdentity();
 		try {
-			mCursor = mContext.getContentResolver().query(PurchasesContentProvider.PURCHASES_URI,
-					projection, null, null, null);
-
+            mCursor = PurchasesUtils.getPurchases(mContext, projection, null, null,
+                    PurchasesUtils.getPurchasesSortOrder(mContext));
 		} finally {
 			Binder.restoreCallingIdentity(token);
 		}

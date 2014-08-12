@@ -27,7 +27,6 @@ import com.furdey.shopping.content.PurchasesUtils;
 import com.furdey.shopping.content.model.Goods;
 import com.furdey.shopping.content.model.GoodsCategory;
 import com.furdey.shopping.content.model.Purchase;
-import com.furdey.shopping.content.model.Purchase.PurchaseState;
 import com.furdey.shopping.controllers.SocialController;
 import com.furdey.shopping.fragments.GoodsCategoriesListFragment;
 import com.furdey.shopping.fragments.GoodsCategoriesListFragment.GoodsCategoriesListListener;
@@ -187,13 +186,11 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 
 	@Override
 	public void onPurchaseClicked(Purchase purchase) {
-		purchase.setState(purchase.getState() == PurchaseState.ENTERED ? PurchaseState.ACCEPTED
-				: PurchaseState.ENTERED);
-
 		new ToastThrowableAsyncTask<Purchase, Void>(getApplicationContext()) {
 			@Override
 			protected Void doBackgroundWork(Purchase purchase) throws Exception {
-				PurchasesUtils.savePurchase(getApplicationContext(), purchase);
+				PurchasesUtils.savePurchase(getApplicationContext(),
+                        PurchasesUtils.revertState(purchase));
 				return null;
 			}
 		}.execute(purchase);

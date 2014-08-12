@@ -97,11 +97,12 @@ public class PurchasesListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		View view = inflater.inflate(R.layout.base_list, container, false);
+		View view = inflater.inflate(R.layout.purchases_list, container, false);
 
 		grid = (ListView) view.findViewById(R.id.baseListGrid);
 		adapter = new PurchasesListAdapter(getActivity());
 		grid.setAdapter(adapter);
+        grid.setEmptyView(view.findViewById(R.id.shoppingListGridEmpty));
 		registerForContextMenu(grid);
 
 		grid.setOnItemClickListener(new OnItemClickListener() {

@@ -16,6 +16,9 @@ import com.furdey.shopping.contentproviders.PurchasesContentProvider;
 import com.furdey.shopping.tasks.LoadIconTask;
 
 public class PurchasesListAdapter extends CursorAdapter {
+
+    private static final float MINIMAL_VIEWABLE_COUNT = 0.001f;
+
 	private ViewHolder viewHolder;
 
 	public PurchasesListAdapter(Context context) {
@@ -60,9 +63,10 @@ public class PurchasesListAdapter extends CursorAdapter {
 		} else
 			descr.setVisibility(View.GONE);
 
+        float countFloat = cursor.getFloat(viewHolder.countInd);
 		TextView countAndUnits = (TextView) view.findViewById(R.id.purchasesLiCountAndUnits);
-		countAndUnits.setText(cursor.getString(viewHolder.countInd).concat(" ")
-				.concat(cursor.getString(viewHolder.unitsNameInd)));
+		countAndUnits.setText(countFloat >= MINIMAL_VIEWABLE_COUNT ? cursor.getString(viewHolder.countInd).concat(" ")
+				.concat(cursor.getString(viewHolder.unitsNameInd)) : null);
 
 		PurchaseState state = PurchaseState.valueOf(cursor.getString(viewHolder.stateInd));
 

@@ -123,11 +123,30 @@ public class PurchasesUtils {
 				.concat(PurchasesContentProvider.Columns.DELETED.getDbName()).concat(" IS NULL");
 		String[] selectionArgs = new String[] { Long.toString(goodsId),
 				PurchaseState.ENTERED.toString() };
-		return context.getContentResolver().query(PurchasesContentProvider.PURCHASES_URI,
-				purchasesListProjection, selection, selectionArgs, null);
+        return getPurchases(context, purchasesListProjection, selection, selectionArgs, null);
 	}
 
-	public static ContentValues getContentValues(Purchase purchase, boolean includeId) {
+    public static Purchase getPurchaseById(Context context, long purchaseId) {
+        String selection = Columns._id.getDbName() + "=?";
+        String[] selectionArgs = new String[] { Long.toString(purchaseId) };
+
+        Cursor cursor = getPurchases(context, purchasesListProjection, selection, selectionArgs, null);
+
+        if (cursor == null || !cursor.moveToFirst()) {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            return null;
+        }
+
+        Purchase purchase = fromCursor(cursor);
+        cursor.close();
+
+        return purchase;
+    }
+
+    public static ContentValues getContentValues(Purchase purchase, boolean includeId) {
 		ContentValues contentValues = new ContentValues();
 
 		if (purchase.getId() != null && includeId)
@@ -203,6 +222,12 @@ public class PurchasesUtils {
 		purchase.setStrdate(c.getTime());
 		return purchase;
 	}
+
+    public static Purchase revertState(Purchase purchase) {
+        purchase.setState(purchase.getState() == PurchaseState.ENTERED ? PurchaseState.ACCEPTED
+                : PurchaseState.ENTERED);
+        return purchase;
+    }
 
 	public static String getPurchasesSortOrder(Context context) {
 		PurchasesSortOrder purchasesSortOrder = PreferencesManager.getPurchasesSortOrder(context);

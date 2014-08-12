@@ -17,7 +17,7 @@
 	        android:orderInCategory="100"
 	        appcompat:showAsAction="always|withText"
 	        android:title="@string/menuGoodsListNewRecord"
-	        android:icon="@drawable/content_new"
+	        android:icon="@drawable/ic_action_new"
 	        android:visible="false" >
 	    </item>
 

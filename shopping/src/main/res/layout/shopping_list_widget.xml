@@ -24,7 +24,7 @@
 	        android:id="@+id/shoppingListWidgetSort"
 	        android:layout_width="@dimen/buttonHeight"
 	        android:layout_height="@dimen/buttonHeight"
-	        android:src="@drawable/collections_sort_by_size"
+	        android:src="@drawable/ic_action_sort_by_size"
 	        android:layout_marginLeft="@dimen/marginLeft"
 	        android:layout_marginRight="@dimen/marginRight"
 	        android:layout_alignParentRight="true"
@@ -53,7 +53,7 @@
 		    <ImageView
 		        android:layout_width="@dimen/buttonHeight"
 		        android:layout_height="@dimen/buttonHeight"
-		        android:src="@drawable/content_new"/>
+		        android:src="@drawable/ic_action_new"/>
 		    
 		    <TextView
 		        android:layout_width="wrap_content"

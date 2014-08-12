@@ -6,7 +6,7 @@
         android:orderInCategory="10"
         appcompat:showAsAction="always|withText"
         android:title="@string/menuPurchasesListNewRecord"
-        android:icon="@drawable/content_new">
+        android:icon="@drawable/ic_action_new">
     </item>
     
     <item
@@ -14,7 +14,7 @@
         android:orderInCategory="20"
         appcompat:showAsAction="ifRoom"
         android:title="@string/menuPurchasesListSortOrder"
-        android:icon="@drawable/collections_sort_by_size">
+        android:icon="@drawable/ic_action_sort_by_size">
         
         <menu>
             <group android:id="@+id/menuPurchasesListSortOrderGroup"
@@ -48,7 +48,7 @@
         android:orderInCategory="30"
         android:showAsAction="ifRoom"
         android:title="@string/menuPurchasesListSendList"
-        android:icon="@drawable/content_email">
+        android:icon="@drawable/ic_action_email">
         
         <menu>
             <group android:id="@+id/menuPurchasesListSendListGroup">
@@ -87,7 +87,7 @@
         android:orderInCategory="40"
         android:showAsAction="ifRoom"
         android:title="@string/menuPurchasesListShare"
-        android:icon="@drawable/social_share">
+        android:icon="@drawable/ic_action_share">
         
         <menu>
             <group android:id="@+id/menuPurchasesListShareGroup">

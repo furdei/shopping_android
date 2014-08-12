@@ -3,10 +3,9 @@
     android:minWidth="180dp"
     android:minHeight="110dp"
     android:updatePeriodMillis="5000"
-    android:previewImage="@drawable/ic_launcher"
+    android:previewImage="@drawable/purchases_widget"
     android:initialLayout="@layout/shopping_list_widget"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard"
     android:initialKeyguardLayout="@layout/loading">
 </appwidget-provider>
-<!--     android:configure="com.example.android.ExampleAppWidgetConfigure"  --> 

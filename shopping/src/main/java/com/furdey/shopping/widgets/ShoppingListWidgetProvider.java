@@ -22,12 +22,14 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
 
     private static final int REQUEST_PURCHASES_LIST   = 0;
     private static final int REQUEST_ADD_NEW_PURCHASE = 1;
+    private static final int REQUEST_PURCHASE_CLICKED = 2;
 
-	public static void updateWidgets(Context context) {
+    public static void updateWidgets(Context context) {
 		AppWidgetManager man = AppWidgetManager.getInstance(context);
 		int[] ids = man.getAppWidgetIds(new ComponentName(context, ShoppingListWidgetProvider.class));
 		Intent updateIntent = new Intent();
-		updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+		//updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        updateIntent.setAction("com.furdey.shopping.action.APPWIDGET_UPDATE");
 		updateIntent.putExtra(WIDGET_IDS_KEY, ids);
 		context.sendBroadcast(updateIntent);
 	}
@@ -80,6 +82,13 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
 			PendingIntent newRecordPendingIntent = PendingIntent.getActivity(context,
                     REQUEST_ADD_NEW_PURCHASE, newRecordIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 			rv.setOnClickPendingIntent(R.id.shoppingListWidgetNewRecord, newRecordPendingIntent);
+
+            // A template for purchases list items clicks
+            PendingIntent purchaseClickedPendingIntent = PendingIntent.getService(context,
+                    REQUEST_PURCHASE_CLICKED,
+                    ShoppingListWidgetActionsService.getOnPurchaseClickedIntent(context),
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            rv.setPendingIntentTemplate(R.id.shoppingListGrid, purchaseClickedPendingIntent);
 
 			appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
 		}

@@ -13,10 +13,14 @@ import com.furdey.shopping.content.model.Purchase;
 public class ShoppingListWidgetActionsService extends IntentService {
 
     public static Intent getOnPurchaseClickedIntent(Context context, long purchaseId) {
-        Intent intent = new Intent(context, ShoppingListWidgetActionsService.class);
+        Intent intent = getOnPurchaseClickedIntent(context);
         intent.setData(ContentUris.withAppendedId(Uri.parse(
                 ACTIONS_URI.toString().concat("/").concat(PURCHASE_CLICKED_PATH)), purchaseId));
         return intent;
+    }
+
+    public static Intent getOnPurchaseClickedIntent(Context context) {
+        return new Intent(context, ShoppingListWidgetActionsService.class);
     }
 
     private static final String ERROR_UNKNOWN_URI = "Unknown URI: %s";

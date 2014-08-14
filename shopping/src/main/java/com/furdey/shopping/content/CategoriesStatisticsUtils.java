@@ -102,6 +102,10 @@ public class CategoriesStatisticsUtils {
 		else
 			categoriesStatistics = fromCursor(categoriesStatisticsCursor);
 
+        if (categoriesStatisticsCursor != null) {
+            categoriesStatisticsCursor.close();
+        }
+
 		if (categoriesStatistics == null) {
 			// insert a new row
 			categoriesStatistics = new CategoriesStatistics();

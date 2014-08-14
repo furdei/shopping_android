@@ -97,6 +97,10 @@ public class GoodsStatisticsUtils {
 		else
 			goodsStatistics = fromCursor(goodsStatisticsCursor);
 
+        if (goodsStatisticsCursor != null) {
+            goodsStatisticsCursor.close();
+        }
+
 		if (goodsStatistics == null) {
 			// insert a new row
 			goodsStatistics = new GoodsStatistics();

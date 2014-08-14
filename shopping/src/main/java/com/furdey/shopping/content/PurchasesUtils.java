@@ -291,6 +291,10 @@ public class PurchasesUtils {
 
 		if (oldPurchaseCursor == null || !oldPurchaseCursor.moveToFirst()) {
 			// there was no any purchases
+            if (oldPurchaseCursor != null) {
+                oldPurchaseCursor.close();
+            }
+
 			return;
 		}
 
@@ -354,8 +358,13 @@ public class PurchasesUtils {
 		Cursor purchases = getPurchases(context, purchasesListProjection, selection, selectionArgs,
 				PurchasesContentProvider.Columns.CHANGED.getDbName() + " DESC");
 
-		if (purchases == null || !purchases.moveToFirst())
-			return null;
+		if (purchases == null || !purchases.moveToFirst()) {
+            if (purchases != null) {
+                purchases.close();
+            }
+
+            return null;
+        }
 
 		return fromCursor(purchases);
 	}

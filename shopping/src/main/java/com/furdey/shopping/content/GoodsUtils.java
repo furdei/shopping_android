@@ -127,8 +127,13 @@ public class GoodsUtils {
 				ContentUris.withAppendedId(GoodsContentProvider.GOODS_URI, id), projection, null, null,
 				null);
 
-		if (cursor == null || !cursor.moveToFirst())
-			return null;
+		if (cursor == null || !cursor.moveToFirst()) {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            return null;
+        }
 
 		Goods goods = fromCursor(cursor);
 		cursor.close();

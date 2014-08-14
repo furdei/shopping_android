@@ -127,7 +127,7 @@
 
         <service
             android:name="com.furdey.shopping.widgets.ShoppingListWidgetActionsService"
-            android:exported="true" >
+            android:exported="false" >
         </service>
 
     </application>

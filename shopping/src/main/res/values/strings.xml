@@ -84,6 +84,7 @@
     <string name="menuPurchasesListShareSk">Поделиться через Skype</string>
     <string name="menuPurchasesListShareEm">Поделиться через Email</string>
     <string name="menuPurchasesListSendList">Отправить список</string>
+    <string name="menuPurchasesListSendListSms">Отправить через SMS</string>
     <string name="menuPurchasesListSendListVK">Отправить через ВКонтакте</string>
     <string name="menuPurchasesListSendListFB">Отправить через Facebook</string>
     <string name="menuPurchasesListSendListTw">Отправить через Twitter</string>

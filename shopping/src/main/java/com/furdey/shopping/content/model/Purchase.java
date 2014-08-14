@@ -12,7 +12,9 @@ import java.util.Date;
  */
 public class Purchase extends BaseModel {
 
-	private static final long serialVersionUID = -7522102470310694852L;
+    public static final float MINIMAL_VIEWABLE_COUNT = 0.001f;
+
+    private static final long serialVersionUID = -7522102470310694852L;
 
 	public enum PurchaseState {
 		ENTERED, ACCEPTED;

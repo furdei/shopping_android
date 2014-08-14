@@ -257,11 +257,15 @@ public class PurchasesUtils {
 					listStr = listStr.concat(purchasesLiSendListItemsDelimeter);
 				}
 
-				listStr = listStr.concat(purchase.getGoods().getName())
-						.concat(purchasesLiSendListCounterDelimeter).concat(purchase.getCount().toString())
-						.concat(purchasesLiSendListCounterDelimeter).concat(purchase.getUnits().getName());
+                listStr = listStr.concat(purchase.getGoods().getName());
+
+                if (purchase.getCount().floatValue() >= Purchase.MINIMAL_VIEWABLE_COUNT) {
+                    listStr = listStr.concat(purchasesLiSendListCounterDelimeter).concat(purchase.getCount().toString())
+                            .concat(purchasesLiSendListCounterDelimeter).concat(purchase.getUnits().getName());
+                }
 
 				String descr = purchase.getDescr();
+
 				if (descr != null)
 					if (descr.length() > 0) {
 						listStr = listStr.concat(String.format(purchasesLiSendListDescrFormat, descr));

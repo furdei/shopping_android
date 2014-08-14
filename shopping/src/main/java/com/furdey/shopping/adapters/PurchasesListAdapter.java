@@ -11,13 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.furdey.shopping.R;
+import com.furdey.shopping.content.model.Purchase;
 import com.furdey.shopping.content.model.Purchase.PurchaseState;
 import com.furdey.shopping.contentproviders.PurchasesContentProvider;
 import com.furdey.shopping.tasks.LoadIconTask;
 
 public class PurchasesListAdapter extends CursorAdapter {
-
-    private static final float MINIMAL_VIEWABLE_COUNT = 0.001f;
 
 	private ViewHolder viewHolder;
 
@@ -65,7 +64,7 @@ public class PurchasesListAdapter extends CursorAdapter {
 
         float countFloat = cursor.getFloat(viewHolder.countInd);
 		TextView countAndUnits = (TextView) view.findViewById(R.id.purchasesLiCountAndUnits);
-		countAndUnits.setText(countFloat >= MINIMAL_VIEWABLE_COUNT ? cursor.getString(viewHolder.countInd).concat(" ")
+		countAndUnits.setText(countFloat >= Purchase.MINIMAL_VIEWABLE_COUNT ? cursor.getString(viewHolder.countInd).concat(" ")
 				.concat(cursor.getString(viewHolder.unitsNameInd)) : null);
 
 		PurchaseState state = PurchaseState.valueOf(cursor.getString(viewHolder.stateInd));

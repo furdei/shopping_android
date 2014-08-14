@@ -52,8 +52,14 @@
         
         <menu>
             <group android:id="@+id/menuPurchasesListSendListGroup">
-                
-			    <item
+
+                <item
+                    android:id="@+id/menuPurchasesListSendListSms"
+                    android:orderInCategory="100"
+                    android:showAsAction="never"
+                    android:title="@string/menuPurchasesListSendListSms"/>
+
+                <item
 			        android:id="@+id/menuPurchasesListSendListVK"
 			        android:orderInCategory="100"
 			        android:showAsAction="never"

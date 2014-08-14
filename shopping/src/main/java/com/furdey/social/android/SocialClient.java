@@ -3,6 +3,7 @@ package com.furdey.social.android;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -19,26 +20,35 @@ public final class SocialClient {
 			String subject, String message) {
 		ComponentName componentName = SocialClientsManager.getComponentName(context, socialNetwork);
 
-		if (componentName == null)
+		if (componentName == null && socialNetwork != SocialNetwork.SMS)
 			return false;
 
-		Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+		Intent shareIntent;
 
 		switch (socialNetwork) {
+        case SMS:
+            shareIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:"));
+            shareIntent.putExtra("sms_body", message);
+            break;
 		case EMAIL:
+            shareIntent = new Intent(android.content.Intent.ACTION_SEND);
 			shareIntent.setType("message/rfc822");
 			break;
 		default:
+            shareIntent = new Intent(android.content.Intent.ACTION_SEND);
 			shareIntent.setType("text/plain");
 			shareIntent.setComponent(componentName);
 		}
 
-		if (subject != null)
-			shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
+        if (socialNetwork != SocialNetwork.SMS) {
+            if (subject != null) {
+                shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
+            }
 
-		if (message != null) {
-			shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
-		}
+            if (message != null) {
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
+            }
+        }
 
 		shareIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 

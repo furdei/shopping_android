@@ -1,20 +1,20 @@
 package com.furdey.social.android;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public final class SocialClientsManager {
 
 	public enum SocialNetwork {
-		TWITTER, FACEBOOK, VK, GOOGLE_PLUS, LINKEDIN, SKYPE, EMAIL
+		TWITTER, FACEBOOK, VK, GOOGLE_PLUS, LINKEDIN, SKYPE, EMAIL, SMS
 	};
 
 	private static Map<SocialNetwork, ComponentName> installedClients;

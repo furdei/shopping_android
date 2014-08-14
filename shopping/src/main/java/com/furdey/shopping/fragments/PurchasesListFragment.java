@@ -363,6 +363,10 @@ public class PurchasesListFragment extends Fragment {
 		case R.id.menuPurchasesListSendListEm:
 			listener.onSendPurchasesList(SocialNetwork.EMAIL);
 			return true;
+
+        case R.id.menuPurchasesListSendListSms:
+            listener.onSendPurchasesList(SocialNetwork.SMS);
+            return true;
 		}
 
 		return super.onOptionsItemSelected(item);

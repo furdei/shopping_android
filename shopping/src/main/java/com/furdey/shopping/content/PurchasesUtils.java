@@ -190,6 +190,7 @@ public class PurchasesUtils {
 		Goods goods = purchase.getGoods();
 
 		if (goods.getId() == null) {
+            goods.setDefaultUnits(purchase.getUnits());
 			Uri goodsUri = GoodsUtils.saveGoods(context, goods);
 			long goodsId = ContentUris.parseId(goodsUri);
 			goods.setId(goodsId);

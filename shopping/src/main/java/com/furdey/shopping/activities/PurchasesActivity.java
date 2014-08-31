@@ -90,14 +90,23 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.one_fragment_activity);
-		purchasesListFragment = new PurchasesListFragment();
-		FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
-		tr.add(R.id.dynamic_fragment_container, purchasesListFragment, PURCHASES_LIST_TAG);
-		tr.commit();
+
+        if (savedInstanceState == null) {
+            // we don't need to create a fragment on recreating 'case we already have got one
+            purchasesListFragment = new PurchasesListFragment();
+            FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
+            tr.add(R.id.dynamic_fragment_container, purchasesListFragment, PURCHASES_LIST_TAG);
+            tr.commit();
+        }
 
         if (getMode() == Mode.ADD_NEW_PURCHASE) {
             System.out.println("PurchasesActivity.onCreate getMode() == Mode.ADD_NEW_PURCHASE");
-            onNewPurchaseMenuSelected();
+
+            if (getGoodsListFragment() == null) {
+                onNewPurchaseMenuSelected();
+            } else {
+                Log.d(TAG, "Already at goods list");
+            }
         }
 
 		internetConnectionBroadcastReceiver = new InternetConnectionBroadcastReceiver();

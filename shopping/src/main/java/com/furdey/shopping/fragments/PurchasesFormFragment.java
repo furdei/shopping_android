@@ -51,8 +51,11 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 	}
 
 	private static final String PARAM_PURCHASE = "purchase";
+    private static final String SAVE_UNITS_SPINNER = "unitsSpinner";
 
 	private PurchasesFormListener mListener;
+    private boolean isFragmentCreated;
+    private int unitsSpinnerSelection = Spinner.INVALID_POSITION;
 
 	private static final int UNITS_LOADER = 0;
 
@@ -68,7 +71,7 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 
 	@Override
 	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+        super.onAttach(activity);
 		try {
 			mListener = (PurchasesFormListener) activity;
 		} catch (ClassCastException e) {
@@ -77,44 +80,115 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 		}
 	}
 
-	@Override
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        isFragmentCreated = false;
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(SAVE_UNITS_SPINNER)) {
+                unitsSpinnerSelection = savedInstanceState.getInt(SAVE_UNITS_SPINNER);
+            }
+        }
+    }
+
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.purchases_form, container, false);
+        View view = inflater.inflate(R.layout.purchases_form, container, false);
+        nameEdit = (EditText) view.findViewById(R.id.purchasesFmNameEdit);
+        categoryEdit = (EditText) view.findViewById(R.id.purchasesFmCategoryEdit);
+        descrEdit = (EditText) view.findViewById(R.id.purchasesFmDescrEdit);
+        countEdit = (EditText) view.findViewById(R.id.purchasesFmCountEdit);
+        saveButton = (Button) view.findViewById(R.id.formButtonSave);
+        cancelButton = (Button) view.findViewById(R.id.formButtonCancel);
+        unitsSpinner = (Spinner) view.findViewById(R.id.purchasesFmUnitsSpinner);
 
-		nameEdit = (EditText) view.findViewById(R.id.purchasesFmNameEdit);
-		categoryEdit = (EditText) view.findViewById(R.id.purchasesFmCategoryEdit);
-		descrEdit = (EditText) view.findViewById(R.id.purchasesFmDescrEdit);
-		countEdit = (EditText) view.findViewById(R.id.purchasesFmCountEdit);
-		saveButton = (Button) view.findViewById(R.id.formButtonSave);
-		cancelButton = (Button) view.findViewById(R.id.formButtonCancel);
+        unitsSpinnerAdapter = new UnitsSpinnerAdapter(getActivity());
+        unitsSpinner.setAdapter(unitsSpinnerAdapter);
 
-		unitsSpinner = (Spinner) view.findViewById(R.id.purchasesFmUnitsSpinner);
-		unitsSpinnerAdapter = new UnitsSpinnerAdapter(getActivity());
-		unitsSpinner.setAdapter(unitsSpinnerAdapter);
+        nameEdit.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String filter = (nameEdit.getText() != null) ? nameEdit.getText().toString() : null;
+                mListener.onSelectGoods(filter);
+            }
+        });
+
+        categoryEdit.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String filter = (categoryEdit.getText() != null) ? categoryEdit.getText().toString() : null;
+                mListener.onSelectGoodsCategory(filter);
+            }
+        });
+
+        // We do some text formatting here
+        countEdit.addTextChangedListener(new GoodsCountTextChangedListener());
+        // Reset count of goods when we start to edit it
+        countEdit.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    countEdit.setHint(countEdit.getText());
+                    countEdit.setText("");
+                }
+            }
+        });
+
+        unitsSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                unitsSpinnerSelection = position;
+                Cursor cursor = (Cursor) unitsSpinner.getSelectedItem();
+                int field = cursor.getColumnIndex(UnitsContentProvider.Columns.DECIMALS.toString());
+                BigDecimal dec = BigDecimal.ZERO;
+
+                if (countEdit.getText() != null && countEdit.getText().toString().trim().length() > 0) {
+                    dec = new BigDecimal(countEdit.getText().toString().trim());
+                } else if (countEdit.getHint() != null && countEdit.getHint().toString().trim().length() > 0) {
+                    dec = new BigDecimal(countEdit.getHint().toString().trim());
+                }
+
+                countEdit.setText(DecimalUtils.makeFormatString(dec, cursor.getInt(field)));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        unitsLoaderCallbacks = new UnitsLoaderCallbacks(getActivity(), unitsSpinnerAdapter);
+        getLoaderManager().initLoader(UNITS_LOADER, null, this);
+
+        saveButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Purchase newModel = constructModelFromUi();
+                if (newModel != null)
+                    mListener.onSavePurchase(newModel);
+            }
+        });
+
+        cancelButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onCancelPurchaseEdit();
+            }
+        });
+
+        if (isFragmentCreated) {
+            return view;
+        }
 
 		Purchase model = (Purchase) getArguments().getSerializable(PARAM_PURCHASE);
 
 		if (model.getGoods() != null) {
 			setGoods(model.getGoods());
 		}
-		nameEdit.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				String filter = (nameEdit.getText() != null) ? nameEdit.getText().toString() : null;
-				mListener.onSelectGoods(filter);
-			}
-		});
 
 		if (model.getGoods() != null && model.getGoods().getCategory() != null) {
 			setCategory(model.getGoods().getCategory());
 		}
-		categoryEdit.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				String filter = (categoryEdit.getText() != null) ? categoryEdit.getText().toString() : null;
-				mListener.onSelectGoodsCategory(filter);
-			}
-		});
 
 		descrEdit.setText(model.getDescr());
 
@@ -122,72 +196,36 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 			countEdit.setText(model.getCount().toPlainString());
 		}
 
-		// We do some text formatting here
-		countEdit.addTextChangedListener(new GoodsCountTextChangedListener());
-		// Reset count of goods when we start to edit it
-		countEdit.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					countEdit.setHint(countEdit.getText());
-					countEdit.setText("");
-				}
-			}
-		});
-
-		unitsSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				Cursor cursor = (Cursor) unitsSpinner.getSelectedItem();
-				int field = cursor.getColumnIndex(UnitsContentProvider.Columns.DECIMALS.toString());
-
-				BigDecimal dec = BigDecimal.ZERO;
-				if (countEdit.getText() != null && countEdit.getText().toString().trim().length() > 0) {
-					dec = new BigDecimal(countEdit.getText().toString().trim());
-				}
-				countEdit.setText(DecimalUtils.makeFormatString(dec, cursor.getInt(field)));
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-
-		unitsLoaderCallbacks = new UnitsLoaderCallbacks(getActivity(), unitsSpinnerAdapter);
-		getLoaderManager().initLoader(UNITS_LOADER, null, this);
-
-		saveButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Purchase newModel = constructModelFromUi();
-				if (newModel != null)
-					mListener.onSavePurchase(newModel);
-			}
-		});
-
-		cancelButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mListener.onCancelPurchaseEdit();
-			}
-		});
-
+        isFragmentCreated = true;
 		setRetainInstance(true);
 		return view;
 	}
 
-	@Override
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (outState != null) {
+            outState.putInt(SAVE_UNITS_SPINNER, unitsSpinnerSelection);
+        }
+    }
+
+    @Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		return unitsLoaderCallbacks.onCreateLoader(arg0, arg1);
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-		unitsLoaderCallbacks.onLoadFinished(arg0, arg1);
+        unitsLoaderCallbacks.onLoadFinished(arg0, arg1);
 		Purchase model = (Purchase) getArguments().getSerializable(PARAM_PURCHASE);
 
 		if (unitsSpinner.getSelectedItemPosition() == Spinner.INVALID_POSITION) {
-			setUnit(model.getUnits());
+            if (unitsSpinnerSelection != Spinner.INVALID_POSITION) {
+                unitsSpinner.setSelection(unitsSpinnerSelection);
+            } else {
+                setUnit(model.getUnits());
+            }
 		}
 	}
 
@@ -201,12 +239,12 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 	}
 
 	public void setGoods(Goods goods) {
-		nameEdit.setText(goods.getName());
+        nameEdit.setText(goods.getName());
 		nameEdit.setTag(goods.getId());
 	}
 
 	public void setCategory(GoodsCategory category) {
-		categoryEdit.setText(category.getName());
+        categoryEdit.setText(category.getName());
 		categoryEdit.setTag(category.getId());
 	}
 
@@ -216,7 +254,6 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 			unitsSpinner.setSelection(index);
 		} else
 			unitsSpinner.setSelection(0);
-
 	}
 
 	private Purchase constructModelFromUi() {

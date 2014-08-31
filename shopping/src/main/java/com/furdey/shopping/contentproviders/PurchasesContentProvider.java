@@ -63,7 +63,8 @@ public class PurchasesContentProvider extends
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
 			String sortOrder) {
-		// Set the table
+        System.out.println("PurchasesContentProvider.query");
+        // Set the table
 		String tables = PURCHASES_PATH.concat(" JOIN ").concat(GoodsContentProvider.GOODS_PATH).concat(" ON ")
                 .concat(Columns.GOOD_ID.getDbName()).concat(" = ").concat(Columns.GOODS__ID.getDbName())
                 .concat(" AND '").concat(ContentUtils.getCurrentDateMidnight()).concat("' BETWEEN ")
@@ -74,8 +75,11 @@ public class PurchasesContentProvider extends
                 .concat(Columns.GOODS_CATEGORY.getDbName()).concat(" = ")
                 .concat(Columns.GOODSCATEGORY_ID.getDbName());
 
-        return queryAll(sURIMatcher, uri, tables, PURCHASES_PATH, projection,
+        Cursor cursor = queryAll(sURIMatcher, uri, tables, PURCHASES_PATH, projection,
                 selection, selectionArgs, sortOrder);
+        //dump(cursor);
+
+        return cursor;
 	}
 
 	@Override

@@ -250,29 +250,33 @@ public class PurchasesUtils {
 		String purchasesLiSendListDescrFormat = context
 				.getString(R.string.purchasesLiSendListDescrFormat);
 
-		while (cursor.moveToNext()) {
-			Purchase purchase = fromCursor(cursor);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Purchase purchase = fromCursor(cursor);
 
-			if (purchase.getState() == PurchaseState.ENTERED) {
-				if (listStr.length() > 0) {
-					listStr = listStr.concat(purchasesLiSendListItemsDelimeter);
-				}
+                if (purchase.getState() == PurchaseState.ENTERED) {
+                    if (listStr.length() > 0) {
+                        listStr = listStr.concat(purchasesLiSendListItemsDelimeter);
+                    }
 
-                listStr = listStr.concat(purchase.getGoods().getName());
+                    listStr = listStr.concat(purchase.getGoods().getName());
 
-                if (purchase.getCount().floatValue() >= Purchase.MINIMAL_VIEWABLE_COUNT) {
-                    listStr = listStr.concat(purchasesLiSendListCounterDelimeter).concat(purchase.getCount().toString())
-                            .concat(purchasesLiSendListCounterDelimeter).concat(purchase.getUnits().getName());
+                    if (purchase.getCount().floatValue() >= Purchase.MINIMAL_VIEWABLE_COUNT) {
+                        listStr = listStr.concat(purchasesLiSendListCounterDelimeter).concat(purchase.getCount().toString())
+                                .concat(purchasesLiSendListCounterDelimeter).concat(purchase.getUnits().getName());
+                    }
+
+                    String descr = purchase.getDescr();
+
+                    if (descr != null)
+                        if (descr.length() > 0) {
+                            listStr = listStr.concat(String.format(purchasesLiSendListDescrFormat, descr));
+                        }
                 }
+            }
 
-				String descr = purchase.getDescr();
-
-				if (descr != null)
-					if (descr.length() > 0) {
-						listStr = listStr.concat(String.format(purchasesLiSendListDescrFormat, descr));
-					}
-			}
-		}
+            cursor.close();
+        }
 
 		return listStr;
 	}
@@ -300,6 +304,7 @@ public class PurchasesUtils {
 		}
 
 		Purchase oldPurchase = fromCursor(oldPurchaseCursor);
+        oldPurchaseCursor.close();
 
 		// we should update statistics in two cases:
 		// 1) purchase was entered and now's going to become accepted
@@ -367,7 +372,9 @@ public class PurchasesUtils {
             return null;
         }
 
-		return fromCursor(purchases);
+        Purchase purchase = fromCursor(purchases);
+		purchases.close();
+        return purchase;
 	}
 
 }

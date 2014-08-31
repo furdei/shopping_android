@@ -188,7 +188,7 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 
         SQLiteDatabase db = getDbHelper().getDb();
         int rowsAffected = db.update(tableName, values, ID_COLUMN + "=?",
-                new String[] { getId(uri) });
+                new String[]{getId(uri)});
         getContext().getContentResolver().notifyChange(uri, null);
         return rowsAffected;
     }
@@ -209,9 +209,28 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 
         SQLiteDatabase db = getDbHelper().getDb();
         int rowsAffected = db.update(tableName, values, ID_COLUMN + "=?",
-                new String[] { getId(uri) });
+                new String[]{getId(uri)});
         getContext().getContentResolver().notifyChange(uri, null);
         return rowsAffected;
+    }
+
+    protected void dump(Cursor cursor) {
+        System.out.println("BaseContentProvider.dump");
+        int rowsCount = 0;
+
+        while (cursor.moveToNext() && rowsCount++ < 20) {
+            dumpRow(cursor);
+        }
+
+        cursor.moveToFirst();
+    }
+
+    protected void dumpRow(Cursor cursor) {
+        System.out.print("ROW: ");
+        for (int i = 0; i < cursor.getColumnCount(); i++) {
+            System.out.print(cursor.getColumnName(i) + ": " + cursor.getString(i) + " ");
+        }
+        System.out.print("\n");
     }
 
 }

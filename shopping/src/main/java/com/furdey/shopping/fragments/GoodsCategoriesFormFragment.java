@@ -160,11 +160,17 @@ public class GoodsCategoriesFormFragment extends Fragment {
 			protected GoodsCategory doInBackground(GoodsCategory... params) {
 				Cursor cursor = GoodsCategoriesUtils.getGoodsCategoriesByName(getActivity(),
 						params[0].getName());
+                GoodsCategory goodsCategory = null;
 
-				if (cursor.moveToNext())
-					return GoodsCategoriesUtils.fromCursor(cursor);
-				else
-					return null;
+                if (cursor != null) {
+                    if (cursor.moveToNext()) {
+                        goodsCategory = GoodsCategoriesUtils.fromCursor(cursor);
+                    }
+
+                    cursor.close();
+                }
+
+                return goodsCategory;
 			}
 
 			@Override

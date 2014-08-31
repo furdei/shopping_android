@@ -23,11 +23,7 @@ import com.furdey.shopping.content.model.Unit;
 import com.furdey.shopping.utils.TemplateRunnable;
 
 public class GoodsFormFragment extends Fragment {
-	/**
-	 * @param unit
-	 *          can be null for a new record
-	 * @return
-	 */
+
 	public static GoodsFormFragment newInstance(Goods goods) {
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(PARAM_GOODS, goods != null ? goods : new GoodsCategory());
@@ -194,11 +190,17 @@ public class GoodsFormFragment extends Fragment {
 			@Override
 			protected Goods doInBackground(Goods... params) {
 				Cursor cursor = GoodsUtils.getGoodsByName(getActivity(), null, params[0].getName(), null);
+                Goods goods = null;
 
-				if (cursor.moveToNext())
-					return GoodsUtils.fromCursor(cursor);
-				else
-					return null;
+                if (cursor != null) {
+                    if (cursor.moveToNext()) {
+                        goods = GoodsUtils.fromCursor(cursor);
+                    }
+
+                    cursor.close();
+                }
+
+                return goods;
 			}
 
 			@Override

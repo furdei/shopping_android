@@ -276,11 +276,17 @@ public class UnitsFormFragment extends Fragment {
 			protected Unit doInBackground(Unit... params) {
 				Cursor cursor = UnitsUtils.getUnitsByNameOrDescr(getActivity(), params[0].getName(),
 						params[0].getDescr());
+                Unit unit = null;
 
-				if (cursor.moveToNext())
-					return UnitsUtils.fromCursor(cursor);
-				else
-					return null;
+                if (cursor != null) {
+                    if (cursor.moveToNext()) {
+                        unit = UnitsUtils.fromCursor(cursor);
+                    }
+
+                    cursor.close();
+                }
+
+                return unit;
 			}
 
 			@Override

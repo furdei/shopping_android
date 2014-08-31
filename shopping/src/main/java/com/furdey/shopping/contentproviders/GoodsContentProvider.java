@@ -5,6 +5,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.furdey.shopping.content.ContentUtils;
 import com.furdey.shopping.content.model.Purchase.PurchaseState;
 import com.furdey.shopping.contentproviders.GoodsContentProvider.Columns;
 
@@ -56,11 +57,15 @@ public class GoodsContentProvider extends BaseContentProvider<Columns> {
 				.concat(PurchasesContentProvider.Columns.GOOD_ID.getDbName()).concat(" AND ")
 				.concat(PurchasesContentProvider.Columns.STATE.getDbName()).concat(" = '")
 				.concat(PurchaseState.ENTERED.toString()).concat("' AND ")
-				.concat(PurchasesContentProvider.Columns.DELETED.getDbName()).concat(" IS NULL");
+				.concat(PurchasesContentProvider.Columns.DELETED.getDbName()).concat(" IS NULL")
+                .concat(" AND '").concat(ContentUtils.getCurrentDateMidnight()).concat("' BETWEEN ")
+                .concat(PurchasesContentProvider.Columns.STRDATE.getDbName()).concat(" AND ")
+                .concat(PurchasesContentProvider.Columns.FINDATE.getDbName());
 
-        return queryAll(sURIMatcher, uri, tables, GOODS_PATH, projection,
+        Cursor cursor = queryAll(sURIMatcher, uri, tables, GOODS_PATH, projection,
                 selection, selectionArgs, sortOrder);
-
+        //dump(cursor);
+        return cursor;
 	}
 
 	@Override

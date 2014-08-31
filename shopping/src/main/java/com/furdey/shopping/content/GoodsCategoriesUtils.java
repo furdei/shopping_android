@@ -70,16 +70,33 @@ public class GoodsCategoriesUtils {
 	public static Cursor getGoodsCategories(Context context, String[] projection, String selection,
 			String[] selectionArgs, String orderBy) {
 		return context.getContentResolver().query(GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI,
-				projection, selection, selectionArgs, orderBy);
+                projection, selection, selectionArgs, orderBy);
 	}
 
 	public static Cursor getGoodsCategoriesByName(Context context, String name) {
 		return getGoodsCategories(context, goodsCategoriesListProjection,
-				GoodsCategoriesContentProvider.Columns.NAME.toString() + " = ?", new String[] { name },
-				null);
+                GoodsCategoriesContentProvider.Columns.NAME.toString() + " = ?", new String[]{name},
+                null);
 	}
 
-	public static ContentValues getContentValues(GoodsCategory goodsCategory, boolean includeId) {
+    public static GoodsCategory getGoodsCategoryById(Context context, long id) {
+        Cursor cursor = getGoodsCategories(context, goodsCategoriesListProjection,
+                Columns._id.toString() + " = ?", new String[] { Long.toString(id) },
+                null);
+        GoodsCategory goodsCategory = null;
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                goodsCategory = fromCursor(cursor);
+            }
+
+            cursor.close();
+        }
+
+        return goodsCategory;
+    }
+
+    public static ContentValues getContentValues(GoodsCategory goodsCategory, boolean includeId) {
 		ContentValues contentValues = new ContentValues();
 
 		if (goodsCategory.getId() != null && includeId)
@@ -107,9 +124,9 @@ public class GoodsCategoriesUtils {
 					GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI,
 					getContentValues(goodsCategory, false));
 		} else {
-			context.getContentResolver().update(
-					ContentUris.withAppendedId(GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI,
-							goodsCategory.getId()), getContentValues(goodsCategory, false), null, null);
+            context.getContentResolver().update(
+                    ContentUris.withAppendedId(GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI,
+                            goodsCategory.getId()), getContentValues(goodsCategory, false), null, null);
 			return GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI;
 		}
 	}

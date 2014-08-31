@@ -151,23 +151,29 @@ public class GoodsUtils {
 	}
 
 	public static Uri saveGoods(Context context, Goods goods) {
-		// create a new category if it does not exist
+		// create a new category if it does not exist or update an existing one
 		GoodsCategory category = goods.getCategory();
 
 		if (category.getId() == null) {
-			Uri categoryUri = GoodsCategoriesUtils.saveGoodsCategory(context, category);
+            Uri categoryUri = GoodsCategoriesUtils.saveGoodsCategory(context, category);
 			long categoryId = ContentUris.parseId(categoryUri);
 			category.setId(categoryId);
-		}
+		} else {
+            GoodsCategory oldCategory = GoodsCategoriesUtils.getGoodsCategoryById(context, category.getId());
+
+            if (oldCategory.getName().compareTo(category.getName()) != 0) {
+                GoodsCategoriesUtils.saveGoodsCategory(context, category);
+            }
+        }
 
 		// save a goods
 		if (goods.getId() == null) {
 			return context.getContentResolver().insert(GoodsContentProvider.GOODS_URI,
 					getContentValues(goods, false));
 		} else {
-			context.getContentResolver().update(
-					ContentUris.withAppendedId(GoodsContentProvider.GOODS_URI, goods.getId()),
-					getContentValues(goods, false), null, null);
+            context.getContentResolver().update(
+                    ContentUris.withAppendedId(GoodsContentProvider.GOODS_URI, goods.getId()),
+                    getContentValues(goods, false), null, null);
 			return GoodsContentProvider.GOODS_URI;
 		}
 	}

@@ -16,7 +16,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String DATABASE_NAME = "shopping.db";
 	private static final int DATABASE_VERSION = 5;
 
-	public DatabaseHelper(Context context) {
+    private static volatile DatabaseHelper databaseHelper = null;
+
+    public static DatabaseHelper getInstance(Context context) {
+        if (databaseHelper == null) {
+            synchronized (DatabaseHelper.class) {
+                if (databaseHelper == null) {
+                    databaseHelper = new DatabaseHelper(context);
+                }
+            }
+        }
+
+        return databaseHelper;
+    }
+
+	private DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
@@ -82,17 +96,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		FileHelper.copyFile(myInput, myOutput);
 	}
 
-	private SQLiteDatabase db;
-
-	public SQLiteDatabase getDb() {
-		if (db == null) {
-			synchronized (this) {
-				if (db == null) {
-					db = getWritableDatabase();
-				}
-			}
-		}
-
-		return db;
-	}
 }

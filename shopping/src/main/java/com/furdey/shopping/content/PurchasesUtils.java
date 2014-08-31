@@ -186,17 +186,24 @@ public class PurchasesUtils {
 	}
 
 	public static Uri savePurchase(Context context, Purchase purchase) {
-		// create a new goods if it does not exist
+		// create a new goods if it does not exist or update an existing one
 		Goods goods = purchase.getGoods();
+        goods.setDefaultUnits(purchase.getUnits());
 
 		if (goods.getId() == null) {
-            goods.setDefaultUnits(purchase.getUnits());
-			Uri goodsUri = GoodsUtils.saveGoods(context, goods);
+            Uri goodsUri = GoodsUtils.saveGoods(context, goods);
 			long goodsId = ContentUris.parseId(goodsUri);
 			goods.setId(goodsId);
-		}
+		} else {
+            Goods oldGoods = GoodsUtils.getGoodsById(context, goods.getId());
 
-		// here we have to update purchases statistics
+            if (oldGoods.getCategory().getId().compareTo(goods.getCategory().getId()) != 0 ||
+                    oldGoods.getDefaultUnits().getId().compareTo(goods.getDefaultUnits().getId()) != 0) {
+                GoodsUtils.saveGoods(context, goods);
+            }
+        }
+
+        // here we have to update purchases statistics
 		updatePurchaseStatistics(context, purchase);
 
 		// save a purchase

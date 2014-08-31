@@ -38,19 +38,19 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
     private static final String CHANGED_COLUMN = "changed";
     private static final String STANDARD_COLUMN = "standard";
 
-    private DatabaseHelper dbHelper;
-
-	final protected DatabaseHelper getDbHelper() {
-		return dbHelper;
-	}
-
-	private void setDbHelper(DatabaseHelper dbHelper) {
-		this.dbHelper = dbHelper;
-	}
-
+//    private DatabaseHelper dbHelper;
+//
+//	final protected DatabaseHelper getDbHelper() {
+//		return dbHelper;
+//	}
+//
+//	private void setDbHelper(DatabaseHelper dbHelper) {
+//		this.dbHelper = dbHelper;
+//	}
+//
 	@Override
 	public boolean onCreate() {
-		setDbHelper(new DatabaseHelper(getContext()));
+//		setDbHelper(new DatabaseHelper(getContext()));
 		return true;
 	}
 
@@ -149,9 +149,10 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
                 throw new IllegalArgumentException(String.format(ERROR_UNKNOWN_URI, uri));
         }
 
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext().getApplicationContext());
+        SQLiteDatabase database = databaseHelper.getWritableDatabase();
         queryBuilder.setProjectionMap(getColumnsMap());
-
-        Cursor cursor = queryBuilder.query(getDbHelper().getDb(), projection, selection, selectionArgs,
+        Cursor cursor = queryBuilder.query(database, projection, selection, selectionArgs,
                 null, null, sortOrder);
         // make sure that potential listeners are getting notified
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
@@ -163,8 +164,9 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
         values.put(CHANGED_COLUMN, ContentUtils.getCurrentDateAndTime());
         values.put(STANDARD_COLUMN, ContentUtils.NONSTANDARD);
 
-        SQLiteDatabase db = getDbHelper().getDb();
-        long id = db.insert(tableName, null, values);
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext().getApplicationContext());
+        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+        long id = database.insert(tableName, null, values);
 
         if (id < 0)
             throw new IllegalStateException(String.format(ERROR_FAILED_TO_ADD_A_ROW, tableName, id));
@@ -186,8 +188,9 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 
         values.put(CHANGED_COLUMN, ContentUtils.getCurrentDateAndTime());
 
-        SQLiteDatabase db = getDbHelper().getDb();
-        int rowsAffected = db.update(tableName, values, ID_COLUMN + "=?",
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext().getApplicationContext());
+        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+        int rowsAffected = database.update(tableName, values, ID_COLUMN + "=?",
                 new String[]{getId(uri)});
         getContext().getContentResolver().notifyChange(uri, null);
         return rowsAffected;
@@ -207,8 +210,9 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
         values.put(DELETED_COLUMN, 1);
         values.put(CHANGED_COLUMN, ContentUtils.getCurrentDateAndTime());
 
-        SQLiteDatabase db = getDbHelper().getDb();
-        int rowsAffected = db.update(tableName, values, ID_COLUMN + "=?",
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext().getApplicationContext());
+        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+        int rowsAffected = database.update(tableName, values, ID_COLUMN + "=?",
                 new String[]{getId(uri)});
         getContext().getContentResolver().notifyChange(uri, null);
         return rowsAffected;

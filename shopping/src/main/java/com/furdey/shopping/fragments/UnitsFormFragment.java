@@ -157,9 +157,7 @@ public class UnitsFormFragment extends Fragment {
 		} else {
 			// editing an existing unit
 			nameEdit.setText(model.getName());
-			nameEdit.setTag(model.getId());
 			descrEdit.setText(model.getDescr());
-			descrEdit.setTag(model.getId());
 			decimalsEdit.setText(Integer.toString(model.getDecimals()));
 			unitTypeSpinner.setSelection(model.getUnitType().getValue());
 			isDefaultCheckBox.setChecked(model.getIsDefault());

@@ -46,6 +46,7 @@ public class GoodsCategoriesFormFragment extends Fragment {
 	private GoodsCategoriesFormListener listener;
 
 	private static final String PARAM_CATEGORY = "goodsCategory";
+	private static final String SAVE_SELECTED_ICON = "selectedIcon";
 
 	private EditText nameEdit;
 	private EditText descrEdit;
@@ -53,6 +54,9 @@ public class GoodsCategoriesFormFragment extends Fragment {
 	private GridView iconsGallery;
 	private Button saveButton;
 	private Button cancelButton;
+
+    private boolean isFragmentCreated;
+    private String selectedIcon;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -65,7 +69,18 @@ public class GoodsCategoriesFormFragment extends Fragment {
 		}
 	}
 
-	@Override
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        isFragmentCreated = false;
+
+        if (savedInstanceState != null) {
+            selectedIcon = savedInstanceState.getString(SAVE_SELECTED_ICON);
+            isFragmentCreated = true;
+        }
+    }
+
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.goods_categories_form, container, false);
 
@@ -84,14 +99,15 @@ public class GoodsCategoriesFormFragment extends Fragment {
 			nameEdit.requestFocus();
 		} else {
 			// editing an existing category
-			nameEdit.setTag(model.getId());
 			descrEdit.setText(model.getDescr());
-			descrEdit.setTag(model.getId());
-			icon.setTag(model.getIcon());
+
+            if (!isFragmentCreated) {
+                selectedIcon = model.getIcon();
+            }
 
 			if (model.getIcon() != null) {
 				LoadIconTask task = new LoadIconTask();
-				task.loadIcon(icon, model.getIcon(), 1, false, getActivity().getApplicationContext());
+				task.loadIcon(icon, selectedIcon, 1, false, getActivity().getApplicationContext());
 			} else {
 				icon.setImageResource(R.drawable.nothing);
 			}
@@ -123,17 +139,27 @@ public class GoodsCategoriesFormFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				String iconName = (String) iconsGallery.getAdapter().getItem(arg2);
-				icon.setTag(iconName);
+                selectedIcon = iconName;
 				LoadIconTask task = new LoadIconTask();
 				task.loadIcon(icon, iconName, 1, false, getActivity().getApplicationContext());
 			}
 		});
 
 		setRetainInstance(true);
+        isFragmentCreated = true;
 		return view;
 	}
 
-	@SuppressWarnings("unchecked")
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (outState != null) {
+            outState.putString(SAVE_SELECTED_ICON, selectedIcon);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
 	private void constructModelFromUi(final TemplateRunnable<GoodsCategory> callback) {
 		final GoodsCategory category = new GoodsCategory();
 		GoodsCategory paramCategory = (GoodsCategory) getArguments().getSerializable(PARAM_CATEGORY);
@@ -152,7 +178,7 @@ public class GoodsCategoriesFormFragment extends Fragment {
 			category.setDescr(descrEdit.getText().toString().trim());
 		}
 
-		category.setIcon((String) icon.getTag());
+		category.setIcon(selectedIcon);
 
 		// check if a category already exists
 		new AsyncTask<GoodsCategory, Void, GoodsCategory>() {
@@ -176,9 +202,9 @@ public class GoodsCategoriesFormFragment extends Fragment {
 			@Override
 			protected void onPostExecute(GoodsCategory result) {
 				if (result == null || (category.getId() != null && result.getId().equals(category.getId()))) {
-					// there are no same units found - success
-					// or maybe the found one is the same unit that we're going to save
-                    callback.run(result);
+					// there are no same categories found - success
+					// or maybe the found one is the same category that we're going to save
+                    callback.run(category);
 				} else {
 					nameEdit.setError(getString(R.string.goodsCategoriesFmErrorAlreadyExists));
 				}

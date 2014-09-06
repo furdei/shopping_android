@@ -45,6 +45,7 @@ public class GoodsFormFragment extends Fragment {
 	private GoodsFormListener listener;
 
 	private static final String PARAM_GOODS = "goods";
+	private static final String SAVE_SELECTED_CATEGORY_ID = "selectedCategoryId";
 
 	private EditText nameEdit;
 	private EditText categoryEdit;
@@ -52,6 +53,9 @@ public class GoodsFormFragment extends Fragment {
 	private UnitsSpinnerAdapter unitsSpinnerAdapter;
 	private Button saveButton;
 	private Button cancelButton;
+
+    private boolean isFragmentCreated;
+    private Long selectedCategoryId;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -64,7 +68,18 @@ public class GoodsFormFragment extends Fragment {
 		}
 	}
 
-	@Override
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        isFragmentCreated = false;
+
+        if (savedInstanceState != null) {
+            selectedCategoryId = savedInstanceState.getLong(SAVE_SELECTED_CATEGORY_ID);
+            isFragmentCreated = true;
+        }
+    }
+
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.goods_form, container, false);
 
@@ -92,13 +107,10 @@ public class GoodsFormFragment extends Fragment {
 			nameEdit.requestFocus();
 		} else {
 			// editing an existing goods
-			nameEdit.setTag(model.getId());
-
-			if (model.getCategory() != null) {
+			if (model.getCategory() != null && !isFragmentCreated) {
 				setCategory(model.getCategory());
 			}
 
-			unitsSpinner.setTag(model.getDefaultUnits());
 			cancelButton.requestFocus();
 		}
 
@@ -122,11 +134,21 @@ public class GoodsFormFragment extends Fragment {
 		});
 
 		setRetainInstance(true);
+        isFragmentCreated = true;
 		listener.onGoodsFormReady();
 		return view;
 	}
 
-	public void setUnitsCursor(Cursor unitsCursor) {
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (outState != null) {
+            outState.putLong(SAVE_SELECTED_CATEGORY_ID, selectedCategoryId);
+        }
+    }
+
+    public void setUnitsCursor(Cursor unitsCursor) {
 		Cursor oldCursor = unitsSpinnerAdapter.swapCursor(unitsCursor);
 
 		if (oldCursor == null) {
@@ -146,7 +168,7 @@ public class GoodsFormFragment extends Fragment {
 
 	public void setCategory(GoodsCategory category) {
 		categoryEdit.setText(category.getName());
-		categoryEdit.setTag(category.getId());
+		selectedCategoryId = category.getId();
 	}
 
 	private void constructModelFromUi(final TemplateRunnable<Goods> callback) {
@@ -169,8 +191,8 @@ public class GoodsFormFragment extends Fragment {
 			category.setName(categoryEdit.getText().toString().trim());
 		}
 
-		if (categoryEdit.getTag() != null) {
-			category.setId((Long) categoryEdit.getTag());
+		if (selectedCategoryId != null) {
+			category.setId(selectedCategoryId);
 		}
 
 		goods.setCategory(category);
@@ -208,7 +230,7 @@ public class GoodsFormFragment extends Fragment {
 				if (result == null || (goods.getId() != null && result.getId().equals(goods.getId()))) {
 					// there are no same units found - success
 					// or maybe the found one is the same unit that we're going to save
-                    callback.run(result);
+                    callback.run(goods);
 				} else {
 					nameEdit.setError(getString(R.string.goodsFmErrorAlreadyExists));
 				}

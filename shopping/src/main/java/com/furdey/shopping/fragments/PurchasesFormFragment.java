@@ -3,6 +3,7 @@ package com.furdey.shopping.fragments;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -52,6 +53,8 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 
 	private static final String PARAM_PURCHASE = "purchase";
     private static final String SAVE_UNITS_SPINNER = "unitsSpinner";
+    private static final String SAVE_SELECTED_GOODS_ID = "selectedGoodsId";
+    private static final String SAVE_SELECTED_CATEGORY_ID = "selectedCategoryId";
 
 	private PurchasesFormListener mListener;
     private boolean isFragmentCreated;
@@ -69,6 +72,9 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 	private Button saveButton;
 	private Button cancelButton;
 
+    private Long selectedGoodsId;
+    private Long selectedCategoryId;
+
 	@Override
 	public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -82,18 +88,22 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        System.out.println("PurchasesFormFragment.onCreate savedInstanceState = " + (savedInstanceState == null ? "null" : "not null"));
         isFragmentCreated = false;
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(SAVE_UNITS_SPINNER)) {
                 unitsSpinnerSelection = savedInstanceState.getInt(SAVE_UNITS_SPINNER);
+                selectedGoodsId = savedInstanceState.getLong(SAVE_SELECTED_GOODS_ID);
+                selectedCategoryId = savedInstanceState.getLong(SAVE_SELECTED_CATEGORY_ID);
             }
         }
     }
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        System.out.println("PurchasesFormFragment.onCreateView savedInstanceState = " + (savedInstanceState == null ? "null" : "not null"));
         View view = inflater.inflate(R.layout.purchases_form, container, false);
         nameEdit = (EditText) view.findViewById(R.id.purchasesFmNameEdit);
         categoryEdit = (EditText) view.findViewById(R.id.purchasesFmCategoryEdit);
@@ -202,11 +212,19 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 	}
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        System.out.println("PurchasesFormFragment.onViewCreated savedInstanceState = " + (savedInstanceState == null ? "null" : "not null"));
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         if (outState != null) {
             outState.putInt(SAVE_UNITS_SPINNER, unitsSpinnerSelection);
+            outState.putLong(SAVE_SELECTED_GOODS_ID, selectedGoodsId);
+            outState.putLong(SAVE_SELECTED_CATEGORY_ID, selectedCategoryId);
         }
     }
 
@@ -240,12 +258,12 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 
 	public void setGoods(Goods goods) {
         nameEdit.setText(goods.getName());
-		nameEdit.setTag(goods.getId());
+        selectedGoodsId = goods.getId();
 	}
 
 	public void setCategory(GoodsCategory category) {
         categoryEdit.setText(category.getName());
-		categoryEdit.setTag(category.getId());
+		selectedCategoryId = category.getId();
 	}
 
 	public void setUnit(Unit unit) {
@@ -288,7 +306,7 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 		}
 
 		purchase.setGoods(new Goods());
-		purchase.getGoods().setId((Long) nameEdit.getTag());
+		purchase.getGoods().setId(selectedGoodsId);
 		purchase.getGoods().setName(nameEdit.getText().toString().trim());
 
 		if (categoryEdit.getText() == null || categoryEdit.getText().toString() == null
@@ -298,7 +316,7 @@ public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<C
 		}
 
 		purchase.getGoods().setCategory(new GoodsCategory());
-		purchase.getGoods().getCategory().setId((Long) categoryEdit.getTag());
+		purchase.getGoods().getCategory().setId(selectedCategoryId);
 		purchase.getGoods().getCategory().setName(categoryEdit.getText().toString().trim());
 
 		return purchase;

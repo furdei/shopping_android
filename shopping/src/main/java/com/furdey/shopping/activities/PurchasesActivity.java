@@ -13,6 +13,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.facebook.Session;
@@ -69,11 +70,13 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 
 	private static final int RESULT_EMPTY = -1;
 	private static final String TAG = PurchasesActivity.class.getSimpleName();
+    private static final String SAVE_KEEP_SCREEN_ON = "wakeLog";
 
 	private InternetConnectionBroadcastReceiver internetConnectionBroadcastReceiver = null;
 	private boolean internetConnectionBroadcastReceiverRegistered = false;
 	private PurchasesListFragment purchasesListFragment;
 	private UiLifecycleHelper uiLifecycleHelper;
+    private boolean keepScreenOn;
 
 	private static final String PURCHASES_LIST_TAG = "purchasesList";
 	private static final String PURCHASES_FORM_TAG = "purchasesForm";
@@ -97,6 +100,13 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
             FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
             tr.add(R.id.dynamic_fragment_container, purchasesListFragment, PURCHASES_LIST_TAG);
             tr.commit();
+        } else {
+            boolean wakeLockOn = savedInstanceState.containsKey(SAVE_KEEP_SCREEN_ON) ?
+                    savedInstanceState.getBoolean(SAVE_KEEP_SCREEN_ON) : false;
+
+            if (wakeLockOn) {
+                keepScreenOn();
+            }
         }
 
         if (getMode() == Mode.ADD_NEW_PURCHASE) {
@@ -184,7 +194,16 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	// /////////////////////////////
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (outState != null) {
+            outState.putBoolean(SAVE_KEEP_SCREEN_ON, keepScreenOn);
+        }
+    }
+
+    // /////////////////////////////
 	// /// PurchasesListListener ///
 	// /////////////////////////////
 
@@ -203,6 +222,8 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 				return null;
 			}
 		}.execute(purchase);
+
+        keepScreenOn();
 	}
 
 	@Override
@@ -682,4 +703,8 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
         return Mode.valueOf(modeStr);
     }
 
+    private void keepScreenOn() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        keepScreenOn = true;
+    }
 }

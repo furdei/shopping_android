@@ -19,6 +19,7 @@ import com.furdey.shopping.utils.PreferencesManager;
 import com.furdey.shopping.utils.PreferencesManager.PurchasesSortOrder;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -231,9 +232,14 @@ public class PurchasesUtils {
 		return purchase;
 	}
 
-    public static Purchase revertState(Purchase purchase) {
+    public static Purchase revertState(Purchase purchase) throws ParseException {
         purchase.setState(purchase.getState() == PurchaseState.ENTERED ? PurchaseState.ACCEPTED
                 : PurchaseState.ENTERED);
+
+        purchase.setFindate(purchase.getState() == PurchaseState.ACCEPTED ?
+                ContentUtils.getDateWoTime(new Date()) :
+                ContentUtils.getDateFormat().parse(ContentUtils.DATE_INFINITY));
+
         return purchase;
     }
 

@@ -3,8 +3,6 @@ package com.furdey.shopping.content;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 
-import com.furdey.shopping.utils.DateUtils;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,8 +20,8 @@ public class ContentUtils {
 
 	private static final String ERROR_PARSING_DATE = "Error parsing date %s";
 
-	private static final SimpleDateFormat sdf = new SimpleDateFormat(DateUtils.DATE_FORMAT, Locale.US);
-	private static final SimpleDateFormat sdtf = new SimpleDateFormat(DateUtils.DATETIME_FORMAT,
+	private static final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+	private static final SimpleDateFormat sdtf = new SimpleDateFormat(DATETIME_FORMAT,
 			Locale.US);
 
 	public static final SimpleDateFormat getDateFormat() {
@@ -62,4 +60,12 @@ public class ContentUtils {
 		}
 	}
 
+    public static Date getDateWoTime(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        try {
+            return sdf.parse(sdf.format(date));
+        } catch (ParseException e) {
+            throw new RuntimeException("Error while parsing date", e);
+        }
+    }
 }

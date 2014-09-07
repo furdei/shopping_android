@@ -1,6 +1,6 @@
 package com.furdey.shopping.content.model;
 
-import com.furdey.shopping.utils.DateUtils;
+import com.furdey.shopping.content.ContentUtils;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -80,7 +80,7 @@ public class Purchase extends BaseModel {
 	}
 
 	public void setStrdate(Date strdate) {
-		this.strdate = DateUtils.getDateWoTime(strdate);
+		this.strdate = ContentUtils.getDateWoTime(strdate);
 	}
 
 	public Date getFindate() {
@@ -88,7 +88,7 @@ public class Purchase extends BaseModel {
 	}
 
 	public void setFindate(Date findate) {
-		this.findate = DateUtils.getDateWoTime(findate);
+		this.findate = ContentUtils.getDateWoTime(findate);
 	}
 
 	public int getSortorder() {

@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.UriMatcher;
 import android.net.Uri;
+import android.widget.Toast;
 
 import com.furdey.shopping.content.PurchasesUtils;
 import com.furdey.shopping.content.model.Purchase;
+
+import java.text.ParseException;
 
 public class ShoppingListWidgetActionsService extends IntentService {
 
@@ -47,16 +50,20 @@ public class ShoppingListWidgetActionsService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         int actionType = sURIMatcher.match(intent.getData());
-        switch (actionType) {
-            case PURCHASE_CLICKED:
-                onPurchaseClicked(ContentUris.parseId(intent.getData()));
-                break;
-            default:
-                throw new IllegalArgumentException(String.format(ERROR_UNKNOWN_URI, intent.getData()));
+        try {
+            switch (actionType) {
+                case PURCHASE_CLICKED:
+                    onPurchaseClicked(ContentUris.parseId(intent.getData()));
+                    break;
+                default:
+                    throw new IllegalArgumentException(String.format(ERROR_UNKNOWN_URI, intent.getData()));
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
-    private void onPurchaseClicked(long purchaseId) {
+    private void onPurchaseClicked(long purchaseId) throws ParseException {
         Purchase purchase = PurchasesUtils.getPurchaseById(getApplicationContext(), purchaseId);
         PurchasesUtils.savePurchase(getApplicationContext(),
                 PurchasesUtils.revertState(purchase));

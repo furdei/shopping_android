@@ -96,26 +96,23 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 
         if (savedInstanceState == null) {
             // we don't need to create a fragment on recreating 'case we already have got one
-            purchasesListFragment = new PurchasesListFragment();
-            FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
-            tr.add(R.id.dynamic_fragment_container, purchasesListFragment, PURCHASES_LIST_TAG);
-            tr.commit();
+            goToPurchasesList();
+
+            if (getMode() == Mode.ADD_NEW_PURCHASE) {
+                System.out.println("PurchasesActivity.onCreate getMode() == Mode.ADD_NEW_PURCHASE");
+
+                if (getGoodsListFragment() == null) {
+                    onNewPurchaseMenuSelected();
+                } else {
+                    Log.d(TAG, "Already at goods list");
+                }
+            }
         } else {
             boolean wakeLockOn = savedInstanceState.containsKey(SAVE_KEEP_SCREEN_ON) ?
                     savedInstanceState.getBoolean(SAVE_KEEP_SCREEN_ON) : false;
 
             if (wakeLockOn) {
                 keepScreenOn();
-            }
-        }
-
-        if (getMode() == Mode.ADD_NEW_PURCHASE) {
-            System.out.println("PurchasesActivity.onCreate getMode() == Mode.ADD_NEW_PURCHASE");
-
-            if (getGoodsListFragment() == null) {
-                onNewPurchaseMenuSelected();
-            } else {
-                Log.d(TAG, "Already at goods list");
             }
         }
 
@@ -172,7 +169,26 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 		ActivityCompat.invalidateOptionsMenu(this);
 	}
 
-	@Override
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        System.out.println("PurchasesActivity.onNewIntent getMode=" + getMode());
+
+        if (getMode() == Mode.ADD_NEW_PURCHASE) {
+            System.out.println("PurchasesActivity.onCreate getMode() == Mode.ADD_NEW_PURCHASE");
+
+            if (getGoodsListFragment() == null) {
+                onNewPurchaseMenuSelected();
+            } else {
+                Log.d(TAG, "Already at goods list");
+            }
+        } else {
+            goToPurchasesList();
+        }
+    }
+
+    @Override
 	protected void onPause() {
 		if (internetConnectionBroadcastReceiverRegistered) {
 			unregisterReceiver(internetConnectionBroadcastReceiver);
@@ -672,6 +688,13 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 			}
 		});
 	}
+
+    private void goToPurchasesList() {
+        purchasesListFragment = new PurchasesListFragment();
+        FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
+        tr.replace(R.id.dynamic_fragment_container, purchasesListFragment, PURCHASES_LIST_TAG);
+        tr.commit();
+    }
 
 	private void sendShareMessage(SocialNetwork network) {
 		SocialClient.sendMessage(this, network, null, getShareMessage());

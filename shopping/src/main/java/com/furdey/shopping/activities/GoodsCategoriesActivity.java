@@ -1,12 +1,12 @@
 package com.furdey.shopping.activities;
 
+import android.app.Activity;
+import android.app.FragmentTransaction;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,8 +20,9 @@ import com.furdey.shopping.fragments.GoodsCategoriesListFragment.GoodsCategories
 import com.furdey.shopping.fragments.GoodsCategoriesListFragment.Mode;
 import com.furdey.shopping.tasks.ToastThrowableAsyncTask;
 
-public class GoodsCategoriesActivity extends ActionBarActivity implements
-		GoodsCategoriesListListener, GoodsCategoriesFormListener, LoaderCallbacks<Cursor> {
+
+public class GoodsCategoriesActivity extends Activity implements
+		GoodsCategoriesListListener, GoodsCategoriesFormListener, LoaderManager.LoaderCallbacks<Cursor> {
 
 	private static final String TAG = GoodsCategoriesActivity.class.getCanonicalName();
 
@@ -42,7 +43,7 @@ public class GoodsCategoriesActivity extends ActionBarActivity implements
 	public void onFillCategoriesList(String filter) {
 		Bundle bundle = new Bundle();
 		bundle.putString(GOODS_CATEGORIES_LIST_LOADER_FILTER, filter);
-		getSupportLoaderManager().restartLoader(GOODS_CATEGORIES_LIST_LOADER, bundle, this);
+		getLoaderManager().restartLoader(GOODS_CATEGORIES_LIST_LOADER, bundle, this);
 	}
 
 	@Override
@@ -92,7 +93,7 @@ public class GoodsCategoriesActivity extends ActionBarActivity implements
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-		GoodsCategoriesListFragment categoriesListFragment = (GoodsCategoriesListFragment) getSupportFragmentManager()
+		GoodsCategoriesListFragment categoriesListFragment = (GoodsCategoriesListFragment) getFragmentManager()
 				.findFragmentByTag(GOODS_CATEGORIES_LIST_TAG);
 
 		if (categoriesListFragment != null)
@@ -103,7 +104,7 @@ public class GoodsCategoriesActivity extends ActionBarActivity implements
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-		GoodsCategoriesListFragment categoriesListFragment = (GoodsCategoriesListFragment) getSupportFragmentManager()
+		GoodsCategoriesListFragment categoriesListFragment = (GoodsCategoriesListFragment) getFragmentManager()
 				.findFragmentByTag(GOODS_CATEGORIES_LIST_TAG);
 
 		if (categoriesListFragment != null)
@@ -113,7 +114,7 @@ public class GoodsCategoriesActivity extends ActionBarActivity implements
 	}
 
 	private void goToGoodsCategoriesList(boolean addToBackStack) {
-		GoodsCategoriesListFragment categoriesListFragment = (GoodsCategoriesListFragment) getSupportFragmentManager()
+		GoodsCategoriesListFragment categoriesListFragment = (GoodsCategoriesListFragment) getFragmentManager()
 				.findFragmentByTag(GOODS_CATEGORIES_LIST_TAG);
 
 		if (categoriesListFragment != null) {
@@ -122,7 +123,7 @@ public class GoodsCategoriesActivity extends ActionBarActivity implements
 		}
 
 		categoriesListFragment = GoodsCategoriesListFragment.newInstance(Mode.GRID, null);
-		FragmentTransaction tr = getSupportFragmentManager().beginTransaction().add(
+		FragmentTransaction tr = getFragmentManager().beginTransaction().add(
 				R.id.dynamic_fragment_container, categoriesListFragment, GOODS_CATEGORIES_LIST_TAG);
 
 		if (addToBackStack)
@@ -132,12 +133,12 @@ public class GoodsCategoriesActivity extends ActionBarActivity implements
 	}
 
 	private void returnToCategoriesList() {
-		getSupportFragmentManager().popBackStack();
+		getFragmentManager().popBackStack();
 		setTitle(R.string.goodsCategoriesLiTitle);
 	}
 
 	private void goToGoodsCategoriesForm(GoodsCategory category, boolean addToBackStack) {
-		GoodsCategoriesFormFragment categoriesFormFragment = (GoodsCategoriesFormFragment) getSupportFragmentManager()
+		GoodsCategoriesFormFragment categoriesFormFragment = (GoodsCategoriesFormFragment) getFragmentManager()
 				.findFragmentByTag(GOODS_CATEGORIES_FORM_TAG);
 
 		if (categoriesFormFragment == null)
@@ -146,7 +147,7 @@ public class GoodsCategoriesActivity extends ActionBarActivity implements
 		int title = category == null ? R.string.goodsCategoriesFmTitleAdd
 				: R.string.goodsCategoriesFmTitleEdit;
 
-		FragmentTransaction tr = getSupportFragmentManager()
+		FragmentTransaction tr = getFragmentManager()
 				.beginTransaction()
 				.replace(R.id.dynamic_fragment_container, categoriesFormFragment, GOODS_CATEGORIES_FORM_TAG)
 				.setBreadCrumbTitle(title);

@@ -1,10 +1,10 @@
 package com.furdey.shopping.fragments;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,7 +25,7 @@ import com.furdey.shopping.utils.TemplateRunnable;
 
 public class GoodsCategoriesFormFragment extends Fragment {
 	/**
-	 * @param unit
+	 * @param category
 	 *          can be null for a new record
 	 * @return
 	 */

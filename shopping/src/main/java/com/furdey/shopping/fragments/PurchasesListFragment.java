@@ -2,10 +2,10 @@ package com.furdey.shopping.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -85,7 +85,8 @@ public class PurchasesListFragment extends Fragment {
 
 	@Override
 	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+        System.out.println("PurchasesListFragment.onAttach");
+        super.onAttach(activity);
 		try {
 			listener = (PurchasesListListener) activity;
 		} catch (ClassCastException e) {
@@ -96,7 +97,8 @@ public class PurchasesListFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
+        System.out.println("PurchasesListFragment.onCreateView");
+        super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.purchases_list, container, false);
 
 		grid = (ListView) view.findViewById(R.id.baseListGrid);
@@ -120,7 +122,8 @@ public class PurchasesListFragment extends Fragment {
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
+        System.out.println("PurchasesListFragment.onViewCreated");
+        super.onViewCreated(view, savedInstanceState);
 		listener.onPurchasesListFragmentReady();
 	}
 

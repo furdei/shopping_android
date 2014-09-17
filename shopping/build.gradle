@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.furdey.shopping"
-        minSdkVersion 8
+        minSdkVersion 11
         targetSdkVersion 19
     }
 
@@ -25,7 +25,6 @@ android {
 
 dependencies {
     compile project(':facebookSDK')
-    compile 'com.android.support:support-v4:20.0.0'
     compile 'com.google.code.gson:gson:2.2.2'
     compile 'com.android.support:appcompat-v7:20.0.0'
     compile files('libs/bugsense-3.6.jar')

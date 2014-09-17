@@ -1,13 +1,13 @@
 package com.furdey.shopping.activities;
 
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,8 +26,8 @@ import com.furdey.shopping.fragments.GoodsListFragment;
 import com.furdey.shopping.fragments.GoodsListFragment.GoodsListListener;
 import com.furdey.shopping.tasks.ToastThrowableAsyncTask;
 
-public class GoodsActivity extends ActionBarActivity implements GoodsListListener,
-		GoodsFormListener, GoodsCategoriesListListener, LoaderCallbacks<Cursor> {
+public class GoodsActivity extends Activity implements GoodsListListener,
+		GoodsFormListener, GoodsCategoriesListListener, LoaderManager.LoaderCallbacks<Cursor> {
 
 	private static final String TAG = GoodsActivity.class.getCanonicalName();
 
@@ -57,8 +57,8 @@ public class GoodsActivity extends ActionBarActivity implements GoodsListListene
 	public void onFillGoodsList(String filter) {
 		Bundle bundle = new Bundle();
 		bundle.putString(GOODS_LOADER_FILTER, filter);
-		getSupportLoaderManager().restartLoader(GOODS_LIST_LOADER, bundle, this);
-		getSupportLoaderManager().restartLoader(GOODS_HEADER_LOADER, bundle, this);
+		getLoaderManager().restartLoader(GOODS_LIST_LOADER, bundle, this);
+		getLoaderManager().restartLoader(GOODS_HEADER_LOADER, bundle, this);
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class GoodsActivity extends ActionBarActivity implements GoodsListListene
 
 	@Override
 	public void onGoodsFormReady() {
-		getSupportLoaderManager().initLoader(UNITS_LIST_LOADER, null, this);
+		getLoaderManager().initLoader(UNITS_LIST_LOADER, null, this);
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public class GoodsActivity extends ActionBarActivity implements GoodsListListene
 	public void onFillCategoriesList(String filter) {
 		Bundle args = new Bundle();
 		args.putString(CATEGORIES_LIST_LOADER_FILTER, filter);
-		getSupportLoaderManager().restartLoader(CATEGORIES_LIST_LOADER, args, this);
+		getLoaderManager().restartLoader(CATEGORIES_LIST_LOADER, args, this);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class GoodsActivity extends ActionBarActivity implements GoodsListListene
 	 */
 	@Override
 	public void onEditCategory(GoodsCategory category) {
-		getSupportFragmentManager().popBackStack();
+        getFragmentManager().popBackStack();
 		GoodsFormFragment goodsFormFragment = getGoodsFormFragment();
 		goodsFormFragment.setCategory(category);
 	}
@@ -249,7 +249,7 @@ public class GoodsActivity extends ActionBarActivity implements GoodsListListene
 	// /////////////////////////////
 
 	private GoodsListFragment getGoodsListFragment() {
-		return (GoodsListFragment) getSupportFragmentManager().findFragmentByTag(GOODS_LIST_TAG);
+		return (GoodsListFragment) getFragmentManager().findFragmentByTag(GOODS_LIST_TAG);
 	}
 
 	private void goToGoodsList(boolean addToBackStack) {
@@ -261,7 +261,7 @@ public class GoodsActivity extends ActionBarActivity implements GoodsListListene
 		}
 
 		goodsListFragment = GoodsListFragment.newInstance(Mode.GRID, null);
-		FragmentTransaction tr = getSupportFragmentManager().beginTransaction().add(
+		FragmentTransaction tr = getFragmentManager().beginTransaction().add(
 				R.id.dynamic_fragment_container, goodsListFragment, GOODS_LIST_TAG);
 
 		if (addToBackStack)
@@ -271,12 +271,12 @@ public class GoodsActivity extends ActionBarActivity implements GoodsListListene
 	}
 
 	private void returnToGoodsList() {
-		getSupportFragmentManager().popBackStack();
+		getFragmentManager().popBackStack();
 		setTitle(R.string.goodsLiTitleGrid);
 	}
 
 	private GoodsFormFragment getGoodsFormFragment() {
-		return (GoodsFormFragment) getSupportFragmentManager().findFragmentByTag(GOODS_FORM_TAG);
+		return (GoodsFormFragment) getFragmentManager().findFragmentByTag(GOODS_FORM_TAG);
 	}
 
 	private void goToGoodsForm(Goods goods, boolean addToBackStack) {
@@ -287,7 +287,7 @@ public class GoodsActivity extends ActionBarActivity implements GoodsListListene
 
 		int title = getGoodsFormTitle(goods);
 
-		FragmentTransaction tr = getSupportFragmentManager().beginTransaction()
+		FragmentTransaction tr = getFragmentManager().beginTransaction()
 				.replace(R.id.dynamic_fragment_container, goodsFormFragment, GOODS_FORM_TAG)
 				.setBreadCrumbTitle(title);
 
@@ -303,7 +303,7 @@ public class GoodsActivity extends ActionBarActivity implements GoodsListListene
 	}
 
 	private GoodsCategoriesListFragment getGoodsCategoriesListFragment() {
-		return (GoodsCategoriesListFragment) getSupportFragmentManager().findFragmentByTag(
+		return (GoodsCategoriesListFragment) getFragmentManager().findFragmentByTag(
 				CATEGORIES_LIST_TAG);
 	}
 
@@ -317,7 +317,7 @@ public class GoodsActivity extends ActionBarActivity implements GoodsListListene
 
 		categoriesListFragment = GoodsCategoriesListFragment.newInstance(
 				GoodsCategoriesListFragment.Mode.LOOKUP, filter);
-		FragmentTransaction tr = getSupportFragmentManager().beginTransaction().add(
+		FragmentTransaction tr = getFragmentManager().beginTransaction().add(
 				R.id.dynamic_fragment_container, categoriesListFragment, CATEGORIES_LIST_TAG);
 
 		if (addToBackStack)
@@ -326,7 +326,7 @@ public class GoodsActivity extends ActionBarActivity implements GoodsListListene
 		tr.commit();
 		setTitle(R.string.goodsCategoriesLiTitleLookup);
 
-		getSupportFragmentManager().addOnBackStackChangedListener(new OnBackStackChangedListener() {
+		getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
 			public void onBackStackChanged() {
 				GoodsCategoriesListFragment categoriesListFragment = getGoodsCategoriesListFragment();
 
@@ -342,7 +342,7 @@ public class GoodsActivity extends ActionBarActivity implements GoodsListListene
 					Goods goods = goodsFormFragment.getParameterGoods();
 					int title = getGoodsFormTitle(goods);
 					setTitle(title);
-					getSupportFragmentManager().removeOnBackStackChangedListener(this);
+					getFragmentManager().removeOnBackStackChangedListener(this);
 				}
 			}
 		});

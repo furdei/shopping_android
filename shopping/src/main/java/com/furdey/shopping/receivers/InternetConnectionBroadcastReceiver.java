@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.ActivityCompat;
 
 public class InternetConnectionBroadcastReceiver extends BroadcastReceiver {
 
@@ -13,7 +12,7 @@ public class InternetConnectionBroadcastReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if (activity != null)
-			ActivityCompat.invalidateOptionsMenu(activity);
+            activity.invalidateOptionsMenu();
 	}
 
 	public Activity getActivity() {

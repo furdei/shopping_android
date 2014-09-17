@@ -1,15 +1,15 @@
 package com.furdey.shopping.listeners;
 
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.CursorAdapter;
+import android.widget.CursorAdapter;
 
 import com.furdey.shopping.content.UnitsUtils;
 
-public class UnitsLoaderCallbacks implements LoaderCallbacks<Cursor> {
+public class UnitsLoaderCallbacks implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	private Context context;
 	private CursorAdapter adapter;

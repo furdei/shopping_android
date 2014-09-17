@@ -1,10 +1,9 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:appcompat="http://schemas.android.com/apk/res-auto" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
         android:id="@+id/menuPurchasesListNewRecord"
         android:orderInCategory="10"
-        appcompat:showAsAction="always|withText"
+        android:showAsAction="always|withText"
         android:title="@string/menuPurchasesListNewRecord"
         android:icon="@drawable/ic_action_new">
     </item>
@@ -12,7 +11,7 @@
     <item
         android:id="@+id/menuPurchasesListSortOrder"
         android:orderInCategory="20"
-        appcompat:showAsAction="ifRoom"
+        android:showAsAction="ifRoom"
         android:title="@string/menuPurchasesListSortOrder"
         android:icon="@drawable/ic_action_sort_by_size">
         
@@ -23,19 +22,19 @@
 			    <item
 			        android:id="@+id/menuPurchasesListSortOrderCategory"
 			        android:orderInCategory="100"
-			        appcompat:showAsAction="never"
+                    android:showAsAction="never"
 			        android:title="@string/menuPurchasesListSortOrderCategory"/>                
                 
 			    <item
 			        android:id="@+id/menuPurchasesListSortOrderName"
 			        android:orderInCategory="200"
-			        appcompat:showAsAction="never"
+                    android:showAsAction="never"
 			        android:title="@string/menuPurchasesListSortOrderName"/>                
                 
 			    <item
 			        android:id="@+id/menuPurchasesListSortOrderAddTime"
 			        android:orderInCategory="300"
-			        appcompat:showAsAction="never"
+                    android:showAsAction="never"
 			        android:title="@string/menuPurchasesListSortOrderAddTime"/>                
                 
 		    </group>

@@ -1,12 +1,12 @@
 package com.furdey.shopping.fragments;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,7 +31,7 @@ import com.furdey.shopping.utils.DecimalUtils;
 
 import java.math.BigDecimal;
 
-public class PurchasesFormFragment extends Fragment implements LoaderCallbacks<Cursor> {
+public class PurchasesFormFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	public static PurchasesFormFragment newInstance(Purchase purchase) {
 		Bundle bundle = new Bundle();

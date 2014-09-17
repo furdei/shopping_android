@@ -1,12 +1,12 @@
 package com.furdey.shopping.activities;
 
+import android.app.Activity;
+import android.app.FragmentTransaction;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,8 +19,8 @@ import com.furdey.shopping.fragments.UnitsListFragment;
 import com.furdey.shopping.fragments.UnitsListFragment.UnitsListListener;
 import com.furdey.shopping.tasks.ToastThrowableAsyncTask;
 
-public class UnitsActivity extends FragmentActivity implements UnitsListListener,
-		UnitsFormListener, LoaderCallbacks<Cursor> {
+public class UnitsActivity extends Activity implements UnitsListListener,
+		UnitsFormListener, LoaderManager.LoaderCallbacks<Cursor> {
 
 	private static final String TAG = UnitsActivity.class.getCanonicalName();
 
@@ -38,7 +38,7 @@ public class UnitsActivity extends FragmentActivity implements UnitsListListener
 
 	@Override
 	public void onUnitsListFragmentCreated() {
-		getSupportLoaderManager().initLoader(UNITS_LIST_LOADER, null, this);
+		getLoaderManager().initLoader(UNITS_LIST_LOADER, null, this);
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class UnitsActivity extends FragmentActivity implements UnitsListListener
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-		UnitsListFragment unitsListFragment = (UnitsListFragment) getSupportFragmentManager()
+		UnitsListFragment unitsListFragment = (UnitsListFragment) getFragmentManager()
 				.findFragmentByTag(UNITS_LIST_TAG);
 
 		if (unitsListFragment != null)
@@ -98,7 +98,7 @@ public class UnitsActivity extends FragmentActivity implements UnitsListListener
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-		UnitsListFragment unitsListFragment = (UnitsListFragment) getSupportFragmentManager()
+		UnitsListFragment unitsListFragment = (UnitsListFragment) getFragmentManager()
 				.findFragmentByTag(UNITS_LIST_TAG);
 
 		if (unitsListFragment != null)
@@ -108,7 +108,7 @@ public class UnitsActivity extends FragmentActivity implements UnitsListListener
 	}
 
 	private void goToUnitsList(boolean addToBackStack) {
-		UnitsListFragment unitsListFragment = (UnitsListFragment) getSupportFragmentManager()
+		UnitsListFragment unitsListFragment = (UnitsListFragment) getFragmentManager()
 				.findFragmentByTag(UNITS_LIST_TAG);
 
 		if (unitsListFragment != null) {
@@ -117,7 +117,7 @@ public class UnitsActivity extends FragmentActivity implements UnitsListListener
 		}
 
 		unitsListFragment = new UnitsListFragment();
-		FragmentTransaction tr = getSupportFragmentManager().beginTransaction().add(
+		FragmentTransaction tr = getFragmentManager().beginTransaction().add(
 				R.id.dynamic_fragment_container, unitsListFragment, UNITS_LIST_TAG);
 
 		if (addToBackStack)
@@ -127,12 +127,12 @@ public class UnitsActivity extends FragmentActivity implements UnitsListListener
 	}
 
 	private void returnToUnitsList() {
-		getSupportFragmentManager().popBackStack();
+        getFragmentManager().popBackStack();
 		setTitle(R.string.unitsLiTitle);
 	}
 
 	private void goToUnitsForm(Unit unit, boolean addToBackStack) {
-		UnitsFormFragment unitsFormFragment = (UnitsFormFragment) getSupportFragmentManager()
+		UnitsFormFragment unitsFormFragment = (UnitsFormFragment) getFragmentManager()
 				.findFragmentByTag(UNITS_FORM_TAG);
 
 		if (unitsFormFragment == null)
@@ -140,9 +140,9 @@ public class UnitsActivity extends FragmentActivity implements UnitsListListener
 
 		int title = unit == null ? R.string.unitsFmTitleAdd : R.string.unitsFmTitleEdit;
 
-		FragmentTransaction tr = getSupportFragmentManager().beginTransaction()
+		FragmentTransaction tr = getFragmentManager().beginTransaction()
 				.add(R.id.dynamic_fragment_container, unitsFormFragment, UNITS_FORM_TAG)
-				.hide(getSupportFragmentManager().findFragmentByTag(UNITS_LIST_TAG))
+				.hide(getFragmentManager().findFragmentByTag(UNITS_LIST_TAG))
 				.setBreadCrumbTitle(title);
 
 		if (addToBackStack)

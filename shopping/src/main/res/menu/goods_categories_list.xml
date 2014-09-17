@@ -1,21 +1,20 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:appcompat="http://schemas.android.com/apk/res-auto" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
  
     <group android:id="@+id/menuGoodsCategoriesListGroup">
     
 	    <item android:id="@+id/searchView"
 	          android:title="@string/menuGoodsCategoriesListSearch"
 	          android:icon="@drawable/action_search"
-	          appcompat:showAsAction="always"
-	          appcompat:actionViewClass="android.support.v7.widget.SearchView"
-	          appcompat:iconifiedByDefault="false"
-	          appcompat:queryHint="@string/menuGoodsCategoriesListSearch" />
+            android:showAsAction="always"
+            android:actionViewClass="android.widget.SearchView"
+            android:iconifiedByDefault="false"
+            android:queryHint="@string/menuGoodsCategoriesListSearch" />
 	        
 	    <item
 	        android:id="@+id/menuGoodsCategoriesListNewRecord"
 	        android:title="@string/menuGoodsCategoriesListNewRecord"
 	        android:icon="@drawable/ic_action_new"
-	        appcompat:showAsAction="always" >
+            android:showAsAction="always" >
 	    </item>
 
     </group>

@@ -2,14 +2,11 @@ package com.furdey.shopping.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -22,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.furdey.shopping.R;
@@ -128,11 +126,11 @@ public class GoodsListFragment extends Fragment {
 		inflater.inflate(R.menu.goods_list, menu);
 
 		MenuItem menuItem = menu.findItem(R.id.searchView);
-		searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+		searchView = (SearchView) menuItem.getActionView();
 		// bug - some SearchView xml attributes don't work at compatibility library
 		searchView.setIconified(false);
 		searchView.setQueryHint(getString(R.string.menuGoodsListSearch));
-		searchView.setOnQueryTextListener(new OnQueryTextListener() {
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextSubmit(String arg0) {
 				return true;

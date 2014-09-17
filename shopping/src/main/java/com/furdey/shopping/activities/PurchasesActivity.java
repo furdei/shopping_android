@@ -1,17 +1,16 @@
 package com.furdey.shopping.activities;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -51,8 +50,8 @@ import com.furdey.social.android.SocialClientsManager.SocialNetwork;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class PurchasesActivity extends ActionBarActivity implements PurchasesListListener,
-		PurchasesFormListener, GoodsListListener, GoodsCategoriesListListener, LoaderCallbacks<Cursor>,
+public class PurchasesActivity extends Activity implements PurchasesListListener,
+		PurchasesFormListener, GoodsListListener, GoodsCategoriesListListener, LoaderManager.LoaderCallbacks<Cursor>,
 		StatusCallback {
 
 	public static final int REQUEST_SELECT_FRIEND = 1;
@@ -74,7 +73,6 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 
 	private InternetConnectionBroadcastReceiver internetConnectionBroadcastReceiver = null;
 	private boolean internetConnectionBroadcastReceiverRegistered = false;
-	private PurchasesListFragment purchasesListFragment;
 	private UiLifecycleHelper uiLifecycleHelper;
     private boolean keepScreenOn;
 
@@ -166,7 +164,7 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 			internetConnectionBroadcastReceiverRegistered = true;
 		}
 
-		ActivityCompat.invalidateOptionsMenu(this);
+		invalidateOptionsMenu();
 	}
 
     @Override
@@ -225,7 +223,8 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 
 	@Override
 	public void onPurchasesListFragmentReady() {
-		getSupportLoaderManager().initLoader(PURCHASES_LIST_LOADER, null, this);
+        System.out.println("PurchasesActivity.onPurchasesListFragmentReady");
+        getLoaderManager().restartLoader(PURCHASES_LIST_LOADER, null, this);
 	}
 
 	@Override
@@ -334,7 +333,7 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 	@Override
 	public void onPurchasesListSortOrderChanged(PurchasesSortOrder purchasesSortOrder) {
 		PreferencesManager.setPurchasesSortOrder(this, purchasesSortOrder);
-		getSupportLoaderManager().restartLoader(PURCHASES_LIST_LOADER, null, this);
+		getLoaderManager().restartLoader(PURCHASES_LIST_LOADER, null, this);
 	}
 
 	@Override
@@ -398,7 +397,7 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 	public void onFillGoodsList(String filter) {
 		Bundle bundle = new Bundle();
 		bundle.putString(GOODS_LIST_LOADER_FILTER, filter);
-		getSupportLoaderManager().restartLoader(GOODS_LIST_LOADER, bundle, this);
+		getLoaderManager().restartLoader(GOODS_LIST_LOADER, bundle, this);
 	}
 
 	@Override
@@ -412,13 +411,13 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 
 			@Override
 			protected void onSuccess(Cursor purchasesInTheList) {
-				boolean thereWasAPurchaseAlready = getSupportFragmentManager().popBackStackImmediate(
+				boolean thereWasAPurchaseAlready = getFragmentManager().popBackStackImmediate(
 						PURCHASES_FORM_TAG, 0);
 
 				if (purchasesInTheList != null && purchasesInTheList.getCount() > 0) {
 					// purchase is in the list so let's just edit
 					if (thereWasAPurchaseAlready) {
-						getSupportFragmentManager().popBackStack();
+						getFragmentManager().popBackStack();
 					}
 
 					purchasesInTheList.moveToFirst();
@@ -441,7 +440,7 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 						newPurchase.setDescr(oldPurchase.getDescr());
 					}
 
-					getSupportFragmentManager().popBackStack();
+					getFragmentManager().popBackStack();
 					goToPurchaseForm(true, newPurchase);
 				} else {
 					// there wasn't any purchase being edited
@@ -474,7 +473,7 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 	public void onFillCategoriesList(String filter) {
 		Bundle args = new Bundle();
 		args.putString(CATEGORIES_LIST_LOADER_FILTER, filter);
-		getSupportLoaderManager().restartLoader(CATEGORIES_LIST_LOADER, args, this);
+		getLoaderManager().restartLoader(CATEGORIES_LIST_LOADER, args, this);
 	}
 
 	/**
@@ -485,7 +484,7 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 	 */
 	@Override
 	public void onEditCategory(GoodsCategory category) {
-		getSupportFragmentManager().popBackStack();
+		getFragmentManager().popBackStack();
 		PurchasesFormFragment purchasesFormFragment = getPurchasesFormFragment();
 		purchasesFormFragment.setCategory(category);
 	}
@@ -511,7 +510,8 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 			return GoodsCategoriesUtils.getGoodsCategoriesLoader(this, filter);
 
 		case PURCHASES_LIST_LOADER:
-			String sortOrder = PurchasesUtils.getPurchasesSortOrder(this);
+            System.out.println("PurchasesActivity.onCreateLoader");
+            String sortOrder = PurchasesUtils.getPurchasesSortOrder(this);
 			return PurchasesUtils.getPurchasesLoader(this, sortOrder);
 		}
 
@@ -540,6 +540,7 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 			break;
 
 		case PURCHASES_LIST_LOADER:
+            System.out.println("PurchasesActivity.onLoadFinished");
             ShoppingListWidgetProvider.updateWidgets(getApplicationContext());
 			PurchasesListFragment purchasesListFragment = getPurchasesListFragment();
 
@@ -597,50 +598,72 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 	// ///////////////////////////////
 
 	private GoodsListFragment getGoodsListFragment() {
-		return (GoodsListFragment) getSupportFragmentManager().findFragmentByTag(GOODS_LIST_TAG);
+		return (GoodsListFragment) getFragmentManager().findFragmentByTag(GOODS_LIST_TAG);
 	}
 
 	private PurchasesFormFragment getPurchasesFormFragment() {
-		return (PurchasesFormFragment) getSupportFragmentManager()
+		return (PurchasesFormFragment) getFragmentManager()
 				.findFragmentByTag(PURCHASES_FORM_TAG);
 	}
 
 	private PurchasesListFragment getPurchasesListFragment() {
-		return (PurchasesListFragment) getSupportFragmentManager()
+		return (PurchasesListFragment) getFragmentManager()
 				.findFragmentByTag(PURCHASES_LIST_TAG);
 	}
 
 	private GoodsCategoriesListFragment getGoodsCategoriesListFragment() {
-		return (GoodsCategoriesListFragment) getSupportFragmentManager().findFragmentByTag(
+		return (GoodsCategoriesListFragment) getFragmentManager().findFragmentByTag(
 				CATEGORIES_LIST_TAG);
 	}
 
+    /**
+     * This function is needed 'cause of a bug in a Support Library when
+     * `replace` method doesn't remove all previous fragments from a container
+     * @param transaction
+     */
+//    private void clearAllFragments(FragmentTransaction transaction) {
+//        List<Fragment> fragments = getFragmentManager().getFragments();
+//        if (fragments != null) {
+//            for (Fragment fragment : fragments) {
+//                transaction.remove(fragment);
+//            }
+//        }
+//    }
+
+    private FragmentTransaction replace(FragmentTransaction transaction, int containerId,
+                                        Fragment fragment, String tag) {
+//        clearAllFragments(transaction);
+        return transaction.replace(containerId, fragment, tag);
+    }
+
 	private void goToGoodsList(String filter, boolean addToBackStack) {
         GoodsListFragment goodsListFragment = GoodsListFragment.newInstance(GoodsListAdapter.Mode.LOOKUP, filter);
-		FragmentTransaction tr = getSupportFragmentManager().beginTransaction().replace(
-				R.id.dynamic_fragment_container, goodsListFragment, GOODS_LIST_TAG);
+		FragmentTransaction tr = getFragmentManager().beginTransaction();
+        replace(tr, R.id.dynamic_fragment_container, goodsListFragment, GOODS_LIST_TAG);
 
 		if (addToBackStack)
 			tr.addToBackStack(GOODS_LIST_TAG);
 
 		tr.commit();
+        getFragmentManager().executePendingTransactions();
 		setTitle(R.string.goodsLiTitleLookup);
 	}
 
 	private void returnToPurchasesList() {
-		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+		getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 		setTitle(R.string.appName);
 	}
 
 	private void goToPurchaseForm(boolean addToBackStack, Purchase purchase) {
         PurchasesFormFragment purchasesFormFragment = PurchasesFormFragment.newInstance(purchase);
-		FragmentTransaction tr = getSupportFragmentManager().beginTransaction().replace(
-				R.id.dynamic_fragment_container, purchasesFormFragment, PURCHASES_FORM_TAG);
+		FragmentTransaction tr = getFragmentManager().beginTransaction();
+        replace(tr, R.id.dynamic_fragment_container, purchasesFormFragment, PURCHASES_FORM_TAG);
 
 		if (addToBackStack)
 			tr.addToBackStack(PURCHASES_FORM_TAG);
 
 		tr.commit();
+        getFragmentManager().executePendingTransactions();
 		setTitle(getPurchaseFormTitle(purchase));
 	}
 
@@ -658,16 +681,17 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 
 		categoriesListFragment = GoodsCategoriesListFragment.newInstance(
 				GoodsCategoriesListFragment.Mode.LOOKUP, filter);
-		FragmentTransaction tr = getSupportFragmentManager().beginTransaction().add(
+		FragmentTransaction tr = getFragmentManager().beginTransaction().add(
 				R.id.dynamic_fragment_container, categoriesListFragment, CATEGORIES_LIST_TAG);
 
 		if (addToBackStack)
 			tr.addToBackStack(null);
 
 		tr.commit();
+        getFragmentManager().executePendingTransactions();
 		setTitle(R.string.goodsCategoriesLiTitleLookup);
 
-		getSupportFragmentManager().addOnBackStackChangedListener(new OnBackStackChangedListener() {
+        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
 			public void onBackStackChanged() {
 				GoodsCategoriesListFragment categoriesListFragment = getGoodsCategoriesListFragment();
 
@@ -683,17 +707,18 @@ public class PurchasesActivity extends ActionBarActivity implements PurchasesLis
 					Purchase purchase = purchasesFormFragment.getParameterPurchase();
 					int title = getPurchaseFormTitle(purchase);
 					setTitle(title);
-					getSupportFragmentManager().removeOnBackStackChangedListener(this);
+                    getFragmentManager().removeOnBackStackChangedListener(this);
 				}
 			}
 		});
 	}
 
     private void goToPurchasesList() {
-        purchasesListFragment = new PurchasesListFragment();
-        FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
-        tr.replace(R.id.dynamic_fragment_container, purchasesListFragment, PURCHASES_LIST_TAG);
+        PurchasesListFragment purchasesListFragment = new PurchasesListFragment();
+        FragmentTransaction tr = getFragmentManager().beginTransaction();
+        replace(tr, R.id.dynamic_fragment_container, purchasesListFragment, PURCHASES_LIST_TAG);
         tr.commit();
+        getFragmentManager().executePendingTransactions();
     }
 
 	private void sendShareMessage(SocialNetwork network) {

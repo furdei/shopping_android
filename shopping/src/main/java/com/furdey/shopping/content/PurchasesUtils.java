@@ -174,11 +174,11 @@ public class PurchasesUtils {
 
 		if (purchase.getStrdate() != null)
 			contentValues.put(PurchasesContentProvider.Columns.STRDATE.toString(), ContentUtils
-					.getDateFormat().format(purchase.getStrdate()));
+					.getDateMidnight(purchase.getStrdate()));
 
 		if (purchase.getFindate() != null)
 			contentValues.put(PurchasesContentProvider.Columns.FINDATE.toString(), ContentUtils
-					.getDateFormat().format(purchase.getFindate()));
+					.getDateMidnight(purchase.getFindate()));
 
 		contentValues.put(PurchasesContentProvider.Columns.SORTORDER.toString(),
 				purchase.getSortorder());

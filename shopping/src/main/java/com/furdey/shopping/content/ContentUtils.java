@@ -32,16 +32,20 @@ public class ContentUtils {
 		return sdtf;
 	}
 
-	public static final String getCurrentDateMidnight() {
+	public static final String getDateMidnight(Date date) {
 		try {
-			return getDateTimeFormat().format(getDateFormat().parse(getDateFormat().format(new Date())));
+			return getDateTimeFormat().format(getDateFormat().parse(getDateFormat().format(date)));
 		} catch (ParseException e) {
 			throw new RuntimeException(String.format(ERROR_PARSING_DATE,
 					getDateFormat().format(new Date())));
 		}
 	}
 
-	public static final String getCurrentDate() {
+    public static final String getCurrentDateMidnight() {
+        return getDateMidnight(new Date());
+    }
+
+    public static final String getCurrentDate() {
 		return getDateFormat().format(new Date());
 	}
 

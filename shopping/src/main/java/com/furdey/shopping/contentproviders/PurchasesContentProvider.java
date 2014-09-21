@@ -67,7 +67,7 @@ public class PurchasesContentProvider extends
         // Set the table
 		String tables = PURCHASES_PATH.concat(" JOIN ").concat(GoodsContentProvider.GOODS_PATH).concat(" ON ")
                 .concat(Columns.GOOD_ID.getDbName()).concat(" = ").concat(Columns.GOODS__ID.getDbName())
-                .concat(" AND '").concat(ContentUtils.getCurrentDate()).concat("' BETWEEN ")
+                .concat(" AND '").concat(ContentUtils.getCurrentDateMidnight()).concat("' BETWEEN ")
                 .concat(Columns.STRDATE.getDbName()).concat(" AND ").concat(Columns.FINDATE.getDbName())
                 .concat(" JOIN ").concat(UnitsContentProvider.UNITS_PATH).concat(" ON ")
                 .concat(Columns.UNITS_ID.getDbName()).concat(" = ").concat(Columns.UNIT__ID.getDbName())

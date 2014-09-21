@@ -10,10 +10,20 @@ android {
         targetSdkVersion 19
     }
 
+    signingConfigs {
+        release {
+            storeFile file(System.getenv("SHOPPING_KEYSTORE"))
+            storePassword System.getenv("SHOPPING_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("SHOPPING_KEY_ALIAS")
+            keyPassword System.getenv("SHOPPING_KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
         }
     }
 

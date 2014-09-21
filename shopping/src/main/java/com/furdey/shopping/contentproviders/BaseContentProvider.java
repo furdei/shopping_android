@@ -131,7 +131,7 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
         // check if the caller has requested a column which does not exists
-        checkColumns(projection);
+        //checkColumns(projection);
 
         // Set the table
         queryBuilder.setTables(tables);

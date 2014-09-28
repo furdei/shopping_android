@@ -130,6 +130,11 @@
             android:exported="false" >
         </service>
 
+        <service
+            android:name="com.furdey.shopping.notifications.PurchasesListAlarmNotificationService"
+            android:exported="false" >
+        </service>
+
     </application>
 
 </manifest>

@@ -29,7 +29,7 @@
     <dimen name="goodsIconFormHeight">72dp</dimen>
     <dimen name="goodsIconGalleryPadding">16dp</dimen>
     
-    <dimen name="formControlsSeparartorThickness">1dp</dimen>
+    <dimen name="formControlsSeparatorThickness">1dp</dimen>
     
     <dimen name="listItemDescrTextHeight">18dp</dimen>
     <dimen name="listItemHeaderTextHeight">24dp</dimen>

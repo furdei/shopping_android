@@ -70,6 +70,7 @@
     <string name="menuPurchasesListSortOrderName">Сортировка по имени</string>
     <string name="menuPurchasesListSortOrderAddTime">Сортировка по порядку добавления</string>
     <string name="menuPurchasesListNewRecord">Новая покупка</string>
+    <string name="menuPurchasesListAlarms">Напоминания</string>
     <string name="menuPurchasesListDelayRecord">Отложить до завтра</string>
     <string name="menuPurchasesListEditRecord">Изменить</string>
     <string name="menuPurchasesListDeleteRecord">Удалить</string>
@@ -98,10 +99,12 @@
     <string name="purchasesLiItemDelayed">Отложенная покупка появится в списке завтра</string>
     <string name="purchasesLiNoPurchasesForSend">Нет покупок для отправки</string>
     <string name="purchasesLiFailedToSend">Отправка не удалась</string>
-    <string name="purchasesLiSendListItemsDelimeter">,&#160;</string>
-    <string name="purchasesLiSendListCounterDelimeter">&#160;</string>
+    <string name="purchasesLiSendListItemsDelimiter">,&#160;</string>
+    <string name="purchasesLiSendListCounterDelimiter">&#160;</string>
     <string name="purchasesLiSendListDescrFormat"> (%s)</string>
     <string name="purchasesLiSendListHeader">Купить:&#160;</string>
+    <string name="purchasesLiSendListNotificationHeader">Не забыть купить:</string>
+    <string name="purchasesLiSendListTrailer">&#8230; (еще %s)</string>
     
     <string name="purchasesFmTitleAdd">Новая покупка</string>
     <string name="purchasesFmTitleEdit">Покупка</string>
@@ -142,7 +145,12 @@
     <string name="menuGoodsListDeleteRecord">Удалить</string>
     <string name="menuGoodsListContextTitle">Действия над \"%s\"</string>
     <string name="menuGoodsListSearch">Поиск товара</string>
-    
+
+    <string name="alertTimerDialogTitle">Установить напоминание</string>
+    <string name="alertTimerDialogRepeatCaption">Повторить</string>
+    <string name="alertTimerDialogRepeatNever">Никогда</string>
+    <string name="alertTimerDialogDaysDelimiter">,&#160;</string>
+
     <string name="vkLoginLoginFailed">Вход не удался</string>
     <string name="friendsListStartPopup">Выберите, кому отправить список покупок</string>
     <string name="friendsListConfirmTitle">Подтвердите отправку списка</string>

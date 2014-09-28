@@ -76,7 +76,7 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_below="@id/goodsCategoriesFmDescrEdit"
-	        android:layout_above="@id/formButtonsSeparatorHorisontal"
+	        android:layout_above="@id/formButtonsSeparatorHorizontal"
 	        android:stretchMode="spacingWidth"
 	        android:numColumns="auto_fit"
 	        android:columnWidth="@dimen/goodsIconFormHeight"

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TimePicker xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/alertTimerDialogTimePicker"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginTop"
+        android:layout_marginBottom="@dimen/marginBottom"
+        />
+
+    <View
+        android:id="@+id/alertTimerDialogSeparatorHorizontal"
+        android:layout_width="@dimen/formControlsSeparatorThickness"
+        android:layout_height="fill_parent"
+        android:background="@color/formControlsSeparatorColor"
+        android:layout_marginTop="@dimen/marginTop"
+        android:layout_marginBottom="@dimen/marginBottom"
+        android:layout_marginLeft="@dimen/marginOuterLeft"
+        android:layout_marginRight="@dimen/marginOuterRight" />
+
+    <RelativeLayout
+        android:id="@+id/alertTimerDialogRepeatButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/marginTop"
+        android:paddingBottom="@dimen/marginBottom"
+        android:paddingLeft="@dimen/windowBorderLeft"
+        android:paddingRight="@dimen/windowBorderRight"
+        android:layout_marginBottom="@dimen/marginBottom"
+        android:clickable="true"
+        android:focusableInTouchMode="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/formTextStyle"
+                android:text="@string/alertTimerDialogRepeatCaption"/>
+
+            <TextView
+                android:id="@+id/alertTimerDialogRepeatInterval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/formSubtitleTextStyle"
+                android:text="@string/alertTimerDialogRepeatNever"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

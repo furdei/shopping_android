@@ -21,8 +21,11 @@ import com.furdey.shopping.utils.PreferencesManager.PurchasesSortOrder;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 public class PurchasesUtils {
 
@@ -250,24 +253,45 @@ public class PurchasesUtils {
 		return sortOrder;
 	}
 
+    public static List<Purchase> getPurchasesList(Context context) {
+        String[] projection = new String[] { Columns.STATE.toString(), Columns.GOODS_NAME.toString(),
+                Columns.COUNT.toString(), Columns.UNIT_NAME.toString() };
+        String selection = Columns.STATE.getDbName() + "=?";
+        String[] selectionArgs = new String[] { PurchaseState.ENTERED.toString() };
+        String sortOrder = getPurchasesSortOrder(context);
+        Cursor cursor = getPurchases(context, projection, selection, selectionArgs, sortOrder);
+
+        if (cursor == null || cursor.getCount() < 1) {
+            if (cursor != null) {
+                cursor.close();
+            }
+            return null;
+        }
+
+        List<Purchase> list = new ArrayList<Purchase>(cursor.getCount());
+
+        while (cursor.moveToNext()) {
+            Purchase purchase = fromCursor(cursor);
+            list.add(purchase);
+        }
+
+        cursor.close();
+        return list;
+    }
+
 	public static String getPurchasesListString(Context context) {
-		String[] projection = new String[] { Columns.STATE.toString(), Columns.GOODS_NAME.toString(),
-				Columns.COUNT.toString(), Columns.UNIT_NAME.toString() };
-		String sortOrder = getPurchasesSortOrder(context);
-		Cursor cursor = getPurchases(context, projection, null, null, sortOrder);
+        List<Purchase> list = getPurchasesList(context);
 		String listStr = "";
 		String purchasesLiSendListItemsDelimeter = context
-				.getString(R.string.purchasesLiSendListItemsDelimeter);
+				.getString(R.string.purchasesLiSendListItemsDelimiter);
 		String purchasesLiSendListCounterDelimeter = context
-				.getString(R.string.purchasesLiSendListCounterDelimeter);
+				.getString(R.string.purchasesLiSendListCounterDelimiter);
 		String purchasesLiSendListDescrFormat = context
 				.getString(R.string.purchasesLiSendListDescrFormat);
 
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                Purchase purchase = fromCursor(cursor);
-
-                if (purchase.getState() == PurchaseState.ENTERED) {
+        if (list != null) {
+            for (Purchase purchase : list) {
+                //if (purchase.getState() == PurchaseState.ENTERED) {
                     if (listStr.length() > 0) {
                         listStr = listStr.concat(purchasesLiSendListItemsDelimeter);
                     }
@@ -285,16 +309,51 @@ public class PurchasesUtils {
                         if (descr.length() > 0) {
                             listStr = listStr.concat(String.format(purchasesLiSendListDescrFormat, descr));
                         }
-                }
+                //}
             }
-
-            cursor.close();
         }
 
 		return listStr;
 	}
 
-	private static void updatePurchaseStatistics(Context context, Purchase newPurchase) {
+    public static String getPurchasesListNotificationString(Context context, int maxLength) {
+        List<Purchase> list = getPurchasesList(context);
+
+        if (list == null || list.size() < 1) {
+            return null;
+        }
+
+        String listStrTrailerTemplate = context.getString(R.string.purchasesLiSendListTrailer);
+        String listItemsDelimiter = context.getString(R.string.purchasesLiSendListItemsDelimiter);
+        boolean done = false;
+        Iterator<Purchase> purchaseIterator = list.iterator();
+        String listStr = purchaseIterator.next().getGoods().getName();
+        int unselected = list.size() - 1;
+        String trailer = String.format(listStrTrailerTemplate, unselected);
+
+        while (purchaseIterator.hasNext() && !done) {
+            Purchase purchase = purchaseIterator.next();
+            String newList = listStr + listItemsDelimiter + purchase.getGoods().getName();
+            int newUnselected = unselected - 1;
+            String newTrailer = String.format(listStrTrailerTemplate, newUnselected);
+
+            if (newList.length() + newTrailer.length() >= maxLength && purchaseIterator.hasNext()) {
+                done = true;
+            } else {
+                listStr = newList;
+                unselected = newUnselected;
+                trailer = newTrailer;
+            }
+        }
+
+        if (unselected > 0) {
+            listStr = listStr + trailer;
+        }
+
+        return listStr;
+    }
+
+    private static void updatePurchaseStatistics(Context context, Purchase newPurchase) {
 		if (newPurchase.getId() == null) {
 			// a new purchase, not accepted yet
 			return;

@@ -41,7 +41,15 @@
         </menu>
         
     </item>
-    
+
+    <item
+        android:id="@+id/menuPurchasesListAlarms"
+        android:orderInCategory="25"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuPurchasesListAlarms"
+        android:icon="@drawable/ic_action_alarms">
+    </item>
+
     <item
         android:id="@+id/menuPurchasesListSendList"
         android:orderInCategory="30"

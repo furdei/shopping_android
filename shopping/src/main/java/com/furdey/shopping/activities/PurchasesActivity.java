@@ -1,6 +1,7 @@
 package com.furdey.shopping.activities;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -21,6 +22,7 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.furdey.shopping.R;
 import com.furdey.shopping.adapters.GoodsListAdapter;
+import com.furdey.shopping.content.AlarmUtils;
 import com.furdey.shopping.content.GoodsCategoriesUtils;
 import com.furdey.shopping.content.GoodsUtils;
 import com.furdey.shopping.content.PurchasesUtils;
@@ -28,6 +30,7 @@ import com.furdey.shopping.content.model.Goods;
 import com.furdey.shopping.content.model.GoodsCategory;
 import com.furdey.shopping.content.model.Purchase;
 import com.furdey.shopping.controllers.SocialController;
+import com.furdey.shopping.fragments.AlarmTimePickerFragment;
 import com.furdey.shopping.fragments.GoodsCategoriesListFragment;
 import com.furdey.shopping.fragments.GoodsCategoriesListFragment.GoodsCategoriesListListener;
 import com.furdey.shopping.fragments.GoodsListFragment;
@@ -52,7 +55,7 @@ import java.util.TimerTask;
 
 public class PurchasesActivity extends Activity implements PurchasesListListener,
 		PurchasesFormListener, GoodsListListener, GoodsCategoriesListListener, LoaderManager.LoaderCallbacks<Cursor>,
-		StatusCallback {
+		StatusCallback, AlarmTimePickerFragment.AlarmTimePickerListener {
 
 	public static final int REQUEST_SELECT_FRIEND = 1;
 
@@ -80,6 +83,7 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
 	private static final String PURCHASES_FORM_TAG = "purchasesForm";
 	private static final String GOODS_LIST_TAG = "goodssList";
 	private static final String CATEGORIES_LIST_TAG = "categoriesList";
+    private static final String ALARM_TIME_PICKER_TAG = "alarmTimePicker";
 
 	private static final int GOODS_LIST_LOADER = 0;
 	private static final int CATEGORIES_LIST_LOADER = 1;
@@ -273,7 +277,17 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
 		goToGoodsList(null, true);
 	}
 
-	@Override
+    @Override
+    public void onAlarmsMenuSelected() {
+        DialogFragment fragment = AlarmTimePickerFragment.newInstance(
+                PreferencesManager.getAlarmHour(getApplicationContext()),
+                PreferencesManager.getAlarmMinute(getApplicationContext()),
+                PreferencesManager.getAlarmRepeat(getApplicationContext())
+        );
+        fragment.show(getFragmentManager(), ALARM_TIME_PICKER_TAG);
+    }
+
+    @Override
 	public void onGoodsMenuSelected() {
 		startActivity(new Intent(this, GoodsActivity.class));
 	}
@@ -510,7 +524,6 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
 			return GoodsCategoriesUtils.getGoodsCategoriesLoader(this, filter);
 
 		case PURCHASES_LIST_LOADER:
-            System.out.println("PurchasesActivity.onCreateLoader");
             String sortOrder = PurchasesUtils.getPurchasesSortOrder(this);
 			return PurchasesUtils.getPurchasesLoader(this, sortOrder);
 		}
@@ -540,7 +553,6 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
 			break;
 
 		case PURCHASES_LIST_LOADER:
-            System.out.println("PurchasesActivity.onLoadFinished");
             ShoppingListWidgetProvider.updateWidgets(getApplicationContext());
 			PurchasesListFragment purchasesListFragment = getPurchasesListFragment();
 
@@ -593,7 +605,16 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
 	public void call(Session session, SessionState state, Exception exception) {
 	}
 
-	// ///////////////////////////////
+    // /////////////////////////////
+    // // AlarmTimePickerListener //
+    // /////////////////////////////
+
+    @Override
+    public void onAlarmTimeSet(int hourOfDay, int minute, int repeat) {
+        AlarmUtils.setAlarmTime(this, hourOfDay, minute, repeat);
+    }
+
+    // ///////////////////////////////
 	// ////////// private ////////////
 	// ///////////////////////////////
 
@@ -743,11 +764,9 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
                 getIntent().getExtras().getString(MODE_PARAMETER) : null;
 
         if (modeStr == null) {
-            System.out.println("PurchasesActivity.getMode return Mode.PURCHASES_LIST");
             return Mode.PURCHASES_LIST;
         }
 
-        System.out.println("PurchasesActivity.getMode Mode.valueOf(modeStr): " + modeStr + " : " + Mode.valueOf(modeStr).toString());
         return Mode.valueOf(modeStr);
     }
 

@@ -48,7 +48,9 @@ public class PurchasesListFragment extends Fragment {
 
 		void onNewPurchaseMenuSelected();
 
-		void onGoodsMenuSelected();
+        void onAlarmsMenuSelected();
+
+        void onGoodsMenuSelected();
 
 		void onGoodsCategoriesMenuSelected();
 
@@ -85,7 +87,6 @@ public class PurchasesListFragment extends Fragment {
 
 	@Override
 	public void onAttach(Activity activity) {
-        System.out.println("PurchasesListFragment.onAttach");
         super.onAttach(activity);
 		try {
 			listener = (PurchasesListListener) activity;
@@ -97,7 +98,6 @@ public class PurchasesListFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        System.out.println("PurchasesListFragment.onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.purchases_list, container, false);
 
@@ -122,7 +122,6 @@ public class PurchasesListFragment extends Fragment {
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-        System.out.println("PurchasesListFragment.onViewCreated");
         super.onViewCreated(view, savedInstanceState);
 		listener.onPurchasesListFragmentReady();
 	}
@@ -298,7 +297,11 @@ public class PurchasesListFragment extends Fragment {
 			listener.onNewPurchaseMenuSelected();
 			return true;
 
-		case R.id.menuPurchasesListAbout:
+        case R.id.menuPurchasesListAlarms:
+            listener.onAlarmsMenuSelected();
+            return true;
+
+        case R.id.menuPurchasesListAbout:
 			listener.onAboutMenuSelected();
 			return true;
 

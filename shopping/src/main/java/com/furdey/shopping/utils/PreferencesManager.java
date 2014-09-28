@@ -17,6 +17,9 @@ public class PreferencesManager {
 	private static final String PREF_LIKE_CHECK_DATE = "likeCheckDate";
 	private static final String PREF_LIKE_CHECK_PERIOD = "likeCheckPeriod";
 	private static final String PREF_RUN_COUNT = "runCount";
+    private static final String PREF_ALARM_HOUR = "alarmHour";
+    private static final String PREF_ALARM_MINUTE = "alarmMinute";
+    private static final String PREF_ALARM_REPEAT = "alarmRepeat";
 
 	public static final long SHARE_RUN_THRESHOLD = 5;
 	public static final long SHARE_DELAY = 1000 * 3600 * 24 * 7;
@@ -24,6 +27,7 @@ public class PreferencesManager {
 	public static final long LIKE_RUN_THRESHOLD = 10;
 	public static final long LIKE_DELAY = 1000 * 3600 * 24 * 7;
 	public static final long LIKE_LATER_DELAY = 1000 * 3600 * 24 * 2;
+    public static final int  ALARM_HOUR_UNSPECIFIED = -1;
 
 	public enum ShareState {
 		NOT_SHARED, SHARED
@@ -166,4 +170,25 @@ public class PreferencesManager {
 	public static long getRunCount(Context context) {
 		return loadPreferences(context).getLong(PREF_RUN_COUNT, 0);
 	}
+
+    public static void setAlarmTime(Context context, int hour, int minute, int repeat) {
+        Editor e = loadPreferences(context).edit();
+        e.putInt(PREF_ALARM_HOUR, hour);
+        e.putInt(PREF_ALARM_MINUTE, minute);
+        e.putInt(PREF_ALARM_REPEAT, repeat);
+        e.commit();
+    }
+
+    public static int getAlarmHour(Context context) {
+        return loadPreferences(context).getInt(PREF_ALARM_HOUR, ALARM_HOUR_UNSPECIFIED);
+    }
+
+    public static int getAlarmMinute(Context context) {
+        return loadPreferences(context).getInt(PREF_ALARM_MINUTE, 0);
+    }
+
+    public static int getAlarmRepeat(Context context) {
+        return loadPreferences(context).getInt(PREF_ALARM_REPEAT, 0);
+    }
+
 }

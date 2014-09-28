@@ -60,7 +60,7 @@
 			<View
 			    android:id="@+id/purchasesFmCountSeparator"
 			    android:layout_width="fill_parent"
-			    android:layout_height="@dimen/formControlsSeparartorThickness"
+			    android:layout_height="@dimen/formControlsSeparatorThickness"
 			    android:background="@color/formControlsSeparatorColor"
 		        android:layout_marginLeft="@dimen/marginOuterLeft"
 		        android:layout_marginRight="@dimen/marginOuterRight"

@@ -1,10 +1,12 @@
 package com.furdey.shopping.fragments;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -211,6 +213,7 @@ public class PurchasesFormFragment extends Fragment implements LoaderManager.Loa
 		return view;
 	}
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         System.out.println("PurchasesFormFragment.onViewCreated savedInstanceState = " + (savedInstanceState == null ? "null" : "not null"));
@@ -257,13 +260,13 @@ public class PurchasesFormFragment extends Fragment implements LoaderManager.Loa
 	}
 
 	public void setGoods(Goods goods) {
-        nameEdit.setText(goods.getName());
-        selectedGoodsId = goods.getId();
+        nameEdit.setText(goods != null ? goods.getName() : null);
+        selectedGoodsId = goods != null ? goods.getId() : null;
 	}
 
 	public void setCategory(GoodsCategory category) {
-        categoryEdit.setText(category.getName());
-		selectedCategoryId = category.getId();
+        categoryEdit.setText(category != null ? category.getName() : null);
+		selectedCategoryId = category != null ? category.getId() : null;
 	}
 
 	public void setUnit(Unit unit) {
@@ -286,9 +289,9 @@ public class PurchasesFormFragment extends Fragment implements LoaderManager.Loa
 
 		if (countEdit.getText() != null && countEdit.getText().toString() != null
 				&& countEdit.getText().toString().trim().length() > 0)
-			purchase.setCount(new BigDecimal(countEdit.getText().toString().trim()));
+			purchase.setCount(getCount(countEdit.getText().toString()));
 		else
-			purchase.setCount(new BigDecimal(countEdit.getHint().toString().trim()));
+			purchase.setCount(getCount(countEdit.getHint().toString()));
 
 		int unitsSpinnerPos = unitsSpinner.getSelectedItemPosition();
 		if (unitsSpinnerPos == Spinner.INVALID_POSITION) {
@@ -321,4 +324,12 @@ public class PurchasesFormFragment extends Fragment implements LoaderManager.Loa
 
 		return purchase;
 	}
+
+    private BigDecimal getCount(String count) {
+        try {
+            return new BigDecimal(count.trim());
+        } catch (Exception e) {
+            return BigDecimal.ZERO;
+        }
+    }
 }

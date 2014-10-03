@@ -21,8 +21,6 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 		extends ContentProvider {
 
 	public static interface Columns {
-		String name();
-
 		String getDbName();
 	}
 
@@ -78,7 +76,7 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 				if (columnAliases == null) {
 					columnAliases = new HashSet<String>();
 					for (COLUMNS column : getColumns()) {
-						columnAliases.add(column.name());
+						columnAliases.add(column.toString());
 					}
 				}
 			}
@@ -98,13 +96,14 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 
 					for (COLUMNS column : getColumns()) {
 						columnsMap.put(column.toString(),
-								String.format(COLUMN_ALIAS_TEMPLATE, column.getDbName(), column.name()));
+								String.format(COLUMN_ALIAS_TEMPLATE, column.getDbName(), column.toString()));
 					}
 				}
 			}
 		}
 
-		return columnsMap;
+//        System.out.println("BaseContentProvider.getColumnsMap: " + columnsMap.toString());
+        return columnsMap;
 	}
 
 	protected COLUMNS[] getColumns() {

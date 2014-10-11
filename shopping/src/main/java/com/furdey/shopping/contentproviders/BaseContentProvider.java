@@ -36,6 +36,8 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
     private static final String CHANGED_COLUMN = "changed";
     private static final String STANDARD_COLUMN = "standard";
 
+    protected static final int RUN_COUNT = 3;
+
 //    private DatabaseHelper dbHelper;
 //
 //	final protected DatabaseHelper getDbHelper() {
@@ -102,7 +104,7 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 			}
 		}
 
-//        System.out.println("BaseContentProvider.getColumnsMap: " + columnsMap.toString());
+        System.out.println("BaseContentProvider.getColumnsMap: " + columnsMap.toString());
         return columnsMap;
 	}
 
@@ -127,6 +129,27 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
     protected Cursor queryAll(UriMatcher uriMatcher, Uri uri, String tables, String mainTable,
                               String[] projection, String selection, String[] selectionArgs,
                               String sortOrder) {
+        int runCount = 0;
+
+        while (true) {
+            try {
+                return queryInternal(uriMatcher, uri, tables, mainTable, projection,
+                        selection, selectionArgs, sortOrder);
+            } catch (Exception e) {
+                // just swallow it
+                runCount++;
+                if (runCount >= RUN_COUNT) {
+                    return null;
+                }
+            }
+        }
+    }
+
+    private Cursor queryInternal(UriMatcher uriMatcher, Uri uri, String tables, String mainTable,
+                              String[] projection, String selection, String[] selectionArgs,
+                              String sortOrder) {
+        System.out.println("BaseContentProvider.queryAll projection: " + Arrays.toString(projection)
+                + " selection: " + selection);
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
         // check if the caller has requested a column which does not exists

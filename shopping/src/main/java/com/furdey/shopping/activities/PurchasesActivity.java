@@ -228,7 +228,7 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
 	@Override
 	public void onPurchasesListFragmentReady() {
         System.out.println("PurchasesActivity.onPurchasesListFragmentReady");
-        getLoaderManager().restartLoader(PURCHASES_LIST_LOADER, null, this);
+        getLoaderManager().initLoader(PURCHASES_LIST_LOADER, null, this);
 	}
 
 	@Override

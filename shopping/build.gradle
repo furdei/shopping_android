@@ -2,14 +2,12 @@ apply plugin: 'android'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "20.0.0"
-
+    buildToolsVersion '20.0.0'
     defaultConfig {
-        applicationId "com.furdey.shopping"
+        applicationId 'com.furdey.shopping'
         minSdkVersion 11
         targetSdkVersion 19
     }
-
     signingConfigs {
         release {
             storeFile file(System.getenv("SHOPPING_KEYSTORE"))
@@ -18,7 +16,6 @@ android {
             keyPassword System.getenv("SHOPPING_KEY_PASSWORD")
         }
     }
-
     buildTypes {
         release {
             runProguard false
@@ -26,11 +23,11 @@ android {
             signingConfig signingConfigs.release
         }
     }
-
     lintOptions {
         abortOnError false
     }
-
+    productFlavors {
+    }
 }
 
 dependencies {

@@ -1,11 +1,11 @@
 package com.furdey.shopping.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import com.bugsense.trace.BugSenseHandler;
 import com.facebook.Session;
@@ -13,7 +13,7 @@ import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 
-public class BaseActivity extends ActionBarActivity implements StatusCallback {
+public class BaseActivity extends Activity implements StatusCallback {
 
 	private static final String APIKEY = "YOURAPIKEY";
 	private UiLifecycleHelper uiLifecycleHelper;

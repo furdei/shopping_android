@@ -3,7 +3,9 @@ package com.furdey.shopping.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.LoaderManager;
 import android.content.DialogInterface;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -24,17 +26,17 @@ import com.furdey.shopping.content.UnitsUtils;
 import com.furdey.shopping.content.model.Unit;
 import com.furdey.shopping.contentproviders.UnitsContentProvider;
 
-public class UnitsListFragment extends Fragment {
+public class UnitsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	public static interface UnitsListListener {
-		void onUnitsListFragmentCreated();
-
 		void onEditUnit(Unit unit);
 
 		void onDeleteUnit(Unit unit);
 	}
 
-	private UnitsListListener listener;
+    private static final int UNITS_LIST_LOADER = 0;
+
+    private UnitsListListener listener;
 
 	private int contextPosition;
 
@@ -72,11 +74,17 @@ public class UnitsListFragment extends Fragment {
 
 		setHasOptionsMenu(true);
 		setRetainInstance(true);
-		listener.onUnitsListFragmentCreated();
+
 		return view;
 	}
 
-	@Override
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().initLoader(UNITS_LIST_LOADER, null, this);
+    }
+
+    @Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.units_list, menu);
@@ -147,5 +155,20 @@ public class UnitsListFragment extends Fragment {
 	public void onUnitsListReset() {
 		adapter.swapCursor(null);
 	}
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+        return UnitsUtils.getUnitsLoader(getActivity());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
+        onUnitsListReady(arg1);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> arg0) {
+        onUnitsListReset();
+    }
 
 }

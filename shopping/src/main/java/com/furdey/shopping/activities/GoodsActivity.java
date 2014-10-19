@@ -3,9 +3,6 @@ package com.furdey.shopping.activities;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.LoaderManager;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,9 +10,7 @@ import android.widget.Toast;
 
 import com.furdey.shopping.R;
 import com.furdey.shopping.adapters.GoodsListAdapter.Mode;
-import com.furdey.shopping.content.GoodsCategoriesUtils;
 import com.furdey.shopping.content.GoodsUtils;
-import com.furdey.shopping.content.UnitsUtils;
 import com.furdey.shopping.content.model.Goods;
 import com.furdey.shopping.content.model.GoodsCategory;
 import com.furdey.shopping.fragments.GoodsCategoriesListFragment;
@@ -27,20 +22,13 @@ import com.furdey.shopping.fragments.GoodsListFragment.GoodsListListener;
 import com.furdey.shopping.tasks.ToastThrowableAsyncTask;
 
 public class GoodsActivity extends Activity implements GoodsListListener,
-		GoodsFormListener, GoodsCategoriesListListener, LoaderManager.LoaderCallbacks<Cursor> {
+		GoodsFormListener, GoodsCategoriesListListener {
 
 	private static final String TAG = GoodsActivity.class.getCanonicalName();
 
 	private static final String GOODS_LIST_TAG = "goodsListTag";
 	private static final String GOODS_FORM_TAG = "goodsFormTag";
 	private static final String CATEGORIES_LIST_TAG = "categoriesListTag";
-
-	private static final int GOODS_LIST_LOADER = 0;
-	private static final int GOODS_HEADER_LOADER = 1;
-	private static final int UNITS_LIST_LOADER = 2;
-	private static final int CATEGORIES_LIST_LOADER = 3;
-	private static final String GOODS_LOADER_FILTER = "goodsFilter";
-	private static final String CATEGORIES_LIST_LOADER_FILTER = "categoriesFilter";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +40,6 @@ public class GoodsActivity extends Activity implements GoodsListListener,
 	// /////////////////////////////
 	// ///// GoodsListListener /////
 	// /////////////////////////////
-
-	@Override
-	public void onFillGoodsList(String filter) {
-		Bundle bundle = new Bundle();
-		bundle.putString(GOODS_LOADER_FILTER, filter);
-		getLoaderManager().restartLoader(GOODS_LIST_LOADER, bundle, this);
-		getLoaderManager().restartLoader(GOODS_HEADER_LOADER, bundle, this);
-	}
 
 	@Override
 	public void onEditGoods(Goods goods) {
@@ -89,11 +69,6 @@ public class GoodsActivity extends Activity implements GoodsListListener,
 	// /////////////////////////////
 
 	@Override
-	public void onGoodsFormReady() {
-		getLoaderManager().initLoader(UNITS_LIST_LOADER, null, this);
-	}
-
-	@Override
 	public void onSaveGoods(Goods goods) {
 		returnToGoodsList();
 		new ToastThrowableAsyncTask<Goods, Uri>(getApplicationContext()) {
@@ -118,13 +93,6 @@ public class GoodsActivity extends Activity implements GoodsListListener,
 	// // GoodsCategoriesListListener //
 	// /////////////////////////////////
 
-	@Override
-	public void onFillCategoriesList(String filter) {
-		Bundle args = new Bundle();
-		args.putString(CATEGORIES_LIST_LOADER_FILTER, filter);
-		getLoaderManager().restartLoader(CATEGORIES_LIST_LOADER, args, this);
-	}
-
 	/**
 	 * Here we just select a category to replace the old one at the goods details
 	 * form
@@ -141,107 +109,6 @@ public class GoodsActivity extends Activity implements GoodsListListener,
 	@Override
 	public void onDeleteCategory(GoodsCategory category) {
 		throw new UnsupportedOperationException();
-	}
-
-	// /////////////////////////////
-	// ////// LoaderCallbacks //////
-	// /////////////////////////////
-
-	@Override
-	public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
-		switch (loaderId) {
-		case GOODS_LIST_LOADER:
-			String filter = args.getString(GOODS_LOADER_FILTER);
-			return GoodsUtils.getGoodsLoader(this, filter);
-
-		case GOODS_HEADER_LOADER:
-			filter = args.getString(GOODS_LOADER_FILTER);
-			return GoodsUtils.getExactGoodsLoader(this, filter);
-
-		case UNITS_LIST_LOADER:
-			return UnitsUtils.getUnitsLoader(this);
-
-		case CATEGORIES_LIST_LOADER:
-			filter = args.getString(CATEGORIES_LIST_LOADER_FILTER);
-			return GoodsCategoriesUtils.getGoodsCategoriesLoader(this, filter);
-		}
-
-		return null;
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		switch (loader.getId()) {
-		case GOODS_LIST_LOADER:
-			GoodsListFragment goodsListFragment = getGoodsListFragment();
-
-			if (goodsListFragment != null)
-				goodsListFragment.onGoodsListReady(cursor);
-			else
-				Log.e(TAG, "GoodsListFragment was expected but wasn't found");
-			break;
-
-		case GOODS_HEADER_LOADER:
-			goodsListFragment = getGoodsListFragment();
-
-			if (goodsListFragment != null) {
-				Goods goods = cursor.moveToFirst() ? GoodsUtils.fromCursor(cursor) : null;
-				goodsListFragment.onExactGoodsFound(goods);
-			} else
-				Log.e(TAG, "GoodsListFragment was expected but wasn't found");
-			break;
-
-		case UNITS_LIST_LOADER:
-			GoodsFormFragment goodsFormFragment = getGoodsFormFragment();
-
-			if (goodsFormFragment != null)
-				goodsFormFragment.setUnitsCursor(cursor);
-			else
-				Log.e(TAG, "GoodsFormFragment was expected but wasn't found");
-			break;
-
-		case CATEGORIES_LIST_LOADER:
-			GoodsCategoriesListFragment goodsCategoriesListFragment = getGoodsCategoriesListFragment();
-
-			if (goodsCategoriesListFragment != null)
-				goodsCategoriesListFragment.onCategoriesListReady(cursor);
-			else
-				Log.e(TAG, "GoodsCategoriesListFragment was expected but wasn't found");
-			break;
-
-		}
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> loader) {
-		switch (loader.getId()) {
-		case GOODS_LIST_LOADER:
-			GoodsListFragment goodsListFragment = getGoodsListFragment();
-
-			if (goodsListFragment != null)
-				goodsListFragment.onGoodsListReset();
-			else
-				Log.e(TAG, "GoodsListFragment was expected but wasn't found");
-			break;
-
-		case UNITS_LIST_LOADER:
-			GoodsFormFragment goodsFormFragment = getGoodsFormFragment();
-
-			if (goodsFormFragment != null)
-				goodsFormFragment.setUnitsCursor(null);
-			else
-				Log.e(TAG, "GoodsFormFragment was expected but wasn't found");
-			break;
-
-		case CATEGORIES_LIST_LOADER:
-			GoodsCategoriesListFragment goodsCategoriesListFragment = getGoodsCategoriesListFragment();
-
-			if (goodsCategoriesListFragment != null)
-				goodsCategoriesListFragment.onCategoriesListReset();
-			else
-				Log.e(TAG, "GoodsCategoriesListFragment was expected but wasn't found");
-			break;
-		}
 	}
 
 	// /////////////////////////////

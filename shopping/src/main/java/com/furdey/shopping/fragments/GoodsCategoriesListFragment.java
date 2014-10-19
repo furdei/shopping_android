@@ -3,7 +3,9 @@ package com.furdey.shopping.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.LoaderManager;
 import android.content.DialogInterface;
+import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -30,7 +32,8 @@ import com.furdey.shopping.content.model.GoodsCategory;
 import com.furdey.shopping.contentproviders.GoodsCategoriesContentProvider;
 import com.furdey.shopping.fragments.UnitsListFragment.UnitsListListener;
 
-public class GoodsCategoriesListFragment extends Fragment {
+public class GoodsCategoriesListFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	public static GoodsCategoriesListFragment newInstance(Mode mode, String filter) {
 		GoodsCategoriesListFragment fragment = new GoodsCategoriesListFragment();
@@ -41,9 +44,7 @@ public class GoodsCategoriesListFragment extends Fragment {
 		return fragment;
 	}
 
-	public static interface GoodsCategoriesListListener {
-		void onFillCategoriesList(String filter);
-
+    public static interface GoodsCategoriesListListener {
 		void onEditCategory(GoodsCategory category);
 
 		void onDeleteCategory(GoodsCategory category);
@@ -55,6 +56,8 @@ public class GoodsCategoriesListFragment extends Fragment {
 
 	private static final String MODE_PARAM = "mode";
 	private static final String FILTER_PARAM = "filter";
+    private static final String CATEGORIES_LIST_LOADER_FILTER = "categoriesFilter";
+    private static final int CATEGORIES_LIST_LOADER = 0;
 
 	private GoodsCategoriesListListener listener;
 
@@ -120,12 +123,18 @@ public class GoodsCategoriesListFragment extends Fragment {
 
 		setHasOptionsMenu(true);
 		setRetainInstance(true);
-		String filter = getArguments().getString(FILTER_PARAM);
-		onFillCategoriesList(filter);
+
 		return view;
 	}
 
-	@Override
+    @Override
+    public void onResume() {
+        super.onResume();
+        String filter = getArguments().getString(FILTER_PARAM);
+        onFillCategoriesList(filter);
+    }
+
+    @Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.goods_categories_list, menu);
@@ -222,10 +231,39 @@ public class GoodsCategoriesListFragment extends Fragment {
 		adapter.swapCursor(null);
 	}
 
-	private void onFillCategoriesList(String filter) {
+    // /////////////////////////////
+    // // LoaderCallbacks<Cursor> //
+    // /////////////////////////////
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String filter = args.getString(CATEGORIES_LIST_LOADER_FILTER);
+        return GoodsCategoriesUtils.getGoodsCategoriesLoader(getActivity(), filter);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        onCategoriesListReady(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        onCategoriesListReset();
+    }
+
+    // /////////////////////////////
+    // ////////// private //////////
+    // /////////////////////////////
+
+    private void onFillCategoriesList(String filter) {
 		listHeaderName.setText(filter);
 		listHeaderName.setVisibility(filter == null || filter.trim().length() == 0 ? View.GONE
 				: View.VISIBLE);
-		listener.onFillCategoriesList(filter);
-	}
+
+        Bundle args = new Bundle();
+        args.putString(CATEGORIES_LIST_LOADER_FILTER, filter);
+        getLoaderManager().restartLoader(CATEGORIES_LIST_LOADER, args, this);
+
+    }
+
 }

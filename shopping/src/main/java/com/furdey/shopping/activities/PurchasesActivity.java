@@ -1,14 +1,11 @@
 package com.furdey.shopping.activities;
 
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,8 +20,6 @@ import com.facebook.UiLifecycleHelper;
 import com.furdey.shopping.R;
 import com.furdey.shopping.adapters.GoodsListAdapter;
 import com.furdey.shopping.content.AlarmUtils;
-import com.furdey.shopping.content.GoodsCategoriesUtils;
-import com.furdey.shopping.content.GoodsUtils;
 import com.furdey.shopping.content.PurchasesUtils;
 import com.furdey.shopping.content.model.Goods;
 import com.furdey.shopping.content.model.GoodsCategory;
@@ -45,16 +40,14 @@ import com.furdey.shopping.utils.FeedbackDialogUtil;
 import com.furdey.shopping.utils.FeedbackDialogUtil.SocialShareListener;
 import com.furdey.shopping.utils.NetworkUtils;
 import com.furdey.shopping.utils.PreferencesManager;
-import com.furdey.shopping.utils.PreferencesManager.PurchasesSortOrder;
-import com.furdey.shopping.widgets.ShoppingListWidgetProvider;
 import com.furdey.social.android.SocialClient;
 import com.furdey.social.android.SocialClientsManager.SocialNetwork;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class PurchasesActivity extends Activity implements PurchasesListListener,
-		PurchasesFormListener, GoodsListListener, GoodsCategoriesListListener, LoaderManager.LoaderCallbacks<Cursor>,
+public class PurchasesActivity extends BaseActivity implements PurchasesListListener,
+		PurchasesFormListener, GoodsListListener, GoodsCategoriesListListener,
 		StatusCallback, AlarmTimePickerFragment.AlarmTimePickerListener {
 
 	public static final int REQUEST_SELECT_FRIEND = 1;
@@ -85,24 +78,17 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
 	private static final String CATEGORIES_LIST_TAG = "categoriesList";
     private static final String ALARM_TIME_PICKER_TAG = "alarmTimePicker";
 
-	private static final int GOODS_LIST_LOADER = 0;
-	private static final int CATEGORIES_LIST_LOADER = 1;
-	private static final int PURCHASES_LIST_LOADER = 2;
-	private static final String GOODS_LIST_LOADER_FILTER = "goodsFilter";
-	private static final String CATEGORIES_LIST_LOADER_FILTER = "categoriesFilter";
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.one_fragment_activity);
+        setContentView(R.layout.one_fragment_activity);
 
         if (savedInstanceState == null) {
             // we don't need to create a fragment on recreating 'case we already have got one
             goToPurchasesList();
 
             if (getMode() == Mode.ADD_NEW_PURCHASE) {
-                System.out.println("PurchasesActivity.onCreate getMode() == Mode.ADD_NEW_PURCHASE");
-
                 if (getGoodsListFragment() == null) {
                     onNewPurchaseMenuSelected();
                 } else {
@@ -146,7 +132,7 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
 		uiLifecycleHelper.onCreate(savedInstanceState);
 	}
 
-	@Override
+    @Override
 	protected void onResume() {
 		super.onResume();
 		Intent data = getIntent();
@@ -175,11 +161,8 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        System.out.println("PurchasesActivity.onNewIntent getMode=" + getMode());
 
         if (getMode() == Mode.ADD_NEW_PURCHASE) {
-            System.out.println("PurchasesActivity.onCreate getMode() == Mode.ADD_NEW_PURCHASE");
-
             if (getGoodsListFragment() == null) {
                 onNewPurchaseMenuSelected();
             } else {
@@ -224,12 +207,6 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
     // /////////////////////////////
 	// /// PurchasesListListener ///
 	// /////////////////////////////
-
-	@Override
-	public void onPurchasesListFragmentReady() {
-        System.out.println("PurchasesActivity.onPurchasesListFragmentReady");
-        getLoaderManager().initLoader(PURCHASES_LIST_LOADER, null, this);
-	}
 
 	@Override
 	public void onPurchaseClicked(Purchase purchase) {
@@ -345,12 +322,6 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
 	}
 
 	@Override
-	public void onPurchasesListSortOrderChanged(PurchasesSortOrder purchasesSortOrder) {
-		PreferencesManager.setPurchasesSortOrder(this, purchasesSortOrder);
-		getLoaderManager().restartLoader(PURCHASES_LIST_LOADER, null, this);
-	}
-
-	@Override
 	public void onSendPurchasesList(SocialNetwork socialNetwork) {
 		new ToastThrowableAsyncTask<SocialNetwork, Void>(getApplicationContext()) {
 			@Override
@@ -406,13 +377,6 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
 	// /////////////////////////////
 	// ///// GoodsListListener /////
 	// /////////////////////////////
-
-	@Override
-	public void onFillGoodsList(String filter) {
-		Bundle bundle = new Bundle();
-		bundle.putString(GOODS_LIST_LOADER_FILTER, filter);
-		getLoaderManager().restartLoader(GOODS_LIST_LOADER, bundle, this);
-	}
 
 	@Override
 	public void onEditGoods(final Goods goods) {
@@ -483,13 +447,6 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
 	// // GoodsCategoriesListListener //
 	// /////////////////////////////////
 
-	@Override
-	public void onFillCategoriesList(String filter) {
-		Bundle args = new Bundle();
-		args.putString(CATEGORIES_LIST_LOADER_FILTER, filter);
-		getLoaderManager().restartLoader(CATEGORIES_LIST_LOADER, args, this);
-	}
-
 	/**
 	 * Here we just select a category to replace the old one at the goods details
 	 * form
@@ -506,95 +463,6 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
 	@Override
 	public void onDeleteCategory(GoodsCategory category) {
 		throw new UnsupportedOperationException();
-	}
-
-	// /////////////////////////////
-	// // LoaderCallbacks<Cursor> //
-	// /////////////////////////////
-
-	@Override
-	public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
-		switch (loaderId) {
-		case GOODS_LIST_LOADER:
-			String filter = args.getString(GOODS_LIST_LOADER_FILTER);
-			return GoodsUtils.getGoodsLoader(this, filter);
-
-		case CATEGORIES_LIST_LOADER:
-			filter = args.getString(CATEGORIES_LIST_LOADER_FILTER);
-			return GoodsCategoriesUtils.getGoodsCategoriesLoader(this, filter);
-
-		case PURCHASES_LIST_LOADER:
-            String sortOrder = PurchasesUtils.getPurchasesSortOrder(this);
-			return PurchasesUtils.getPurchasesLoader(this, sortOrder);
-		}
-
-		return null;
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		switch (loader.getId()) {
-		case GOODS_LIST_LOADER:
-			GoodsListFragment goodsListFragment = getGoodsListFragment();
-
-			if (goodsListFragment != null)
-				goodsListFragment.onGoodsListReady(cursor);
-			else
-				Log.e(TAG, "GoodsListFragment was expected but wasn't found");
-			break;
-
-		case CATEGORIES_LIST_LOADER:
-			GoodsCategoriesListFragment goodsCategoriesListFragment = getGoodsCategoriesListFragment();
-
-			if (goodsCategoriesListFragment != null)
-				goodsCategoriesListFragment.onCategoriesListReady(cursor);
-			else
-				Log.e(TAG, "GoodsCategoriesListFragment was expected but wasn't found");
-			break;
-
-		case PURCHASES_LIST_LOADER:
-            ShoppingListWidgetProvider.updateWidgets(getApplicationContext());
-			PurchasesListFragment purchasesListFragment = getPurchasesListFragment();
-
-			if (purchasesListFragment != null)
-				purchasesListFragment.onPurchasesListReady(cursor);
-			else
-				Log.e(TAG, "PurchasesListFragment was expected but wasn't found");
-			break;
-
-		}
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> loader) {
-		switch (loader.getId()) {
-		case GOODS_LIST_LOADER:
-			GoodsListFragment goodsListFragment = getGoodsListFragment();
-
-			if (goodsListFragment != null)
-				goodsListFragment.onGoodsListReset();
-			else
-				Log.e(TAG, "GoodsListFragment was expected but wasn't found");
-			break;
-
-		case CATEGORIES_LIST_LOADER:
-			GoodsCategoriesListFragment goodsCategoriesListFragment = getGoodsCategoriesListFragment();
-
-			if (goodsCategoriesListFragment != null)
-				goodsCategoriesListFragment.onCategoriesListReset();
-			else
-				Log.e(TAG, "GoodsCategoriesListFragment was expected but wasn't found");
-			break;
-
-		case PURCHASES_LIST_LOADER:
-			PurchasesListFragment purchasesListFragment = getPurchasesListFragment();
-
-			if (purchasesListFragment != null)
-				purchasesListFragment.onPurchasesListReset();
-			else
-				Log.e(TAG, "PurchasesListFragment was expected but wasn't found");
-			break;
-		}
 	}
 
 	// ///////////////////////////////
@@ -627,33 +495,13 @@ public class PurchasesActivity extends Activity implements PurchasesListListener
 				.findFragmentByTag(PURCHASES_FORM_TAG);
 	}
 
-	private PurchasesListFragment getPurchasesListFragment() {
-		return (PurchasesListFragment) getFragmentManager()
-				.findFragmentByTag(PURCHASES_LIST_TAG);
-	}
-
 	private GoodsCategoriesListFragment getGoodsCategoriesListFragment() {
 		return (GoodsCategoriesListFragment) getFragmentManager().findFragmentByTag(
 				CATEGORIES_LIST_TAG);
 	}
 
-    /**
-     * This function is needed 'cause of a bug in a Support Library when
-     * `replace` method doesn't remove all previous fragments from a container
-     * @param transaction
-     */
-//    private void clearAllFragments(FragmentTransaction transaction) {
-//        List<Fragment> fragments = getFragmentManager().getFragments();
-//        if (fragments != null) {
-//            for (Fragment fragment : fragments) {
-//                transaction.remove(fragment);
-//            }
-//        }
-//    }
-
     private FragmentTransaction replace(FragmentTransaction transaction, int containerId,
                                         Fragment fragment, String tag) {
-//        clearAllFragments(transaction);
         return transaction.replace(containerId, fragment, tag);
     }
 

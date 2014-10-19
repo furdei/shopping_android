@@ -2,9 +2,6 @@ package com.furdey.shopping.activities;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.app.LoaderManager;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,26 +16,18 @@ import com.furdey.shopping.fragments.UnitsListFragment;
 import com.furdey.shopping.fragments.UnitsListFragment.UnitsListListener;
 import com.furdey.shopping.tasks.ToastThrowableAsyncTask;
 
-public class UnitsActivity extends Activity implements UnitsListListener,
-		UnitsFormListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class UnitsActivity extends Activity implements UnitsListListener, UnitsFormListener {
 
 	private static final String TAG = UnitsActivity.class.getCanonicalName();
 
 	private static final String UNITS_LIST_TAG = "unitsListTag";
 	private static final String UNITS_FORM_TAG = "unitsFormTag";
 
-	private static final int UNITS_LIST_LOADER = 0;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.one_fragment_activity);
 		goToUnitsList(false);
-	}
-
-	@Override
-	public void onUnitsListFragmentCreated() {
-		getLoaderManager().initLoader(UNITS_LIST_LOADER, null, this);
 	}
 
 	@Override
@@ -78,33 +67,6 @@ public class UnitsActivity extends Activity implements UnitsListListener,
 	@Override
 	public void onCancelUnitEdit() {
 		returnToUnitsList();
-	}
-
-	@Override
-	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		return UnitsUtils.getUnitsLoader(this);
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-		UnitsListFragment unitsListFragment = (UnitsListFragment) getFragmentManager()
-				.findFragmentByTag(UNITS_LIST_TAG);
-
-		if (unitsListFragment != null)
-			unitsListFragment.onUnitsListReady(arg1);
-		else
-			Log.e(TAG, "UnitsListFragment was expected but wasn't found");
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> arg0) {
-		UnitsListFragment unitsListFragment = (UnitsListFragment) getFragmentManager()
-				.findFragmentByTag(UNITS_LIST_TAG);
-
-		if (unitsListFragment != null)
-			unitsListFragment.onUnitsListReset();
-		else
-			Log.e(TAG, "UnitsListFragment was expected but wasn't found");
 	}
 
 	private void goToUnitsList(boolean addToBackStack) {

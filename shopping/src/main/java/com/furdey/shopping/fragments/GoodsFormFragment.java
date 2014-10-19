@@ -1,6 +1,8 @@
 package com.furdey.shopping.fragments;
 
 import android.app.Activity;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,12 +19,13 @@ import android.widget.Spinner;
 import com.furdey.shopping.R;
 import com.furdey.shopping.adapters.UnitsSpinnerAdapter;
 import com.furdey.shopping.content.GoodsUtils;
+import com.furdey.shopping.content.UnitsUtils;
 import com.furdey.shopping.content.model.Goods;
 import com.furdey.shopping.content.model.GoodsCategory;
 import com.furdey.shopping.content.model.Unit;
 import com.furdey.shopping.utils.TemplateRunnable;
 
-public class GoodsFormFragment extends Fragment {
+public class GoodsFormFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	public static GoodsFormFragment newInstance(Goods goods) {
 		Bundle bundle = new Bundle();
@@ -32,9 +35,7 @@ public class GoodsFormFragment extends Fragment {
 		return fragment;
 	}
 
-	public static interface GoodsFormListener {
-		void onGoodsFormReady();
-
+    public static interface GoodsFormListener {
 		void onSaveGoods(Goods goods);
 
 		void onCancelGoodsEdit();
@@ -46,6 +47,7 @@ public class GoodsFormFragment extends Fragment {
 
 	private static final String PARAM_GOODS = "goods";
 	private static final String SAVE_SELECTED_CATEGORY_ID = "selectedCategoryId";
+    private static final int UNITS_LIST_LOADER = 0;
 
 	private EditText nameEdit;
 	private EditText categoryEdit;
@@ -135,9 +137,15 @@ public class GoodsFormFragment extends Fragment {
 
 		setRetainInstance(true);
         isFragmentCreated = true;
-		listener.onGoodsFormReady();
+
 		return view;
 	}
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().initLoader(UNITS_LIST_LOADER, null, this);
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -171,7 +179,26 @@ public class GoodsFormFragment extends Fragment {
 		selectedCategoryId = category.getId();
 	}
 
-	private void constructModelFromUi(final TemplateRunnable<Goods> callback) {
+    // /////////////////////////////
+    // ////// LoaderCallbacks //////
+    // /////////////////////////////
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return UnitsUtils.getUnitsLoader(getActivity());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        setUnitsCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        setUnitsCursor(null);
+    }
+
+    private void constructModelFromUi(final TemplateRunnable<Goods> callback) {
 		final Goods goods = new Goods();
 		Goods paramGoods = (Goods) getArguments().getSerializable(PARAM_GOODS);
 		goods.setId(paramGoods.getId());

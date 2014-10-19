@@ -3,7 +3,9 @@ package com.furdey.shopping.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.LoaderManager;
 import android.content.DialogInterface;
+import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,7 +31,7 @@ import com.furdey.shopping.content.GoodsUtils;
 import com.furdey.shopping.content.model.Goods;
 import com.furdey.shopping.contentproviders.GoodsContentProvider;
 
-public class GoodsListFragment extends Fragment {
+public class GoodsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	public static GoodsListFragment newInstance(GoodsListAdapter.Mode mode, String filter) {
 		GoodsListFragment fragment = new GoodsListFragment();
@@ -40,9 +42,7 @@ public class GoodsListFragment extends Fragment {
 		return fragment;
 	}
 
-	public static interface GoodsListListener {
-		void onFillGoodsList(String filter);
-
+    public static interface GoodsListListener {
 		void onEditGoods(Goods goods);
 
 		void onDeleteGoods(Goods goods);
@@ -50,6 +50,9 @@ public class GoodsListFragment extends Fragment {
 
 	private static final String MODE_PARAM = "mode";
 	private static final String FILTER_PARAM = "filter";
+    private static final int GOODS_LIST_LOADER = 0;
+    private static final int GOODS_HEADER_LOADER = 1;
+    private static final String GOODS_LIST_LOADER_FILTER = "goodsFilter";
 
 	private GoodsListListener listener;
 	private int contextPosition;
@@ -115,12 +118,18 @@ public class GoodsListFragment extends Fragment {
 
 		setHasOptionsMenu(true);
 		setRetainInstance(true);
-		String filter = getArguments().getString(FILTER_PARAM);
-		onFillGoodsList(filter);
+
 		return view;
 	}
 
-	@Override
+    @Override
+    public void onResume() {
+        super.onResume();
+        String filter = getArguments().getString(FILTER_PARAM);
+        onFillGoodsList(filter);
+    }
+
+    @Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.goods_list, menu);
@@ -220,11 +229,53 @@ public class GoodsListFragment extends Fragment {
 		updateHeaderVisibility();
 	}
 
-	private void onFillGoodsList(String filter) {
+    // /////////////////////////////
+    // // LoaderCallbacks<Cursor> //
+    // /////////////////////////////
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
+        String filter = args.getString(GOODS_LIST_LOADER_FILTER);
+
+        switch (loaderId) {
+            case GOODS_LIST_LOADER:
+                return GoodsUtils.getGoodsLoader(getActivity(), filter);
+            case GOODS_HEADER_LOADER:
+                return GoodsUtils.getExactGoodsLoader(getActivity(), filter);
+        }
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        switch (loader.getId()) {
+            case GOODS_LIST_LOADER:
+                onGoodsListReady(cursor);
+                break;
+            case GOODS_HEADER_LOADER:
+                Goods goods = cursor.moveToFirst() ? GoodsUtils.fromCursor(cursor) : null;
+                onExactGoodsFound(goods);
+                break;
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        onGoodsListReset();
+    }
+
+    // /////////////////////////////
+    // ////////// private //////////
+    // /////////////////////////////
+
+    private void onFillGoodsList(String filter) {
 		this.filter = filter;
 		listHeaderName.setText(filter);
 		updateHeaderVisibility();
-		listener.onFillGoodsList(filter);
+        Bundle bundle = new Bundle();
+        bundle.putString(GOODS_LIST_LOADER_FILTER, filter);
+        getLoaderManager().restartLoader(GOODS_LIST_LOADER, bundle, this);
+        getLoaderManager().restartLoader(GOODS_HEADER_LOADER, bundle, this);
 	}
 
 	private void updateHeaderVisibility() {

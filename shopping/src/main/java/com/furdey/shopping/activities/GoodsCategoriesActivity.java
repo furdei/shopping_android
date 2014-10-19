@@ -2,9 +2,6 @@ package com.furdey.shopping.activities;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.app.LoaderManager;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,28 +19,18 @@ import com.furdey.shopping.tasks.ToastThrowableAsyncTask;
 
 
 public class GoodsCategoriesActivity extends Activity implements
-		GoodsCategoriesListListener, GoodsCategoriesFormListener, LoaderManager.LoaderCallbacks<Cursor> {
+		GoodsCategoriesListListener, GoodsCategoriesFormListener {
 
 	private static final String TAG = GoodsCategoriesActivity.class.getCanonicalName();
 
 	private static final String GOODS_CATEGORIES_LIST_TAG = "goodsCategoriesListTag";
 	private static final String GOODS_CATEGORIES_FORM_TAG = "goodsCategoriesFormTag";
 
-	private static final int GOODS_CATEGORIES_LIST_LOADER = 0;
-	private static final String GOODS_CATEGORIES_LIST_LOADER_FILTER = "categoriesFilter";
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.one_fragment_activity);
 		goToGoodsCategoriesList(false);
-	}
-
-	@Override
-	public void onFillCategoriesList(String filter) {
-		Bundle bundle = new Bundle();
-		bundle.putString(GOODS_CATEGORIES_LIST_LOADER_FILTER, filter);
-		getLoaderManager().restartLoader(GOODS_CATEGORIES_LIST_LOADER, bundle, this);
 	}
 
 	@Override
@@ -83,34 +70,6 @@ public class GoodsCategoriesActivity extends Activity implements
 	@Override
 	public void onCancelCategoryEdit() {
 		returnToCategoriesList();
-	}
-
-	@Override
-	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		String filter = arg1.getString(GOODS_CATEGORIES_LIST_LOADER_FILTER);
-		return GoodsCategoriesUtils.getGoodsCategoriesLoader(this, filter);
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-		GoodsCategoriesListFragment categoriesListFragment = (GoodsCategoriesListFragment) getFragmentManager()
-				.findFragmentByTag(GOODS_CATEGORIES_LIST_TAG);
-
-		if (categoriesListFragment != null)
-			categoriesListFragment.onCategoriesListReady(arg1);
-		else
-			Log.e(TAG, "GoodsCategoriesListFragment was expected but wasn't found");
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> arg0) {
-		GoodsCategoriesListFragment categoriesListFragment = (GoodsCategoriesListFragment) getFragmentManager()
-				.findFragmentByTag(GOODS_CATEGORIES_LIST_TAG);
-
-		if (categoriesListFragment != null)
-			categoriesListFragment.onCategoriesListReset();
-		else
-			Log.e(TAG, "GoodsCategoriesListFragment was expected but wasn't found");
 	}
 
 	private void goToGoodsCategoriesList(boolean addToBackStack) {

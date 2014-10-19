@@ -3,7 +3,9 @@ package com.furdey.shopping.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.LoaderManager;
 import android.content.DialogInterface;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -29,14 +31,13 @@ import com.furdey.shopping.contentproviders.PurchasesContentProvider;
 import com.furdey.shopping.utils.NetworkUtils;
 import com.furdey.shopping.utils.PreferencesManager;
 import com.furdey.shopping.utils.PreferencesManager.PurchasesSortOrder;
+import com.furdey.shopping.widgets.ShoppingListWidgetProvider;
 import com.furdey.social.android.SocialClientsManager;
 import com.furdey.social.android.SocialClientsManager.SocialNetwork;
 
-public class PurchasesListFragment extends Fragment {
+public class PurchasesListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	public static interface PurchasesListListener {
-
-		void onPurchasesListFragmentReady();
 
 		void onPurchaseClicked(Purchase purchase);
 
@@ -72,10 +73,10 @@ public class PurchasesListFragment extends Fragment {
 
 		void onShareEmMenuSelected();
 
-		void onPurchasesListSortOrderChanged(PurchasesSortOrder purchasesSortOrder);
-
 		void onSendPurchasesList(SocialNetwork socialNetwork);
 	}
+
+    private static final int PURCHASES_LIST_LOADER = 0;
 
 	private PurchasesListListener listener;
 
@@ -120,13 +121,13 @@ public class PurchasesListFragment extends Fragment {
 		return view;
 	}
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-		listener.onPurchasesListFragmentReady();
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().initLoader(PURCHASES_LIST_LOADER, null, this);
+    }
 
-	@Override
+    @Override
 	public boolean onContextItemSelected(MenuItem item) {
 		final Cursor cursor = (Cursor) adapter.getItem(contextPosition);
 
@@ -336,21 +337,21 @@ public class PurchasesListFragment extends Fragment {
 		case R.id.menuPurchasesListSortOrderName:
 			if (!item.isChecked()) {
 				item.setChecked(true);
-				listener.onPurchasesListSortOrderChanged(PurchasesSortOrder.ORDER_BY_NAME);
+				onPurchasesListSortOrderChanged(PurchasesSortOrder.ORDER_BY_NAME);
 			}
 			return true;
 
 		case R.id.menuPurchasesListSortOrderAddTime:
 			if (!item.isChecked()) {
 				item.setChecked(true);
-				listener.onPurchasesListSortOrderChanged(PurchasesSortOrder.ORDER_BY_ADD_TIME);
+				onPurchasesListSortOrderChanged(PurchasesSortOrder.ORDER_BY_ADD_TIME);
 			}
 			return true;
 
 		case R.id.menuPurchasesListSortOrderCategory:
 			if (!item.isChecked()) {
 				item.setChecked(true);
-				listener.onPurchasesListSortOrderChanged(PurchasesSortOrder.ORDER_BY_CATEGORY);
+				onPurchasesListSortOrderChanged(PurchasesSortOrder.ORDER_BY_CATEGORY);
 			}
 			return true;
 
@@ -386,4 +387,29 @@ public class PurchasesListFragment extends Fragment {
 		adapter.swapCursor(null);
 	}
 
+    void onPurchasesListSortOrderChanged(PurchasesSortOrder purchasesSortOrder) {
+        PreferencesManager.setPurchasesSortOrder(getActivity(), purchasesSortOrder);
+        getLoaderManager().restartLoader(PURCHASES_LIST_LOADER, null, this);
+    }
+
+    // /////////////////////////////
+    // // LoaderCallbacks<Cursor> //
+    // /////////////////////////////
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
+        String sortOrder = PurchasesUtils.getPurchasesSortOrder(getActivity());
+        return PurchasesUtils.getPurchasesLoader(getActivity(), sortOrder);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        ShoppingListWidgetProvider.updateWidgets(getActivity().getApplicationContext());
+        onPurchasesListReady(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        onPurchasesListReset();
+    }
 }

@@ -1,14 +1,11 @@
 package com.furdey.shopping.fragments;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -170,7 +167,6 @@ public class PurchasesFormFragment extends Fragment implements LoaderManager.Loa
         });
 
         unitsLoaderCallbacks = new UnitsLoaderCallbacks(getActivity(), unitsSpinnerAdapter);
-        getLoaderManager().initLoader(UNITS_LOADER, null, this);
 
         saveButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -213,11 +209,10 @@ public class PurchasesFormFragment extends Fragment implements LoaderManager.Loa
 		return view;
 	}
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        System.out.println("PurchasesFormFragment.onViewCreated savedInstanceState = " + (savedInstanceState == null ? "null" : "not null"));
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().initLoader(UNITS_LOADER, null, this);
     }
 
     @Override

@@ -73,7 +73,7 @@ public class UnitsListFragment extends Fragment implements LoaderManager.LoaderC
 		});
 
 		setHasOptionsMenu(true);
-		setRetainInstance(true);
+//		setRetainInstance(true);
 
 		return view;
 	}

@@ -77,7 +77,7 @@ public class PurchasesContentProvider extends
 
         Cursor cursor = queryAll(sURIMatcher, uri, tables, PURCHASES_PATH, projection,
                 selection, selectionArgs, sortOrder);
-        //dump(cursor);
+        dump(cursor);
 
         return cursor;
 	}

@@ -145,7 +145,7 @@ public class GoodsCategoriesFormFragment extends Fragment {
 			}
 		});
 
-		setRetainInstance(true);
+//		setRetainInstance(true);
         isFragmentCreated = true;
 		return view;
 	}

@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
 import com.furdey.shopping.R;
 import com.furdey.shopping.adapters.GoodsListAdapter;
 import com.furdey.shopping.content.AlarmUtils;
@@ -69,19 +68,20 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 
 	private InternetConnectionBroadcastReceiver internetConnectionBroadcastReceiver = null;
 	private boolean internetConnectionBroadcastReceiverRegistered = false;
-	private UiLifecycleHelper uiLifecycleHelper;
+//	private UiLifecycleHelper uiLifecycleHelper;
     private boolean keepScreenOn;
 
 	private static final String PURCHASES_LIST_TAG = "purchasesList";
 	private static final String PURCHASES_FORM_TAG = "purchasesForm";
-	private static final String GOODS_LIST_TAG = "goodssList";
+	private static final String GOODS_LIST_TAG = "goodsList";
 	private static final String CATEGORIES_LIST_TAG = "categoriesList";
     private static final String ALARM_TIME_PICKER_TAG = "alarmTimePicker";
 
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        System.out.println("PurchasesActivity.onCreate");
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.one_fragment_activity);
 
         if (savedInstanceState == null) {
@@ -128,8 +128,8 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 			}, 100);
 		}
 
-		uiLifecycleHelper = new UiLifecycleHelper(this, this);
-		uiLifecycleHelper.onCreate(savedInstanceState);
+//		uiLifecycleHelper = new UiLifecycleHelper(this, this);
+//		uiLifecycleHelper.onCreate(savedInstanceState);
 	}
 
     @Override
@@ -159,17 +159,21 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 
     @Override
     protected void onNewIntent(Intent intent) {
+        System.out.println("PurchasesActivity.onNewIntent");
         super.onNewIntent(intent);
         setIntent(intent);
 
         if (getMode() == Mode.ADD_NEW_PURCHASE) {
+            System.out.println("PurchasesActivity.onNewIntent getMode() == Mode.ADD_NEW_PURCHASE");
             if (getGoodsListFragment() == null) {
                 onNewPurchaseMenuSelected();
             } else {
                 Log.d(TAG, "Already at goods list");
             }
         } else {
-            goToPurchasesList();
+            System.out.println("PurchasesActivity.onNewIntent goToPurchasesList");
+//            goToPurchasesList();
+            returnToPurchasesList();
         }
     }
 
@@ -380,6 +384,8 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 
 	@Override
 	public void onEditGoods(final Goods goods) {
+        hideKeyboard();
+
 		new ToastThrowableAsyncTask<Goods, Cursor>(getApplicationContext()) {
 			@Override
 			protected Cursor doBackgroundWork(Goods goods) throws Exception {
@@ -520,6 +526,7 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 
 	private void returnToPurchasesList() {
 		getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        hideKeyboard();
 		setTitle(R.string.appName);
 	}
 

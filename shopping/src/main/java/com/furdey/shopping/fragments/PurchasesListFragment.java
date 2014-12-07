@@ -88,6 +88,7 @@ public class PurchasesListFragment extends Fragment implements LoaderManager.Loa
 
 	@Override
 	public void onAttach(Activity activity) {
+        System.out.println("PurchasesListFragment.onAttach");
         super.onAttach(activity);
 		try {
 			listener = (PurchasesListListener) activity;
@@ -99,6 +100,7 @@ public class PurchasesListFragment extends Fragment implements LoaderManager.Loa
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        System.out.println("PurchasesListFragment.onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.purchases_list, container, false);
 
@@ -117,12 +119,13 @@ public class PurchasesListFragment extends Fragment implements LoaderManager.Loa
 		});
 
 		setHasOptionsMenu(true);
-		setRetainInstance(true);
+//		setRetainInstance(true);
 		return view;
 	}
 
     @Override
     public void onResume() {
+        System.out.println("PurchasesListFragment.onResume");
         super.onResume();
         getLoaderManager().initLoader(PURCHASES_LIST_LOADER, null, this);
     }
@@ -388,6 +391,7 @@ public class PurchasesListFragment extends Fragment implements LoaderManager.Loa
 	}
 
     void onPurchasesListSortOrderChanged(PurchasesSortOrder purchasesSortOrder) {
+        System.out.println("PurchasesListFragment.onPurchasesListSortOrderChanged");
         PreferencesManager.setPurchasesSortOrder(getActivity(), purchasesSortOrder);
         getLoaderManager().restartLoader(PURCHASES_LIST_LOADER, null, this);
     }
@@ -398,18 +402,21 @@ public class PurchasesListFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
+        System.out.println("PurchasesListFragment.onCreateLoader");
         String sortOrder = PurchasesUtils.getPurchasesSortOrder(getActivity());
         return PurchasesUtils.getPurchasesLoader(getActivity(), sortOrder);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        System.out.println("PurchasesListFragment.onLoadFinished " + this.toString());
         ShoppingListWidgetProvider.updateWidgets(getActivity().getApplicationContext());
         onPurchasesListReady(cursor);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        System.out.println("PurchasesListFragment.onLoaderReset");
         onPurchasesListReset();
     }
 }

@@ -205,7 +205,7 @@ public class PurchasesFormFragment extends Fragment implements LoaderManager.Loa
 		}
 
         isFragmentCreated = true;
-		setRetainInstance(true);
+//		setRetainInstance(true);
 		return view;
 	}
 

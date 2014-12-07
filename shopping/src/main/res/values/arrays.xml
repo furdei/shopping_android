@@ -19,4 +19,14 @@
         <item>СБ</item>
         <item>ВС</item>
     </array>
+
+    <array name="languages">
+        <item>English</item>
+        <item>Русский</item>
+    </array>
+
+    <array name="locales">
+        <item>en</item>
+        <item>ru</item>
+    </array>
 </resources>

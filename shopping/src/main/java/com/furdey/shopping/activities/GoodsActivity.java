@@ -21,7 +21,7 @@ import com.furdey.shopping.fragments.GoodsListFragment;
 import com.furdey.shopping.fragments.GoodsListFragment.GoodsListListener;
 import com.furdey.shopping.tasks.ToastThrowableAsyncTask;
 
-public class GoodsActivity extends Activity implements GoodsListListener,
+public class GoodsActivity extends BaseActivity implements GoodsListListener,
 		GoodsFormListener, GoodsCategoriesListListener {
 
 	private static final String TAG = GoodsActivity.class.getCanonicalName();

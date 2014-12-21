@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="appName">Shopping</string>
+    <string name="formButtonCancel">Cancel</string>
+    <string name="formButtonDelete">Delete</string>
+    <string name="formButtonOk">OK</string>
+    <string name="formButtonSave">Save</string>
+    <string name="menuUnits">Units</string>
+    <string name="menuGoodsCategories">Categories of Goods</string>
+    <string name="menuGoods">Goods</string>
+    <string name="menuUnitsListNewRecord">Add</string>
+    <string name="menuUnitsListEditRecord">Edit</string>
+    <string name="menuUnitsListDeleteRecord">Delete</string>
+    <string name="menuUnitsListContextTitle">Actions with \"%s\"</string>
+    <string name="unitsLiTitle">Units</string>
+    <string name="unitsLiConfirmDeleteCaption">Confirm deleting the unit</string>
+    <string name="unitsLiConfirmDeleteDetails">You will not be able to use \"%s\" in the application any more</string>
+    <string name="unitsLiItemDeleted">The unit has been deleted</string>
+    <string name="unitsFmTitleAdd">New unit</string>
+    <string name="unitsFmTitleEdit">Unit</string>
+    <string name="unitsFmNameCaption">Abbreviation</string>
+    <string name="unitsFmDescrCaption">Short description</string>
+    <string name="unitsFmDecimalsCaption">Decimal places</string>
+    <string name="unitsFmDecimalsDefault">0</string>
+    <string name="unitsFmIsDefault">Use by default</string>
+    <string name="unitsFmResultAdded">The unit has been added</string>
+    <string name="unitsFmResultEdited">The unit has been saved</string>
+    <string name="unitsFmConfirmDefaultCaption">Change the default unit?</string>
+    <string name="unitsFmConfirmDefaultDetails">Press OK, to use \"%s\" by default</string>
+    <string name="unitsFmUnitTypeMass">Mass</string>
+    <string name="unitsFmUnitTypeDistance">Length</string>
+    <string name="unitsFmUnitTypeSquare">Area</string>
+    <string name="unitsFmUnitTypeVolume">Volume</string>
+    <string name="unitsFmUnitTypeCount">Quantity</string>
+    <string name="unitsFmErrorSpecifyName">Please enter the unit abbreviation</string>
+    <string name="unitsFmErrorSpecifyDescr">Please enter the unit description</string>
+    <string name="unitsFmErrorSpecifyDecimals">Please enter decimal places count</string>
+    <string name="unitsFmErrorDecimalsWrongFormat">Enter integer</string>
+    <string name="unitsFmErrorDecimalsLowerBorder">Value should not be less than 0</string>
+    <string name="unitsFmErrorDecimalsHigherBorder">Value should not be greater than 3</string>
+    <string name="unitsFmErrorAlreadyExists">This unit is already exist</string>
+    <string name="errorUnknown">Unexpected error occurred, please restart the application</string>
+
+    <string name="goodsCategoriesLiTitle">Categories of Goods</string>
+    <string name="goodsCategoriesLiTitleLookup">Select a category</string>
+    <string name="goodsCategoriesLiConfirmDeleteCaption">Confirm deleting the category</string>
+    <string name="goodsCategoriesLiConfirmDeleteDetails">Attention! All the goods from \"%s\" category will also be deleted!</string>
+    <string name="goodsCategoriesLiItemDeleted">Category has been deleted</string>
+    <string name="goodsCategoriesLiNewCategoryDescr">Add a new category</string>
+
+    <string name="menuGoodsCategoriesListNewRecord">Add category</string>
+    <string name="menuGoodsCategoriesListEditRecord">Edit</string>
+    <string name="menuGoodsCategoriesListDeleteRecord">Delete</string>
+    <string name="menuGoodsCategoriesListContextTitle">Actions with \"%s\"</string>
+    <string name="menuGoodsCategoriesListSearch">Search for category</string>
+    <string name="goodsCategoriesFmTitleAdd">New category</string>
+    <string name="goodsCategoriesFmTitleEdit">Category of Goods</string>
+    <string name="goodsCategoriesFmNameCaption">Name</string>
+    <string name="goodsCategoriesFmDescrCaption">Short description</string>
+    <string name="goodsCategoriesFmResultAdded">Category has been added</string>
+    <string name="goodsCategoriesFmResultEdited">Category has been saved</string>
+    <string name="goodsCategoriesFmErrorSpecifyName">Enter category name</string>
+    <string name="goodsCategoriesFmErrorSpecifyDescr">Enter category description</string>
+    <string name="goodsCategoriesFmErrorAlreadyExists">This category is already exist</string>
+    <string name="goodsCategoriesFmIconCaption">Icon:</string>
+
+    <string name="menuPurchasesListSortOrder">Sort by</string>
+    <string name="menuPurchasesListSortOrderCategory">Sort by category</string>
+    <string name="menuPurchasesListSortOrderName">Sort by name</string>
+    <string name="menuPurchasesListSortOrderAddTime">Sort by input order</string>
+    <string name="menuPurchasesListNewRecord">New purchase</string>
+    <string name="menuPurchasesListAlarms">Reminder</string>
+    <string name="menuPurchasesListDelayRecord">Postpone for tomorrow</string>
+    <string name="menuPurchasesListEditRecord">Edit</string>
+    <string name="menuPurchasesListDeleteRecord">Delete</string>
+    <string name="menuPurchasesListContextTitle">Actions with \"%s\"</string>
+    <string name="menuPurchasesListAbout">About App</string>
+    <string name="menuPurchasesListShare">Share with friends</string>
+    <string name="menuPurchasesListShareVK">Share by VK</string>
+    <string name="menuPurchasesListShareFB">Share by Facebook</string>
+    <string name="menuPurchasesListShareTw">Share by Twitter</string>
+    <string name="menuPurchasesListShareGP">Share by Google+</string>
+    <string name="menuPurchasesListShareLI">Share by LinkedIn</string>
+    <string name="menuPurchasesListShareSk">Share by Skype</string>
+    <string name="menuPurchasesListShareEm">Share by Email</string>
+    <string name="menuPurchasesListSendList">Send the list</string>
+    <string name="menuPurchasesListSendListSms">Send by SMS</string>
+    <string name="menuPurchasesListSendListVK">Send by VK</string>
+    <string name="menuPurchasesListSendListFB">Send by Facebook</string>
+    <string name="menuPurchasesListSendListTw">Send by Twitter</string>
+    <string name="menuPurchasesListSendListGP">Send by Google+</string>
+    <string name="menuPurchasesListSendListLI">Send by LinkedIn</string>
+    <string name="menuPurchasesListSendListSk">Send by Skype</string>
+    <string name="menuPurchasesListSendListEm">Send by Email</string>
+    <string name="purchasesLiConfirmDeleteCaption">Confirm Delete</string>
+    <string name="purchasesLiConfirmDeleteDetails">Completed purchases will be cleared tomorrow automatically. You don\'t have to delete them manually.</string>
+    <string name="purchasesLiItemDeleted">Purchase has been deleted</string>
+    <string name="purchasesLiItemDelayed">Postponed purchase will appear in the list tomorrow</string>
+    <string name="purchasesLiNoPurchasesForSend">There is no purchases to send</string>
+    <string name="purchasesLiFailedToSend">Sending failed</string>
+    <string name="purchasesLiSendListItemsDelimiter">,&#160;</string>
+    <string name="purchasesLiSendListCounterDelimiter">&#160;</string>
+    <string name="purchasesLiSendListDescrFormat"> (%s)</string>
+    <string name="purchasesLiSendListHeader">Buy:&#160;</string>
+    <string name="purchasesLiSendListNotificationHeader">Don\'t forget to buy:</string>
+    <string name="purchasesLiSendListTrailer">&#8230; (%s more)</string>
+
+    <string name="purchasesFmTitleAdd">New Purchase</string>
+    <string name="purchasesFmTitleEdit">Purchase</string>
+    <string name="purchasesFmNameCaption">Name</string>
+    <string name="purchasesFmCategoryCaption">Category of Goods</string>
+    <string name="purchasesFmDescrCaption">description</string>
+    <string name="purchasesFmCountTitle">Quantity</string>
+    <string name="purchasesFmCountEdit">1</string>
+    <string name="purchasesFmResultAdded">Purchase has been added</string>
+    <string name="purchasesFmResultEdited">Purchase has been changed</string>
+    <string name="purchasesFmErrorSpecifyName">Specify name</string>
+    <string name="purchasesFmErrorSpecifyCategory">Specify category of goods</string>
+    <string name="purchasesFmErrorSpecifyCount">Specify quantity</string>
+
+    <string name="goodsLiTitleGrid">Goods</string>
+    <string name="goodsLiTitleLookup">Select goods</string>
+    <string name="goodsLiFilterCaption">enter name to search</string>
+    <string name="goodsLiNewGoodDescr">create new goods</string>
+    <string name="goodsLiAlreadyInTheList">goods is in the list</string>
+    <string name="goodsLiAlreadyInTheListDelayed">goods is in the list, postponed</string>
+    <string name="goodsLiConfirmDeleteCaption">Confirm Delete</string>
+    <string name="goodsLiConfirmDeleteDetails">Deleting a goods \"%s\" can not be canceled</string>
+    <string name="goodsLiItemDeleted">Goods has been deleted</string>
+
+    <string name="goodsFmTitleAdd">New Goods</string>
+    <string name="goodsFmTitleEdit">Goods</string>
+    <string name="goodsFmNameCaption">Name</string>
+    <string name="goodsFmCategoryCaption">Category of Goods</string>
+    <string name="goodsFmCountTitle">Units</string>
+    <string name="goodsFmResultAdded">Purchase has been added</string>
+    <string name="goodsFmResultEdited">Purchase has been changed</string>
+    <string name="goodsFmErrorSpecifyName">Specify name</string>
+    <string name="goodsFmErrorSpecifyCategory">Specify category of goods</string>
+    <string name="goodsFmErrorAlreadyExists">Goods exist in database already</string>
+
+    <string name="menuGoodsListNewRecord">New Goods</string>
+    <string name="menuGoodsListEditRecord">Edit</string>
+    <string name="menuGoodsListDeleteRecord">Delete</string>
+    <string name="menuGoodsListContextTitle">Actions with \"%s\"</string>
+    <string name="menuGoodsListSearch">Search for goods</string>
+
+    <string name="alertTimerDialogTitle">Setup a Reminder</string>
+    <string name="alertTimerDialogRepeatCaption">Repeat</string>
+    <string name="alertTimerDialogRepeatNever">Never</string>
+    <string name="alertTimerDialogDaysDelimiter">,&#160;</string>
+
+    <string name="vkLoginLoginFailed">Login Failed</string>
+    <string name="friendsListStartPopup">Please choose whom to send the list to</string>
+    <string name="friendsListConfirmTitle">Please confirm sending</string>
+    <string name="menuFriendsListSendMessage">Share</string>
+
+    <string name="socialMessageTitle">Message to Friends</string>
+    <string name="socialMessageText">Message text</string>
+    <string name="socialMessagePreview">Preview</string>
+    <string name="socialMessageBase">Try Shopping: simple and useful Android app for managing a shopping list</string>
+    <string name="socialMessageAddition">https://play.google.com/store/apps/details?id=com.furdey.shopping</string>
+    <string name="socialMessageMsgTitle">Shopping Android</string>
+    <string name="socialMessageSend">Send</string>
+    <string name="socialMessageSent">Message sent</string>
+    <string name="socialMessageIconUrl">https://lh5.ggpht.com/ATuPfbHrep9jsYw1RvrJq1vmBZAspoimzFSzDXDc0DGyJKWzyAV6iQS1aZzQlq_X4EA=w300-rw</string>
+
+    <string name="aboutAppAuthor">Author: Stepan Furdei</string>
+    <string name="aboutAppVersion">Version %s</string>
+    <string name="aboutAppShare">Share with friends</string>
+
+    <string name="shareTitle">Thanks for using Shopping!</string>
+    <string name="shareText">If you like Shopping share it with your friends</string>
+    <string name="shareCancel">Never</string>
+    <string name="shareLater">Later</string>
+
+    <string name="likeTitle">Thanks for using Shopping!</string>
+    <string name="likeText">Your opinion matters for us. Please tell us what would you like to see in the app.</string>
+    <string name="likeCancel">Cancel</string>
+    <string name="likeLater">Later</string>
+    <string name="likeOk">OK</string>
+    <string name="likeUrl">market://details?id=com.furdey.shopping</string>
+
+    <string name="app_id">285472548253698</string>
+
+    <string name="shoppingListWidgetLabel">Shopping List</string>
+    <string name="shoppingListWidgetEmpty">No Purchases</string>
+    <string name="shoppingListWidgetLoading">Loading&#8230;</string>
+
+    <string name="languageFormSelect">Proceed</string>
+
+</resources>

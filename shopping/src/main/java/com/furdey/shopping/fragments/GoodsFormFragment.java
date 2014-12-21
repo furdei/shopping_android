@@ -135,7 +135,7 @@ public class GoodsFormFragment extends Fragment implements LoaderManager.LoaderC
 			}
 		});
 
-		setRetainInstance(true);
+//		setRetainInstance(true);
         isFragmentCreated = true;
 
 		return view;

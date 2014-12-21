@@ -117,7 +117,6 @@ public class PurchasesListFragment extends Fragment implements LoaderManager.Loa
 		});
 
 		setHasOptionsMenu(true);
-		setRetainInstance(true);
 		return view;
 	}
 

@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 import com.furdey.shopping.content.ContentUtils;
 
@@ -20,7 +21,9 @@ import java.util.Set;
 public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.contentproviders.BaseContentProvider.Columns>
 		extends ContentProvider {
 
-	public static interface Columns {
+    private static final String TAG = BaseContentProvider.class.getCanonicalName();
+
+    public static interface Columns {
 		String getDbName();
 	}
 
@@ -38,19 +41,8 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 
     protected static final int RUN_COUNT = 3;
 
-//    private DatabaseHelper dbHelper;
-//
-//	final protected DatabaseHelper getDbHelper() {
-//		return dbHelper;
-//	}
-//
-//	private void setDbHelper(DatabaseHelper dbHelper) {
-//		this.dbHelper = dbHelper;
-//	}
-//
 	@Override
 	public boolean onCreate() {
-//		setDbHelper(new DatabaseHelper(getContext()));
 		return true;
 	}
 
@@ -104,7 +96,6 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 			}
 		}
 
-        System.out.println("BaseContentProvider.getColumnsMap: " + columnsMap.toString());
         return columnsMap;
 	}
 
@@ -148,8 +139,6 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
     private Cursor queryInternal(UriMatcher uriMatcher, Uri uri, String tables, String mainTable,
                               String[] projection, String selection, String[] selectionArgs,
                               String sortOrder) {
-        System.out.println("BaseContentProvider.queryAll projection: " + Arrays.toString(projection)
-                + " selection: " + selection);
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
         // check if the caller has requested a column which does not exists
@@ -174,8 +163,10 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext().getApplicationContext());
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
         queryBuilder.setProjectionMap(getColumnsMap());
-        Cursor cursor = queryBuilder.query(database, projection, selection, selectionArgs,
-                null, null, sortOrder);
+        String queryStr = queryBuilder.buildQuery(projection, selection,
+                null, null, sortOrder, null);
+//        dumpPlan(database, queryStr, selectionArgs);
+        Cursor cursor = database.rawQuery(queryStr, selectionArgs);
         // make sure that potential listeners are getting notified
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
@@ -242,6 +233,10 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 
     protected void dump(Cursor cursor) {
         System.out.println("BaseContentProvider.dump");
+        if (cursor == null) {
+            System.out.println("Cursor is NULL");
+            return;
+        }
         int rowsCount = 0;
 
         while (cursor.moveToNext() && rowsCount++ < 20) {
@@ -257,6 +252,20 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
             System.out.print(cursor.getColumnName(i) + ": " + cursor.getString(i) + " ");
         }
         System.out.print("\n");
+    }
+
+    protected void dumpPlan(SQLiteDatabase database, String sql, String[] selectionArgs) {
+        Log.d(TAG, sql);
+        Cursor cursor = database.rawQuery("EXPLAIN QUERY PLAN " + sql, selectionArgs);
+        int columnsCount = cursor.getColumnCount();
+        while (cursor.moveToNext()) {
+            System.out.print("BaseContentProvider.dumpPlan: ");
+            for (int i = 0; i < columnsCount; i++) {
+                System.out.print(cursor.getString(i) + " | ");
+            }
+            System.out.println();
+        }
+        cursor.close();
     }
 
 }

@@ -60,6 +60,8 @@ public class GoodsListFragment extends Fragment implements LoaderManager.LoaderC
 	private GoodsListAdapter.Mode mode;
 	private Goods exactGoodsFound;
 	private String filter;
+    private boolean isSearchingNow = false;
+    private String searchAgainFilter = null;
 
 	private ListView grid;
 	private View listHeader;
@@ -117,7 +119,7 @@ public class GoodsListFragment extends Fragment implements LoaderManager.LoaderC
 		});
 
 		setHasOptionsMenu(true);
-		setRetainInstance(true);
+//		setRetainInstance(true);
 
 		return view;
 	}
@@ -139,6 +141,8 @@ public class GoodsListFragment extends Fragment implements LoaderManager.LoaderC
 		// bug - some SearchView xml attributes don't work at compatibility library
 		searchView.setIconified(false);
 		searchView.setQueryHint(getString(R.string.menuGoodsListSearch));
+        String filter = getArguments().getString(FILTER_PARAM);
+        searchView.setQuery(filter, false);
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextSubmit(String arg0) {
@@ -151,9 +155,6 @@ public class GoodsListFragment extends Fragment implements LoaderManager.LoaderC
 				return true;
 			}
 		});
-
-		String filter = getArguments().getString(FILTER_PARAM);
-		searchView.setQuery(filter, false);
 	}
 
 	@Override
@@ -247,16 +248,21 @@ public class GoodsListFragment extends Fragment implements LoaderManager.LoaderC
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+    public synchronized void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         switch (loader.getId()) {
             case GOODS_LIST_LOADER:
+                isSearchingNow = false;
                 onGoodsListReady(cursor);
+                searchAgainIfNeeded();
                 break;
             case GOODS_HEADER_LOADER:
-                Goods goods = cursor.moveToFirst() ? GoodsUtils.fromCursor(cursor) : null;
+                Goods goods = cursor != null && cursor.moveToFirst() ?
+                        GoodsUtils.fromCursor(cursor) : null;
                 onExactGoodsFound(goods);
                 break;
         }
+
+        searchAgainIfNeeded();
     }
 
     @Override
@@ -268,14 +274,21 @@ public class GoodsListFragment extends Fragment implements LoaderManager.LoaderC
     // ////////// private //////////
     // /////////////////////////////
 
-    private void onFillGoodsList(String filter) {
-		this.filter = filter;
-		listHeaderName.setText(filter);
-		updateHeaderVisibility();
-        Bundle bundle = new Bundle();
-        bundle.putString(GOODS_LIST_LOADER_FILTER, filter);
-        getLoaderManager().restartLoader(GOODS_LIST_LOADER, bundle, this);
-        getLoaderManager().restartLoader(GOODS_HEADER_LOADER, bundle, this);
+    private synchronized void onFillGoodsList(String filter) {
+        if (!isSearchingNow) {
+            isSearchingNow = true;
+            searchAgainFilter = null;
+            this.filter = filter;
+            listHeaderName.setText(filter);
+            updateHeaderVisibility();
+            Bundle bundle = new Bundle();
+            bundle.putString(GOODS_LIST_LOADER_FILTER, filter);
+            getLoaderManager().restartLoader(GOODS_LIST_LOADER, bundle, this);
+            getLoaderManager().restartLoader(GOODS_HEADER_LOADER, bundle, this);
+        } else {
+            // wait until current search is finished and repeat the search
+            searchAgainFilter = filter;
+        }
 	}
 
 	private void updateHeaderVisibility() {
@@ -289,4 +302,11 @@ public class GoodsListFragment extends Fragment implements LoaderManager.LoaderC
 		listener.onEditGoods(goods);
 	}
 
+    private void searchAgainIfNeeded() {
+        if (searchAgainFilter != null) {
+            String filter = searchAgainFilter;
+            searchAgainFilter = null;
+            onFillGoodsList(filter);
+        }
+    }
 }

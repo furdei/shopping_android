@@ -42,8 +42,10 @@
     <color name="purchasesLiCategoryBackgroundColor">#545454</color>
     <color name="searchBarBackgroundColor">#dcdcdc</color>
     
-    <style name="LoadingStyle" parent="@android:style/Theme.NoTitleBar.Fullscreen">
-        <item name="android:background">@drawable/loading_screen</item>
+    <style name="LoadingStyle" parent="AppBaseTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@drawable/loading_screen</item>
     </style>
     
     <style name="GridItem">

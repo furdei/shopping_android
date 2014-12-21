@@ -81,17 +81,17 @@ public class GoodsUtils {
 		String[] selectionArgs = null;
 
 		if (filter != null && filter.trim().length() > 0) {
-			selection = "LOWER(" + Columns.NAME.getDbName() + ") LIKE ?";
+			selection = Columns.NAME.getDbName() + " LIKE ?";
 			selectionArgs = new String[] { "%" + filter.toLowerCase() + "%" };
 		}
 
 		return getGoodsLoader(context, goodsListProjection, selection, selectionArgs,
-				GoodsContentProvider.Columns.NAME.toString());
+				GoodsContentProvider.Columns.NAME.toString() + " COLLATE NOCASE");
 	}
 
 	@SuppressLint("DefaultLocale")
 	public static CursorLoader getExactGoodsLoader(Context context, String goodsName) {
-		String selection = "LOWER(" + Columns.NAME.getDbName() + ") = ?";
+		String selection = Columns.NAME.getDbName() + " LIKE ?";
 		String[] selectionArgs = new String[] { goodsName != null ? goodsName.toLowerCase() : "" };
 		return getGoodsLoader(context, goodsListProjection, selection, selectionArgs, null);
 	}

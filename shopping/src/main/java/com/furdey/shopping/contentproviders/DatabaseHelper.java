@@ -10,11 +10,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	public static final String DATABASE_NAME = "shopping.db";
-	private static final int DATABASE_VERSION = 5;
+    private static final String DATABASE_BASE_NAME = "shopping";
+    private static final String DATABASE_EXTENSION = ".db";
+    private static final String DEFAULT_LOCALE = "ru";
+	private static final int DATABASE_VERSION = 6;
+
+    public static final String DST_DATABASE_NAME = DATABASE_BASE_NAME + DATABASE_EXTENSION;
 
     private static volatile DatabaseHelper databaseHelper = null;
 
@@ -31,7 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 	private DatabaseHelper(Context context) {
-		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		super(context, DST_DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
 	// Method is called during creation of the database
@@ -66,6 +71,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			// without break, it helps us to go through all upgrades we need
 		case 4:
 			db.execSQL("ALTER TABLE `goods_categories` ADD COLUMN `icon` VARCHAR;");
+		case 5:
+            db.execSQL("DROP INDEX `ix_goods_name_deleted`;");
+            db.execSQL("CREATE INDEX `ix_goods_name_deleted` ON `goods` (`name` COLLATE NOCASE, `deleted`);");
 		}
 	}
 
@@ -78,16 +86,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		/*
 		 * Open the database in the assets folder as the input stream.
 		 */
-		InputStream myInput = context.getAssets().open(DATABASE_NAME);
+		InputStream myInput = context.getAssets().open(getSourceDatabaseName());
 
 		/*
 		 * Open the empty db in interal storage as the output stream.
 		 */
-		File dbFolder = new File(context.getDatabasePath(DATABASE_NAME).getParent());
+		File dbFolder = new File(context.getDatabasePath(DST_DATABASE_NAME).getParent());
 		if (!dbFolder.exists())
 			dbFolder.mkdirs();
 
-		OutputStream myOutput = new FileOutputStream(context.getDatabasePath(DATABASE_NAME).getPath());
+		OutputStream myOutput = new FileOutputStream(context.getDatabasePath(DST_DATABASE_NAME).getPath());
 
 		/*
 		 * Copy over the empty db in internal storage with the database in the
@@ -96,4 +104,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		FileHelper.copyFile(myInput, myOutput);
 	}
 
+    private static String getSourceDatabaseName() {
+        String locale = Locale.getDefault().getLanguage().substring(0, 2);
+        String dbName = DATABASE_BASE_NAME;
+
+        if (locale.compareTo(DEFAULT_LOCALE) != 0) {
+            dbName = dbName.concat("_").concat(locale);
+        }
+
+        return dbName + DATABASE_EXTENSION;
+    }
 }

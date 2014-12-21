@@ -122,7 +122,7 @@ public class GoodsCategoriesListFragment extends Fragment
 		});
 
 		setHasOptionsMenu(true);
-		setRetainInstance(true);
+//		setRetainInstance(true);
 
 		return view;
 	}

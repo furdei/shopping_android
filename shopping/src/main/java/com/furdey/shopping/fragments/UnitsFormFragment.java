@@ -214,7 +214,7 @@ public class UnitsFormFragment extends Fragment {
 			}
 		});
 
-		setRetainInstance(true);
+//		setRetainInstance(true);
 		return view;
 	}
 

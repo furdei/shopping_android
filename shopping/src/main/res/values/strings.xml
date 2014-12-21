@@ -187,5 +187,7 @@
     <string name="shoppingListWidgetLabel">Shopping - Список покупок</string>
     <string name="shoppingListWidgetEmpty">Нет покупок</string>
     <string name="shoppingListWidgetLoading">Загрузка&#8230;</string>
-    
+
+    <string name="languageFormSelect">Продолжить</string>
+
 </resources>

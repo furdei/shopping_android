@@ -1,6 +1,5 @@
 package com.furdey.shopping.activities;
 
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,7 +17,7 @@ import com.furdey.shopping.fragments.GoodsCategoriesListFragment.Mode;
 import com.furdey.shopping.tasks.ToastThrowableAsyncTask;
 
 
-public class GoodsCategoriesActivity extends Activity implements
+public class GoodsCategoriesActivity extends BaseActivity implements
 		GoodsCategoriesListListener, GoodsCategoriesFormListener {
 
 	private static final String TAG = GoodsCategoriesActivity.class.getCanonicalName();

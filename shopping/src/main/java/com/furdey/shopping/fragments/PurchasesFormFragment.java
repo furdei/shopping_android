@@ -87,7 +87,6 @@ public class PurchasesFormFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        System.out.println("PurchasesFormFragment.onCreate savedInstanceState = " + (savedInstanceState == null ? "null" : "not null"));
         isFragmentCreated = false;
         super.onCreate(savedInstanceState);
 
@@ -102,7 +101,6 @@ public class PurchasesFormFragment extends Fragment implements LoaderManager.Loa
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        System.out.println("PurchasesFormFragment.onCreateView savedInstanceState = " + (savedInstanceState == null ? "null" : "not null"));
         View view = inflater.inflate(R.layout.purchases_form, container, false);
         nameEdit = (EditText) view.findViewById(R.id.purchasesFmNameEdit);
         categoryEdit = (EditText) view.findViewById(R.id.purchasesFmCategoryEdit);
@@ -205,7 +203,7 @@ public class PurchasesFormFragment extends Fragment implements LoaderManager.Loa
 		}
 
         isFragmentCreated = true;
-		setRetainInstance(true);
+//		setRetainInstance(true);
 		return view;
 	}
 

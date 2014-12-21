@@ -66,12 +66,11 @@ public class LoadingActivity extends Activity {
             languagesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    System.out.println("LoadingActivity.onItemSelected");
                     if (position < 0 || position >= locales.length) {
                         position = 0;
                     }
 
-                    setLocale(locales[position]);
+                    setLocale(locales[position], true);
                 }
 
                 @Override
@@ -102,10 +101,16 @@ public class LoadingActivity extends Activity {
                         throw new LogicException(LoadingActivity.this, R.string.errorUnknown, e);
                     }
                     PreferencesManager.setLastRunDate(LoadingActivity.this, getCurrentDate());
+
+                    String locale = locales[languagesSpinner.getSelectedItemPosition()];
+                    PreferencesManager.setLanguage(getBaseContext(), locale);
+
                     runPurchasesActivity();
                 }
             });
         } else {
+            setLocale(PreferencesManager.getLanguage(getBaseContext()), false);
+
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... arg0) {
@@ -151,13 +156,10 @@ public class LoadingActivity extends Activity {
         return df.format(date);
     }
 
-    private void setLocale(String locale) {
-        System.out.println("selected locale: " + locale);
-
+    private void setLocale(String locale, boolean recreate) {
         Locale oldLocale = Locale.getDefault();
 
         if (!oldLocale.getLanguage().substring(0, 2).equals(locale)) {
-            System.out.println("old locale: " + oldLocale.getLanguage());
             Locale newLocale = new Locale(locale);
             Locale.setDefault(newLocale);
             Configuration configuration = new Configuration(
@@ -165,7 +167,10 @@ public class LoadingActivity extends Activity {
             configuration.locale = newLocale;
             getBaseContext().getResources().updateConfiguration(configuration,
                     getBaseContext().getResources().getDisplayMetrics());
-            recreate();
+
+            if (recreate) {
+                recreate();
+            }
         }
     }
 }

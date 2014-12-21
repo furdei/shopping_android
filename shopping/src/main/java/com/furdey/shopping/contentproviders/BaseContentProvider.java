@@ -96,7 +96,6 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
 			}
 		}
 
-        System.out.println("BaseContentProvider.getColumnsMap: " + columnsMap.toString());
         return columnsMap;
 	}
 
@@ -121,7 +120,6 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
     protected Cursor queryAll(UriMatcher uriMatcher, Uri uri, String tables, String mainTable,
                               String[] projection, String selection, String[] selectionArgs,
                               String sortOrder) {
-        System.out.println("BaseContentProvider.queryAll");
         int runCount = 0;
 
         while (true) {
@@ -141,8 +139,6 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
     private Cursor queryInternal(UriMatcher uriMatcher, Uri uri, String tables, String mainTable,
                               String[] projection, String selection, String[] selectionArgs,
                               String sortOrder) {
-        System.out.println("BaseContentProvider.queryInternal projection: " + Arrays.toString(projection)
-                + " selection: " + selection);
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
         // check if the caller has requested a column which does not exists
@@ -169,7 +165,7 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
         queryBuilder.setProjectionMap(getColumnsMap());
         String queryStr = queryBuilder.buildQuery(projection, selection,
                 null, null, sortOrder, null);
-        dumpPlan(database, queryStr, selectionArgs);
+//        dumpPlan(database, queryStr, selectionArgs);
         Cursor cursor = database.rawQuery(queryStr, selectionArgs);
         // make sure that potential listeners are getting notified
         cursor.setNotificationUri(getContext().getContentResolver(), uri);

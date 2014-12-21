@@ -80,7 +80,6 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("PurchasesActivity.onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.one_fragment_activity);
 
@@ -159,20 +158,16 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 
     @Override
     protected void onNewIntent(Intent intent) {
-        System.out.println("PurchasesActivity.onNewIntent");
         super.onNewIntent(intent);
         setIntent(intent);
 
         if (getMode() == Mode.ADD_NEW_PURCHASE) {
-            System.out.println("PurchasesActivity.onNewIntent getMode() == Mode.ADD_NEW_PURCHASE");
             if (getGoodsListFragment() == null) {
                 onNewPurchaseMenuSelected();
             } else {
                 Log.d(TAG, "Already at goods list");
             }
         } else {
-            System.out.println("PurchasesActivity.onNewIntent goToPurchasesList");
-//            goToPurchasesList();
             returnToPurchasesList();
         }
     }

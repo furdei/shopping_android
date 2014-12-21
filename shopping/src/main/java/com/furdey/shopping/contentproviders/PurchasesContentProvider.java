@@ -63,7 +63,6 @@ public class PurchasesContentProvider extends
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
 			String sortOrder) {
-        System.out.println("PurchasesContentProvider.query");
         // Set the table
 		String tables = PURCHASES_PATH.concat(" JOIN ").concat(GoodsContentProvider.GOODS_PATH).concat(" ON ")
                 .concat(Columns.GOOD_ID.getDbName()).concat(" = ").concat(Columns.GOODS__ID.getDbName())

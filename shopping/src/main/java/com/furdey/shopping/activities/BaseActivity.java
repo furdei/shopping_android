@@ -3,6 +3,7 @@ package com.furdey.shopping.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -14,6 +15,9 @@ import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.furdey.shopping.utils.PreferencesManager;
+
+import java.util.Locale;
 
 public class BaseActivity extends Activity implements StatusCallback {
 
@@ -23,6 +27,7 @@ public class BaseActivity extends Activity implements StatusCallback {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        resetLocale();
 		BugSenseHandler.initAndStartSession(this, APIKEY);
 
 		uiLifecycleHelper = new UiLifecycleHelper(this, this);
@@ -80,15 +85,29 @@ public class BaseActivity extends Activity implements StatusCallback {
 	}
 
     public void hideKeyboard() {
-        System.out.println("PurchasesActivity.hideKeyboard");
         InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         // check if no view has focus:
         View view = getCurrentFocus();
         if (view != null) {
-            System.out.println("PurchasesActivity.hideKeyboard view != null");
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        resetLocale();
+    }
+
+    private void resetLocale() {
+        String languageToLoad = PreferencesManager.getLanguage(getBaseContext());
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
     }
 
 }

@@ -81,7 +81,7 @@ public class GoodsUtils {
 		String[] selectionArgs = null;
 
 		if (filter != null && filter.trim().length() > 0) {
-			selection = Columns.NAME.getDbName() + " LIKE ?";
+			selection = Columns.NAME_LOWER.getDbName() + " LIKE ?";
 			selectionArgs = new String[] { "%" + filter.toLowerCase() + "%" };
 		}
 
@@ -91,7 +91,7 @@ public class GoodsUtils {
 
 	@SuppressLint("DefaultLocale")
 	public static CursorLoader getExactGoodsLoader(Context context, String goodsName) {
-		String selection = Columns.NAME.getDbName() + " LIKE ?";
+		String selection = Columns.NAME_LOWER.getDbName() + " LIKE ?";
 		String[] selectionArgs = new String[] { goodsName != null ? goodsName.toLowerCase() : "" };
 		return getGoodsLoader(context, goodsListProjection, selection, selectionArgs, null);
 	}
@@ -106,8 +106,10 @@ public class GoodsUtils {
 			contentValues.put(GoodsContentProvider.Columns.DEFAULTUNITS_ID.toString(), goods
 					.getDefaultUnits().getId());
 
-		if (goods.getName() != null)
-			contentValues.put(GoodsContentProvider.Columns.NAME.toString(), goods.getName());
+		if (goods.getName() != null) {
+            contentValues.put(GoodsContentProvider.Columns.NAME.toString(), goods.getName());
+            contentValues.put(Columns.NAME_LOWER.toString(), goods.getName().toLowerCase());
+        }
 
 		if (goods.getCategory() != null && goods.getCategory().getId() != null)
 			contentValues.put(GoodsContentProvider.Columns.CATEGORY_ID.toString(), goods.getCategory()
@@ -154,15 +156,17 @@ public class GoodsUtils {
 		// create a new category if it does not exist or update an existing one
 		GoodsCategory category = goods.getCategory();
 
-		if (category.getId() == null) {
-            Uri categoryUri = GoodsCategoriesUtils.saveGoodsCategory(context, category);
-			long categoryId = ContentUris.parseId(categoryUri);
-			category.setId(categoryId);
-		} else {
-            GoodsCategory oldCategory = GoodsCategoriesUtils.getGoodsCategoryById(context, category.getId());
+        if (category != null) {
+            if (category.getId() == null) {
+                Uri categoryUri = GoodsCategoriesUtils.saveGoodsCategory(context, category);
+                long categoryId = ContentUris.parseId(categoryUri);
+                category.setId(categoryId);
+            } else {
+                GoodsCategory oldCategory = GoodsCategoriesUtils.getGoodsCategoryById(context, category.getId());
 
-            if (oldCategory.getName().compareTo(category.getName()) != 0) {
-                GoodsCategoriesUtils.saveGoodsCategory(context, category);
+                if (oldCategory.getName().compareTo(category.getName()) != 0) {
+                    GoodsCategoriesUtils.saveGoodsCategory(context, category);
+                }
             }
         }
 
@@ -182,4 +186,49 @@ public class GoodsUtils {
 		return context.getContentResolver().delete(
 				ContentUris.withAppendedId(GoodsContentProvider.GOODS_URI, goodsId), null, null);
 	}
+
+//    public static int isNameLowerExist(Context context) {
+//        if (SearchUtils.isSearchFieldExist(context, Columns.NAME_LOWER.toString(),
+//                new SearchUtils.ObjectsProvider() {
+//            @Override
+//            public Cursor getObjects(Context context, String[] projection, String selection) {
+//                return getGoods(context, projection, selection, null, null);
+//            }
+//        })) {
+//            return -1;
+//        } else {
+//            String[] projection = new String[] { Columns._id.toString(), Columns.NAME.toString() };
+//            Cursor cursor = getGoods(context, projection, null, null, null);
+//            int recordsCount = cursor.getCount();
+//            cursor.close();
+//            return recordsCount;
+//        }
+//    }
+//
+//    public static void addNameLowerIfNotExists(Context context) {
+//        System.out.println("GoodsUtils.addNameLowerIfNotExists");
+//        SearchUtils.addSearchFieldIfNotExists(context, Columns.NAME_LOWER.toString(), projection,
+//                new SearchUtils.ObjectsProvider() {
+//                    @Override
+//                    public Cursor getObjects(Context context, String[] projection,
+//                                             String selection) {
+//                        System.out.println("GoodsUtils.getObjects");
+//                        return getGoods(context, projection, selection, null, null);
+//                    }
+//
+//                    @Override
+//                    public void saveObject(Context context, Cursor c) {
+//                        System.out.println("GoodsUtils.saveObject");
+//                        Goods g = fromCursor(c);
+//                        saveGoods(context, g);
+//                    }
+//
+//                    @Override
+//                    public void addColumn(Context context, String columnName) {
+//                        System.out.println("GoodsUtils.addColumn");
+//                        GoodsContentProvider.addColumn(context, columnName, "VARCHAR");
+//                    }
+//                });
+//        System.out.println("GoodsUtils.addNameLowerIfNotExists finished");
+//    }
 }

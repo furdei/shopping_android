@@ -190,4 +190,8 @@
 
     <string name="languageFormSelect">Продолжить</string>
 
+    <string name="rebuildIndicesTitle">Обновление товаров</string>
+
+    <!--<string name="rebuildIndicesMessage">Идет индексация</string>-->
+
 </resources>

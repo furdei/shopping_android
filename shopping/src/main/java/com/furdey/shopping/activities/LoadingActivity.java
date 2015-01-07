@@ -1,9 +1,10 @@
 package com.furdey.shopping.activities;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +16,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.furdey.shopping.R;
+import com.furdey.shopping.content.GoodsUtils;
+import com.furdey.shopping.content.SearchUtils;
 import com.furdey.shopping.contentproviders.DatabaseHelper;
+import com.furdey.shopping.contentproviders.GoodsContentProvider;
+import com.furdey.shopping.fragments.ProgressDialogFragment;
+import com.furdey.shopping.tasks.RebuildIndicesTask;
+import com.furdey.shopping.utils.IntentUtils;
 import com.furdey.shopping.utils.LogicException;
 import com.furdey.shopping.utils.PreferencesManager;
 
@@ -105,7 +112,7 @@ public class LoadingActivity extends Activity {
                     String locale = locales[languagesSpinner.getSelectedItemPosition()];
                     PreferencesManager.setLanguage(getBaseContext(), locale);
 
-                    runPurchasesActivity();
+                    finishStartUp();
                 }
             });
         } else {
@@ -138,15 +145,37 @@ public class LoadingActivity extends Activity {
 
                 @Override
                 protected void onPostExecute(Void result) {
-                    runPurchasesActivity();
+                    finishStartUp();
                 }
             }.execute();
         }
 	}
 
+    private static final String PROGRESS_TAG = "progressDialog";
+
+    private void finishStartUp() {
+        if (!SearchUtils.isSearchFieldExist(getApplicationContext(),
+                GoodsContentProvider.Columns.NAME_LOWER.toString(),
+                new SearchUtils.ObjectsProvider() {
+                    @Override
+                    public Cursor getObjects(Context context, String[] projection, String selection) {
+                        return GoodsUtils.getGoods(context, projection, selection, null, null);
+                    }
+                })) {
+
+            ProgressDialogFragment fragment = ProgressDialogFragment.createInstance(
+                    getString(R.string.rebuildIndicesTitle),
+                    null, 100);
+            getFragmentManager().beginTransaction().add(fragment, PROGRESS_TAG).commit();
+
+            new RebuildIndicesTask(fragment).execute(this);
+        } else {
+            runPurchasesActivity();
+        }
+    }
+
     private void runPurchasesActivity() {
-        Intent intent = new Intent(this, PurchasesActivity.class);
-        startActivity(intent);
+        startActivity(IntentUtils.purchaseActivityIntent(this));
         finish();
     }
 

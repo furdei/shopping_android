@@ -3,6 +3,7 @@ package com.furdey.shopping.contentproviders;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -268,4 +269,11 @@ public abstract class BaseContentProvider<COLUMNS extends com.furdey.shopping.co
         cursor.close();
     }
 
+    public static void addColumn(Context context, String tableName,
+                                 String columnName, String columnType) {
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        db.execSQL(String.format("ALTER TABLE `%s` ADD COLUMN `%s` %s;",
+                tableName, columnName, columnType));
+    }
 }

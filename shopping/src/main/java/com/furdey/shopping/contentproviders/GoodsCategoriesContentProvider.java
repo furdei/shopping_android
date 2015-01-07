@@ -1,6 +1,7 @@
 package com.furdey.shopping.contentproviders;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
@@ -22,11 +23,12 @@ public class GoodsCategoriesContentProvider extends BaseContentProvider<Columns>
 	}
 
 	public static enum Columns implements BaseContentProvider.Columns {
-		_id("goods_categories._id"), CHANGED("goods_categories.changed"), DELETED(
-				"goods_categories.deleted"), STANDARD("goods_categories.standard"), SYNCHRONIZEDTM(
-				"goods_categories.synchronizedtm"),
+		_id("goods_categories._id"), CHANGED("goods_categories.changed"),
+                DELETED("goods_categories.deleted"), STANDARD("goods_categories.standard"),
+                SYNCHRONIZEDTM("goods_categories.synchronizedtm"),
 
-		NAME("goods_categories.name"), DESCR("goods_categories.descr"), ICON("goods_categories.icon");
+		NAME("goods_categories.name"), DESCR("goods_categories.descr"),
+        ICON("goods_categories.icon"), NAME_LOWER("goods_categories.name_lower");
 
 		private final String dbName;
 
@@ -71,4 +73,7 @@ public class GoodsCategoriesContentProvider extends BaseContentProvider<Columns>
 		return Columns.values();
 	}
 
+    public static void addColumn(Context context, String columnName, String columnType) {
+        addColumn(context, GOODS_CATEGORIES_PATH, columnName, columnType);
+    }
 }

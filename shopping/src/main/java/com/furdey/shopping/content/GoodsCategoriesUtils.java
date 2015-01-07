@@ -59,7 +59,7 @@ public class GoodsCategoriesUtils {
 		String[] selectionArgs = null;
 
 		if (filter != null && filter.trim().length() > 0) {
-			selection = "LOWER(" + Columns.NAME.toString() + ") LIKE ?";
+			selection = "LOWER(" + Columns.NAME_LOWER.toString() + ") LIKE ?";
 			selectionArgs = new String[] { "%" + filter.toLowerCase() + "%" };
 		}
 
@@ -75,7 +75,7 @@ public class GoodsCategoriesUtils {
 
 	public static Cursor getGoodsCategoriesByName(Context context, String name) {
 		return getGoodsCategories(context, goodsCategoriesListProjection,
-                GoodsCategoriesContentProvider.Columns.NAME.toString() + " = ?", new String[]{name},
+                Columns.NAME_LOWER.toString() + " = ?", new String[]{name.toLowerCase()},
                 null);
 	}
 
@@ -107,9 +107,12 @@ public class GoodsCategoriesUtils {
 			contentValues.put(GoodsCategoriesContentProvider.Columns.DESCR.toString(),
 					goodsCategory.getDescr());
 
-		if (goodsCategory.getName() != null)
-			contentValues.put(GoodsCategoriesContentProvider.Columns.NAME.toString(),
-					goodsCategory.getName());
+		if (goodsCategory.getName() != null) {
+            contentValues.put(GoodsCategoriesContentProvider.Columns.NAME.toString(),
+                    goodsCategory.getName());
+            contentValues.put(GoodsCategoriesContentProvider.Columns.NAME_LOWER.toString(),
+                    goodsCategory.getName().toLowerCase());
+        }
 
 		if (goodsCategory.getIcon() != null)
 			contentValues.put(GoodsCategoriesContentProvider.Columns.ICON.toString(), goodsCategory
@@ -136,4 +139,27 @@ public class GoodsCategoriesUtils {
 				ContentUris.withAppendedId(GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI,
 						goodsCategoryId), null, null);
 	}
+
+//    public static void addNameLowerIfNotExists(Context context) {
+//        String[] projection = new String[] { Columns._id.toString(), Columns.NAME.toString() };
+//        SearchUtils.addSearchFieldIfNotExists(context, Columns.NAME_LOWER.toString(), projection,
+//                new SearchUtils.ObjectsProvider() {
+//                    @Override
+//                    public Cursor getObjects(Context context, String[] projection,
+//                                             String selection) {
+//                        return getGoodsCategories(context, projection, selection, null, null);
+//                    }
+//
+//                    @Override
+//                    public void saveObject(Context context, Cursor c) {
+//                        GoodsCategory gc = fromCursor(c);
+//                        saveGoodsCategory(context, gc);
+//                    }
+//
+//                    @Override
+//                    public void addColumn(Context context, String columnName) {
+//                        GoodsContentProvider.addColumn(context, columnName, "VARCHAR");
+//                    }
+//                });
+//    }
 }

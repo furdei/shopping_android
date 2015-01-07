@@ -190,4 +190,6 @@
 
     <string name="languageFormSelect">Proceed</string>
 
+    <string name="rebuildIndicesTitle">Updating goods</string>
+
 </resources>

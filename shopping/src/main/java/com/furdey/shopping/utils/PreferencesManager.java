@@ -21,6 +21,10 @@ public class PreferencesManager {
     private static final String PREF_ALARM_MINUTE = "alarmMinute";
     private static final String PREF_ALARM_REPEAT = "alarmRepeat";
     private static final String PREF_LANGUAGE = "language";
+    private static final String PREF_WIDGET_TRACKED = "widgetTracked";
+    private static final String PREF_ALARM_TRACKED = "alarmTracked";
+    private static final String PREF_SEND_LIST_TRACKED = "sendListTracked";
+    private static final String PREF_SHARE_TRACKED = "shareTracked";
 
     public static final long SHARE_RUN_THRESHOLD = 5;
     public static final long SHARE_DELAY = 1000 * 3600 * 24 * 7;
@@ -206,6 +210,46 @@ public class PreferencesManager {
     public static void setLanguage(Context context, String language) {
         Editor e = loadPreferences(context).edit();
         e.putString(PREF_LANGUAGE, language);
+        e.commit();
+    }
+
+    public static boolean isWidgetTracked(Context context) {
+        return loadPreferences(context).getBoolean(PREF_WIDGET_TRACKED, false);
+    }
+
+    public static void setWidgetTracked(Context context, boolean tracked) {
+        Editor e = loadPreferences(context).edit();
+        e.putBoolean(PREF_WIDGET_TRACKED, tracked);
+        e.commit();
+    }
+
+    public static boolean isAlarmTracked(Context context) {
+        return loadPreferences(context).getBoolean(PREF_ALARM_TRACKED, false);
+    }
+
+    public static void setAlarmTracked(Context context, boolean tracked) {
+        Editor e = loadPreferences(context).edit();
+        e.putBoolean(PREF_ALARM_TRACKED, tracked);
+        e.commit();
+    }
+
+    public static boolean isSendListTracked(Context context) {
+        return loadPreferences(context).getBoolean(PREF_SEND_LIST_TRACKED, false);
+    }
+
+    public static void setSendListTracked(Context context, boolean tracked) {
+        Editor e = loadPreferences(context).edit();
+        e.putBoolean(PREF_SEND_LIST_TRACKED, tracked);
+        e.commit();
+    }
+
+    public static boolean isShareTracked(Context context) {
+        return loadPreferences(context).getBoolean(PREF_SHARE_TRACKED, false);
+    }
+
+    public static void setShareTracked(Context context, boolean tracked) {
+        Editor e = loadPreferences(context).edit();
+        e.putBoolean(PREF_SHARE_TRACKED, tracked);
         e.commit();
     }
 

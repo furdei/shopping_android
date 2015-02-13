@@ -34,6 +34,7 @@ dependencies {
     compile project(':facebookSDK')
     compile 'com.google.code.gson:gson:2.2.2'
     compile 'com.android.support:appcompat-v7:20.0.0'
+    compile 'com.google.android.gms:play-services:6.5.87'
     compile files('libs/bugsense-3.6.jar')
     compile files('libs/ormlite-android-4.43.jar')
     compile files('libs/ormlite-core-4.43.jar')

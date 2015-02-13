@@ -1,22 +1,20 @@
 package com.furdey.shopping.widgets;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Binder;
-import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
 
 import com.furdey.shopping.R;
+import com.furdey.shopping.ShoppingApplication;
 import com.furdey.shopping.content.PurchasesUtils;
 import com.furdey.shopping.content.model.Purchase.PurchaseState;
 import com.furdey.shopping.contentproviders.PurchasesContentProvider.Columns;
+import com.furdey.shopping.utils.PreferencesManager;
 
-// http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android-apps/4.0.1_r1/com/example/android/weatherlistwidget/WeatherWidgetService.java
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ShoppingListRemoteViewsFactory implements RemoteViewsFactory {
 
 	private Context mContext;
@@ -24,14 +22,21 @@ public class ShoppingListRemoteViewsFactory implements RemoteViewsFactory {
 
 	public ShoppingListRemoteViewsFactory(Context context, Intent intent) {
 		mContext = context;
-
 	}
 
 	public void onCreate() {
 		// Since we reload the cursor in onDataSetChanged() which gets called
 		// immediately after
 		// onCreate(), we do nothing here.
-	}
+        // just track an event
+
+        ((ShoppingApplication) mContext.getApplicationContext()).trackEvent(
+                R.string.analyticsEventCategoryFeature,
+                R.string.analyticsEventWidgetCreated,
+                mContext.getString(PreferencesManager.isWidgetTracked(mContext) ?
+                    R.string.analyticsEventRepeated : R.string.analyticsEventFirst));
+        PreferencesManager.setWidgetTracked(mContext, true);
+    }
 
 	public void onDestroy() {
 		if (mCursor != null) {

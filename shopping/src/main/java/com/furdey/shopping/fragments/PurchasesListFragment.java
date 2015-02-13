@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.furdey.shopping.R;
+import com.furdey.shopping.ShoppingApplication;
 import com.furdey.shopping.adapters.PurchasesListAdapter;
 import com.furdey.shopping.content.PurchasesUtils;
 import com.furdey.shopping.content.model.Purchase;
@@ -124,6 +125,9 @@ public class PurchasesListFragment extends Fragment implements LoaderManager.Loa
     public void onResume() {
         super.onResume();
         getLoaderManager().initLoader(PURCHASES_LIST_LOADER, null, this);
+
+        ((ShoppingApplication) getActivity().getApplication())
+                .trackViewScreen(PurchasesListFragment.class);
     }
 
     @Override

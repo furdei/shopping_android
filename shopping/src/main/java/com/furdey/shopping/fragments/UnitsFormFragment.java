@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.furdey.shopping.R;
+import com.furdey.shopping.ShoppingApplication;
 import com.furdey.shopping.content.UnitsUtils;
 import com.furdey.shopping.content.model.Unit;
 import com.furdey.shopping.content.model.Unit.UnitType;
@@ -214,7 +215,9 @@ public class UnitsFormFragment extends Fragment {
 			}
 		});
 
-//		setRetainInstance(true);
+        ((ShoppingApplication) getActivity().getApplication())
+                .trackViewScreen(UnitsFormFragment.class);
+
 		return view;
 	}
 

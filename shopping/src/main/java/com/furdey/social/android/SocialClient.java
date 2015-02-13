@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.furdey.shopping.R;
+import com.furdey.shopping.ShoppingApplication;
 import com.furdey.social.SocialConnectionsPool;
 import com.furdey.social.android.SocialClientsManager.SocialNetwork;
 import com.furdey.social.vk.api.MessagesSendRequest;
@@ -18,7 +19,7 @@ public final class SocialClient {
 
 	public static final boolean sendMessage(Context context, SocialNetwork socialNetwork,
 			String subject, String message) {
-		ComponentName componentName = SocialClientsManager.getComponentName(context, socialNetwork);
+        ComponentName componentName = SocialClientsManager.getComponentName(context, socialNetwork);
 
 		if (componentName == null && socialNetwork != SocialNetwork.SMS)
 			return false;

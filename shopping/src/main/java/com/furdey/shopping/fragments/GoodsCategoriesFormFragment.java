@@ -17,6 +17,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.furdey.shopping.R;
+import com.furdey.shopping.ShoppingApplication;
 import com.furdey.shopping.adapters.IconsGalleryAdapter;
 import com.furdey.shopping.content.GoodsCategoriesUtils;
 import com.furdey.shopping.content.model.GoodsCategory;
@@ -78,6 +79,10 @@ public class GoodsCategoriesFormFragment extends Fragment {
             selectedIcon = savedInstanceState.getString(SAVE_SELECTED_ICON);
             isFragmentCreated = true;
         }
+
+        ((ShoppingApplication) getActivity().getApplication())
+                .trackViewScreen(GoodsCategoriesFormFragment.class);
+
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.furdey.shopping.R;
+import com.furdey.shopping.ShoppingApplication;
 import com.furdey.shopping.adapters.GoodsListAdapter;
 import com.furdey.shopping.content.AlarmUtils;
 import com.furdey.shopping.content.PurchasesUtils;
@@ -126,9 +127,6 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 				}
 			}, 100);
 		}
-
-//		uiLifecycleHelper = new UiLifecycleHelper(this, this);
-//		uiLifecycleHelper.onCreate(savedInstanceState);
 	}
 
     @Override
@@ -291,6 +289,18 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 
 	@Override
 	public void onShareFbMenuSelected() {
+        ((ShoppingApplication) getApplication()).trackEvent(
+                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventRecommendShopping,
+                SocialNetwork.FACEBOOK.name());
+
+        ((ShoppingApplication) getApplication()).trackEvent(
+                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventRecommendShopping,
+                getString(PreferencesManager.isShareTracked(getApplicationContext()) ?
+                        R.string.analyticsEventRepeated : R.string.analyticsEventFirst));
+        PreferencesManager.setShareTracked(getApplicationContext(), true);
+
         SocialController socialController = new SocialController(this);
         socialController.createShareFbActivity();
 	}
@@ -341,6 +351,17 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 				return null;
 			}
 		}.execute(socialNetwork);
+
+        ((ShoppingApplication) getApplication()).trackEvent(
+                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventSendList,
+                socialNetwork.name());
+        ((ShoppingApplication) getApplication()).trackEvent(
+                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventSendList,
+                getString(PreferencesManager.isSendListTracked(getApplicationContext()) ?
+                        R.string.analyticsEventRepeated : R.string.analyticsEventFirst));
+        PreferencesManager.setSendListTracked(getApplicationContext(), true);
 	}
 
 	// /////////////////////////////
@@ -481,6 +502,13 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
     @Override
     public void onAlarmTimeSet(int hourOfDay, int minute, int repeat) {
         AlarmUtils.setAlarmTime(this, hourOfDay, minute, repeat);
+
+        ((ShoppingApplication) getApplication()).trackEvent(
+                R.string.analyticsEventCategoryFeature,
+                R.string.analyticsEventAlarmSet,
+                getString(PreferencesManager.isAlarmTracked(getApplicationContext()) ?
+                        R.string.analyticsEventRepeated : R.string.analyticsEventFirst));
+        PreferencesManager.setAlarmTracked(getApplicationContext(), true);
     }
 
     // ///////////////////////////////
@@ -594,10 +622,34 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 
 	private void sendShareMessage(SocialNetwork network) {
 		SocialClient.sendMessage(this, network, null, getShareMessage());
-	}
+
+        ((ShoppingApplication) getApplication()).trackEvent(
+                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventRecommendShopping,
+                network.name());
+
+        ((ShoppingApplication) getApplication()).trackEvent(
+                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventRecommendShopping,
+                getString(PreferencesManager.isShareTracked(getApplicationContext()) ?
+                        R.string.analyticsEventRepeated : R.string.analyticsEventFirst));
+        PreferencesManager.setShareTracked(getApplicationContext(), true);
+    }
 
 	private void sendShareMessageWithTitle(SocialNetwork network) {
 		SocialClient.sendMessage(this, network, getShareMessageTitle(), getShareMessage());
+
+        ((ShoppingApplication) getApplication()).trackEvent(
+                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventRecommendShopping,
+                network.name());
+
+        ((ShoppingApplication) getApplication()).trackEvent(
+                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventRecommendShopping,
+                getString(PreferencesManager.isShareTracked(getApplicationContext()) ?
+                    R.string.analyticsEventRepeated : R.string.analyticsEventFirst));
+        PreferencesManager.setShareTracked(getApplicationContext(), true);
 	}
 
 	private String getShareMessageTitle() {

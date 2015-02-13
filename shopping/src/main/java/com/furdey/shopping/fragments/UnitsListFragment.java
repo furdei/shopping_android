@@ -21,6 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.furdey.shopping.R;
+import com.furdey.shopping.ShoppingApplication;
 import com.furdey.shopping.adapters.UnitsListAdapter;
 import com.furdey.shopping.content.UnitsUtils;
 import com.furdey.shopping.content.model.Unit;
@@ -73,8 +74,6 @@ public class UnitsListFragment extends Fragment implements LoaderManager.LoaderC
 		});
 
 		setHasOptionsMenu(true);
-//		setRetainInstance(true);
-
 		return view;
 	}
 
@@ -82,6 +81,10 @@ public class UnitsListFragment extends Fragment implements LoaderManager.LoaderC
     public void onResume() {
         super.onResume();
         getLoaderManager().initLoader(UNITS_LIST_LOADER, null, this);
+
+        ((ShoppingApplication) getActivity().getApplication())
+                .trackViewScreen(UnitsListFragment.class);
+
     }
 
     @Override

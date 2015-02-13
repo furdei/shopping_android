@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.furdey.shopping.R;
+import com.furdey.shopping.ShoppingApplication;
 import com.furdey.shopping.adapters.UnitsSpinnerAdapter;
 import com.furdey.shopping.content.model.Goods;
 import com.furdey.shopping.content.model.GoodsCategory;
@@ -97,6 +98,9 @@ public class PurchasesFormFragment extends Fragment implements LoaderManager.Loa
                 selectedCategoryId = savedInstanceState.getLong(SAVE_SELECTED_CATEGORY_ID);
             }
         }
+
+        ((ShoppingApplication) getActivity().getApplication())
+                .trackViewScreen(PurchasesFormFragment.class);
     }
 
     @Override

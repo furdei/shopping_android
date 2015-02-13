@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.furdey.shopping.R;
+import com.furdey.shopping.ShoppingApplication;
 import com.furdey.shopping.adapters.UnitsSpinnerAdapter;
 import com.furdey.shopping.content.GoodsUtils;
 import com.furdey.shopping.content.UnitsUtils;
@@ -79,6 +80,10 @@ public class GoodsFormFragment extends Fragment implements LoaderManager.LoaderC
             selectedCategoryId = savedInstanceState.getLong(SAVE_SELECTED_CATEGORY_ID);
             isFragmentCreated = true;
         }
+
+        ((ShoppingApplication) getActivity().getApplication())
+                .trackViewScreen(GoodsFormFragment.class);
+
     }
 
     @Override

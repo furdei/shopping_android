@@ -25,6 +25,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.furdey.shopping.R;
+import com.furdey.shopping.ShoppingApplication;
 import com.furdey.shopping.adapters.GoodsListAdapter;
 import com.furdey.shopping.adapters.GoodsListAdapter.Mode;
 import com.furdey.shopping.content.GoodsUtils;
@@ -129,6 +130,10 @@ public class GoodsListFragment extends Fragment implements LoaderManager.LoaderC
         super.onResume();
         String filter = getArguments().getString(FILTER_PARAM);
         onFillGoodsList(filter);
+
+        ((ShoppingApplication) getActivity().getApplication())
+                .trackViewScreen(GoodsListFragment.class);
+
     }
 
     @Override

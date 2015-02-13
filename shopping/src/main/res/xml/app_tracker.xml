@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="TypographyDashes">
+
+    <integer name="ga_sessionTimeout">300</integer>
+
+    <!-- Enable automatic Activity measurement -->
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <!-- The screen names that will appear in reports -->
+    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.EcommerceFragment">
+        AlarmTimePickerFragment
+    </screenName>
+    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+        GoodsCategoriesFormFragment
+    </screenName>
+    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+        GoodsCategoriesListFragment
+    </screenName>
+    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+        GoodsFormFragment
+    </screenName>
+    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+        GoodsListFragment
+    </screenName>
+    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+        PurchasesFormFragment
+    </screenName>
+    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+        PurchasesListFragment
+    </screenName>
+    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+        UnitsFormFragment
+    </screenName>
+    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+        UnitsListFragment
+    </screenName>
+
+    <string name="ga_trackingId">UA-59739042-1</string>
+</resources>

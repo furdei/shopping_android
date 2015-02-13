@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.furdey.shopping.R;
+import com.furdey.shopping.ShoppingApplication;
 import com.furdey.shopping.content.AlarmUtils;
 import com.furdey.shopping.utils.PreferencesManager;
 
@@ -133,6 +134,9 @@ public class AlarmTimePickerFragment extends DialogFragment {
                 })
                 .setTitle(R.string.alertTimerDialogTitle)
                 .setView(dialogView);
+
+        ((ShoppingApplication) getActivity().getApplication())
+                .trackViewScreen(AlarmTimePickerFragment.class);
 
         return builder.create();
     }

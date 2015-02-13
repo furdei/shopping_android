@@ -57,7 +57,7 @@ public class ShoppingApplication extends Application {
     }
 
     public void trackViewScreen(Class<?> screenClass) {
-        trackViewScreen(screenClass.getSimpleName());
+        trackViewScreen(screenClass.getCanonicalName());
     }
 
     public void trackEvent(String category, String action, String label) {

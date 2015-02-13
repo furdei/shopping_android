@@ -8,33 +8,34 @@
     <bool name="ga_autoActivityTracking">true</bool>
 
     <!-- The screen names that will appear in reports -->
-    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.EcommerceFragment">
+    <screenName name="com.furdey.shopping.fragments.AlarmTimePickerFragment">
         AlarmTimePickerFragment
     </screenName>
-    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+    <screenName name="com.furdey.shopping.fragments.GoodsCategoriesFormFragment">
         GoodsCategoriesFormFragment
     </screenName>
-    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+    <screenName name="com.furdey.shopping.fragments.GoodsCategoriesListFragment">
         GoodsCategoriesListFragment
     </screenName>
-    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+    <screenName name="com.furdey.shopping.fragments.GoodsFormFragment">
         GoodsFormFragment
     </screenName>
-    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+    <screenName name="com.furdey.shopping.fragments.GoodsListFragment">
         GoodsListFragment
     </screenName>
-    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+    <screenName name="com.furdey.shopping.fragments.PurchasesFormFragment">
         PurchasesFormFragment
     </screenName>
-    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+    <screenName name="com.furdey.shopping.fragments.PurchasesListFragment">
         PurchasesListFragment
     </screenName>
-    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+    <screenName name="com.furdey.shopping.fragments.UnitsFormFragment">
         UnitsFormFragment
     </screenName>
-    <screenName name="com.google.android.gms.analytics.samples.mobileplayground.ScreenviewFragment">
+    <screenName name="com.furdey.shopping.fragments.UnitsListFragment">
         UnitsListFragment
     </screenName>
 
     <string name="ga_trackingId">UA-59739042-1</string>
+
 </resources>

@@ -192,15 +192,4 @@
 
     <string name="rebuildIndicesTitle">Обновление товаров</string>
 
-    <string name="analyticsEventCategoryFeature">Feature</string>
-    <string name="analyticsEventAlarmSet">Alarm Set</string>
-    <string name="analyticsEventWidgetCreated">Widget Created</string>
-
-    <string name="analyticsEventCategorySocial">Social</string>
-    <string name="analyticsEventRecommendShopping">Recommend Shopping</string>
-    <string name="analyticsEventSendList">Send List</string>
-
-    <string name="analyticsEventFirst">First Event</string>
-    <string name="analyticsEventRepeated">Repeated Event</string>
-
 </resources>

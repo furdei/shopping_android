@@ -270,10 +270,14 @@ public class PurchasesUtils {
 
         List<Purchase> list = new ArrayList<Purchase>(cursor.getCount());
 
-        while (cursor.moveToNext()) {
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             Purchase purchase = fromCursor(cursor);
             list.add(purchase);
         }
+//        while (cursor.moveToNext()) {
+//            Purchase purchase = fromCursor(cursor);
+//            list.add(purchase);
+//        }
 
         cursor.close();
         return list;

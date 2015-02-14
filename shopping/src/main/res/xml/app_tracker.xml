@@ -36,6 +36,28 @@
         UnitsListFragment
     </screenName>
 
+    <screenName name="com.furdey.shopping.activities.AboutAppActivity">
+        AboutAppActivity
+    </screenName>
+    <screenName name="com.furdey.shopping.activities.FriendsListActivity">
+        FriendsListActivity
+    </screenName>
+    <screenName name="com.furdey.shopping.activities.GoodsActivity">
+        GoodsActivity
+    </screenName>
+    <screenName name="com.furdey.shopping.activities.GoodsCategoriesActivity">
+        GoodsCategoriesActivity
+    </screenName>
+    <screenName name="com.furdey.shopping.activities.PurchasesActivity">
+        PurchasesActivity
+    </screenName>
+    <screenName name="com.furdey.shopping.activities.UnitsActivity">
+        UnitsActivity
+    </screenName>
+    <screenName name="com.furdey.shopping.activities.VkLoginActivity">
+        VkLoginActivity
+    </screenName>
+
     <string name="ga_trackingId">UA-59739042-1</string>
 
 </resources>

@@ -5,7 +5,8 @@
     <string name="analyticsEventAlarmSet">Alarm Set</string>
     <string name="analyticsEventWidgetCreated">Widget Created</string>
 
-    <string name="analyticsEventCategorySocial">Social</string>
+    <string name="analyticsEventCategorySocialActions">Social Actions</string>
+    <string name="analyticsEventCategorySocialRepeats">Social Repeats</string>
     <string name="analyticsEventRecommendShopping">Recommend Shopping</string>
     <string name="analyticsEventSendList">Send List</string>
 

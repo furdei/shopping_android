@@ -290,12 +290,12 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 	@Override
 	public void onShareFbMenuSelected() {
         ((ShoppingApplication) getApplication()).trackEvent(
-                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventCategorySocialActions,
                 R.string.analyticsEventRecommendShopping,
                 SocialNetwork.FACEBOOK.name());
 
         ((ShoppingApplication) getApplication()).trackEvent(
-                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventCategorySocialRepeats,
                 R.string.analyticsEventRecommendShopping,
                 getString(PreferencesManager.isShareTracked(getApplicationContext()) ?
                         R.string.analyticsEventRepeated : R.string.analyticsEventFirst));
@@ -353,11 +353,11 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 		}.execute(socialNetwork);
 
         ((ShoppingApplication) getApplication()).trackEvent(
-                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventCategorySocialActions,
                 R.string.analyticsEventSendList,
                 socialNetwork.name());
         ((ShoppingApplication) getApplication()).trackEvent(
-                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventCategorySocialRepeats,
                 R.string.analyticsEventSendList,
                 getString(PreferencesManager.isSendListTracked(getApplicationContext()) ?
                         R.string.analyticsEventRepeated : R.string.analyticsEventFirst));
@@ -624,12 +624,12 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 		SocialClient.sendMessage(this, network, null, getShareMessage());
 
         ((ShoppingApplication) getApplication()).trackEvent(
-                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventCategorySocialActions,
                 R.string.analyticsEventRecommendShopping,
                 network.name());
 
         ((ShoppingApplication) getApplication()).trackEvent(
-                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventCategorySocialRepeats,
                 R.string.analyticsEventRecommendShopping,
                 getString(PreferencesManager.isShareTracked(getApplicationContext()) ?
                         R.string.analyticsEventRepeated : R.string.analyticsEventFirst));
@@ -640,12 +640,12 @@ public class PurchasesActivity extends BaseActivity implements PurchasesListList
 		SocialClient.sendMessage(this, network, getShareMessageTitle(), getShareMessage());
 
         ((ShoppingApplication) getApplication()).trackEvent(
-                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventCategorySocialActions,
                 R.string.analyticsEventRecommendShopping,
                 network.name());
 
         ((ShoppingApplication) getApplication()).trackEvent(
-                R.string.analyticsEventCategorySocial,
+                R.string.analyticsEventCategorySocialRepeats,
                 R.string.analyticsEventRecommendShopping,
                 getString(PreferencesManager.isShareTracked(getApplicationContext()) ?
                     R.string.analyticsEventRepeated : R.string.analyticsEventFirst));

@@ -1,0 +1,9 @@
+.gradle
+/.idea
+/build
+.idea
+build
+/*.iml
+/local.properties
+/import-summary.txt
+/shopping/*.iml

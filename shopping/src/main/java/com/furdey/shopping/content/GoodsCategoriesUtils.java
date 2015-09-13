@@ -1,13 +1,17 @@
 package com.furdey.shopping.content;
 
 import android.annotation.SuppressLint;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.furdey.shopping.content.bridge.CachingFactory;
+import com.furdey.shopping.content.bridge.ContentUri;
+import com.furdey.shopping.content.bridge.ContentUriFactory;
+import com.furdey.shopping.content.bridge.ContentValuesFactory;
+import com.furdey.shopping.content.bridge.Factory;
 import com.furdey.shopping.content.model.GoodsCategory;
 import com.furdey.shopping.contentproviders.GoodsCategoriesContentProvider;
 import com.furdey.shopping.contentproviders.GoodsCategoriesContentProvider.Columns;
@@ -16,7 +20,28 @@ public class GoodsCategoriesUtils {
 
 	private static final int UNDEFINED = -1;
 
-	/**
+	private static Factory<ContentValues> contentValuesFactory = new ContentValuesFactory();
+    private static Factory<Uri> uriFactory = new CachingFactory<Uri>() {
+        @Override
+        protected Uri createInstance() {
+            return GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI;
+        }
+    };
+    private static Factory<ContentUri> contentUriFactory = new ContentUriFactory();
+
+	public static void setContentValuesFactory(Factory<ContentValues> contentValuesFactory) {
+		GoodsCategoriesUtils.contentValuesFactory = contentValuesFactory;
+	}
+
+    public static void setUriFactory(Factory<Uri> uriFactory) {
+        GoodsCategoriesUtils.uriFactory = uriFactory;
+    }
+
+    public static void setContentUriFactory(Factory<ContentUri> contentUriFactory) {
+        GoodsCategoriesUtils.contentUriFactory = contentUriFactory;
+    }
+
+    /**
 	 * Constructs model from the current cursor position
 	 */
 	public static GoodsCategory fromCursor(Cursor cursor) {
@@ -49,7 +74,7 @@ public class GoodsCategoriesUtils {
 
 	public static CursorLoader getGoodsCategoriesLoader(Context context, String[] projection,
 			String selection, String[] selectionArgs, String orderBy) {
-		return new CursorLoader(context, GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI,
+		return new CursorLoader(context, uriFactory.getInstance(),
 				projection, selection, selectionArgs, orderBy);
 	}
 
@@ -69,7 +94,7 @@ public class GoodsCategoriesUtils {
 
 	public static Cursor getGoodsCategories(Context context, String[] projection, String selection,
 			String[] selectionArgs, String orderBy) {
-		return context.getContentResolver().query(GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI,
+		return context.getContentResolver().query(uriFactory.getInstance(),
                 projection, selection, selectionArgs, orderBy);
 	}
 
@@ -97,7 +122,7 @@ public class GoodsCategoriesUtils {
     }
 
     public static ContentValues getContentValues(GoodsCategory goodsCategory, boolean includeId) {
-		ContentValues contentValues = new ContentValues();
+		ContentValues contentValues = contentValuesFactory.getInstance();
 
 		if (goodsCategory.getId() != null && includeId)
 			contentValues.put(GoodsCategoriesContentProvider.Columns._id.toString(),
@@ -124,42 +149,20 @@ public class GoodsCategoriesUtils {
 	public static Uri saveGoodsCategory(Context context, GoodsCategory goodsCategory) {
 		if (goodsCategory.getId() == null) {
 			return context.getContentResolver().insert(
-					GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI,
+                    uriFactory.getInstance(),
 					getContentValues(goodsCategory, false));
 		} else {
             context.getContentResolver().update(
-                    ContentUris.withAppendedId(GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI,
+                    contentUriFactory.getInstance().withAppendedId(uriFactory.getInstance(),
                             goodsCategory.getId()), getContentValues(goodsCategory, false), null, null);
-			return GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI;
+			return uriFactory.getInstance();
 		}
 	}
 
 	public static int deleteGoodsCategory(Context context, long goodsCategoryId) {
 		return context.getContentResolver().delete(
-				ContentUris.withAppendedId(GoodsCategoriesContentProvider.GOODS_CATEGORIES_URI,
-						goodsCategoryId), null, null);
+                contentUriFactory.getInstance().withAppendedId(uriFactory.getInstance(),
+                        goodsCategoryId), null, null);
 	}
 
-//    public static void addNameLowerIfNotExists(Context context) {
-//        String[] projection = new String[] { Columns._id.toString(), Columns.NAME.toString() };
-//        SearchUtils.addSearchFieldIfNotExists(context, Columns.NAME_LOWER.toString(), projection,
-//                new SearchUtils.ObjectsProvider() {
-//                    @Override
-//                    public Cursor getObjects(Context context, String[] projection,
-//                                             String selection) {
-//                        return getGoodsCategories(context, projection, selection, null, null);
-//                    }
-//
-//                    @Override
-//                    public void saveObject(Context context, Cursor c) {
-//                        GoodsCategory gc = fromCursor(c);
-//                        saveGoodsCategory(context, gc);
-//                    }
-//
-//                    @Override
-//                    public void addColumn(Context context, String columnName) {
-//                        GoodsContentProvider.addColumn(context, columnName, "VARCHAR");
-//                    }
-//                });
-//    }
 }
